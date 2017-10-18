@@ -4,9 +4,176 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FireSafety"
+        xmlns:cnvrt="clr-namespace:FireSafety.ValueConverters"
+        xmlns:ctrl="clr-namespace:FireSafety.Controls"
+        xmlns:vsl="clr-namespace:FireSafety.VisualModels"
+        xmlns:m="clr-namespace:FireSafety.Models"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="ПО пожарного риска" Height="720" Width="1280" Icon="Icons/usatu.ico" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <cnvrt:TimeSpanConverter x:Key="TimeSpanConverter" />
+        <!--<cnvrt:DoubleRoundConverter x:Key="DoubleRoundConverter"/>-->
+    </Window.Resources>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Файл" Margin="10,2">
+                <MenuItem Header="Выход" Command="{Binding ExitCommand}"/>
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+
+            <ctrl:TransformControl Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="10" ClipToBounds="True" ZoomFactor="1.1" MinZoomScale="{Binding ElementName=ZoomSlider, Path=Minimum}" MaxZoomScale="{Binding ElementName=ZoomSlider, Path=Maximum}" ZoomScale="{Binding ElementName=ZoomSlider, Path=Value, Mode=TwoWay}" Margin="10" Background="#99F0F8FF" >
+                <vsl:ЗданиеControl Здания="{Binding Здания}" ВыбранныйЭтаж="{Binding ТекущийЭтаж, UpdateSourceTrigger=PropertyChanged}" РежимВзаимодействия="{Binding Режим, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </ctrl:TransformControl>
+
+            <!--<Viewbox Grid.Column="0" Margin="10">
+                <vm:ЗданиеControl Здания="{Binding Здания}" ВыбранныйЭтаж="{Binding ТекущийЭтаж, UpdateSourceTrigger=PropertyChanged}" РежимВзаимодействия="{Binding Режим, UpdateSourceTrigger=PropertyChanged}" />
+            </Viewbox>-->
+
+            <StackPanel Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Vertical" Margin="0,0,30,30">
+                <TextBox Text="{Binding ТекущееЗдание.Пути.ВремяЭвакуации, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter}}" IsReadOnly="True" BorderThickness="0"  FontSize="24" HorizontalAlignment="Center" Background="Transparent"  />
+                <TextBox Text="Время Эвакуации" IsReadOnly="True" BorderThickness="0" FontSize="12" Background="Transparent" HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Margin="0,0,30,0" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Vertical">
+                <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding ЗагрузитьЗданиеCommand}" Margin="5" ToolTip="Загрузить здание">
+                    <Image Source="Icons/ОткрытьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding СохранитьCommand}" Margin="5" ToolTip="Сохранить текущее здание">
+                    <Image Source="Icons/СохранитьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding СформироватьОтчетCommand}" Margin="5" ToolTip="Сформировать отчет">
+                    <Image Source="Icons/ОтчетIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding РассчетБлокированияПутейЭвакуацииCommand}" Margin="5" ToolTip="Рассчет блокирования путей эвакуации">
+                    <Image Source="Icons/БлокировкаIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding РассчетПожарногоРискаCommand}" Margin="5" ToolTip="Рассчет пожарного риска">
+                    <Image Source="Icons/РискIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Margin="30,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Перемещение}" Margin="5" ToolTip="Курсор">
+                    <Image Source="Icons/УказательIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding ДобавитьДвернойПроем}" Margin="5" ToolTip="Дверь">
+                    <Image Source="Icons/ДверьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding ДобавитьВыход}" Margin="5" ToolTip="Выход">
+                    <Image Source="Icons/ВыходIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding ДобавитьГруппуМобильности}" Margin="5" ToolTip="Старт">
+                    <Image Source="Icons/СтартIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding ПостроениеПутиЭвакуации}" Margin="5" ToolTip="Построение пути эвакуации">
+                    <Image Source="Icons/ПутьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding ДобавитьЛестницу}" Margin="5" ToolTip="Лестница">
+                    <Image Source="Icons/ЛестницаIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Удаление}" Margin="5" ToolTip="Удалить">
+                    <Image Source="Icons/УдалитьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </RadioButton>
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Margin="30,0,0,30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
+                <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding СменитьПланЭтажаCommand}" Margin="5" ToolTip="Сменить план этажа">
+                    <Image Source="Icons/СлоиIco-46.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </Button>
+                <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding ЗадатьМасштаб}" Margin="5" ToolTip="Масштаб">
+                    <Image Source="Icons/ЛинейкаIco-46.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                </RadioButton>
+                <Slider  Width="150" x:Name="ZoomSlider" Minimum="0.1" Maximum="3.5" Value="1.0" Margin="5" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <DockPanel Margin="10" Grid.Column="1">
+                <HeaderedContentControl DockPanel.Dock="Bottom" Height="200" >
+                    <HeaderedContentControl.Header>
+                        <TextBox Text="Свойства" IsReadOnly="True" BorderThickness="0" FontWeight="Bold" />
+                    </HeaderedContentControl.Header>
+
+                    <ContentPresenter Content="{Binding ВыделенныйОбъект, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <ContentPresenter.ContentTemplateSelector>
+                            <ctrl:ControlTemplateSelector 
+                                ControlTemplateОбъект="{StaticResource ControlTemplateОбъект}" 
+                                ControlTemplateДверь="{StaticResource ControlTemplateДверь}"
+                                ControlTemplateПуть="{StaticResource ControlTemplateПуть}"
+                                ControlTemplateСтарт="{StaticResource ControlTemplateСтарт}"
+                                ControlTemplateУчастокПути="{StaticResource ControlTemplateУчастокПути}"
+                                ControlTemplateЗдание="{StaticResource ControlTemplateЗдание}"
+                                ControlTemplateЭтаж="{StaticResource ControlTemplateЭтаж}"
+                                ControlTemplateУзелЛестницы="{StaticResource ControlTemplateУзелЛестницы}"/>
+                        </ContentPresenter.ContentTemplateSelector>
+                    </ContentPresenter>
+                </HeaderedContentControl>
+
+
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8" >
+                    <Button Style="{StaticResource RectButtonTemplate}" Height="50" Command="{Binding ДобавитьЗданиеCommand}" ToolTip="Добавить Здание">
+                        <Image Source="Icons/ЗданиеIco.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    </Button>
+                    <Button Style="{StaticResource RectButtonTemplate}" Height="50" Command="{Binding ДобавитьЭтажCommand}" Margin="5,0,0,0" ToolTip="Добавить Этаж">
+                        <Image Source="Icons/ЭтажIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    </Button>
+                    <Button Style="{StaticResource RectButtonTemplate}" Height="50" Command="{Binding УдалитьОбъектCommand}" Margin="5,0,0,0" ToolTip="Удалить">
+                        <Image Source="Icons/УдалитьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    </Button>
+                </StackPanel>
+
+                <ctrl:ModifiedTreeView ItemsSource="{Binding Здания}"  ModifiedSelectedItem="{Binding ВыделенныйОбъект, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <TreeView.ItemContainerStyle>
+                       <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="True" />
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Setter Property="FontWeight" Value="Normal" />
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type m:Building}" ItemsSource="{Binding Objects}" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type m:Floor}" ItemsSource="{Binding Objects}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type m:Путь}" ItemsSource="{Binding Участки}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type m:КоллекцияПутей}" ItemsSource="{Binding Пути}" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type m:Entity}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                </ctrl:ModifiedTreeView>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </Window>

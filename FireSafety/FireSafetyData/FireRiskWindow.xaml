@@ -1,0 +1,75 @@
+﻿<Window x:Class="FireSafety.FireSafetyData.FireRiskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FireSafety.FireSafetyData"
+        xmlns:cnvrt="clr-namespace:FireSafety.ValueConverters"
+        mc:Ignorable="d"
+        Title="Пожарный Риск" Height="300" MinWidth="500" Icon="/Этажи;component/Icons/РискIco-64.png" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" >
+    <Window.Resources>
+        <cnvrt:DoubleRoundConverter x:Key="DoubleRoundConverter"/>
+    </Window.Resources>
+    <StackPanel Margin="10" Background="White">
+        <HeaderedContentControl Header="Тип помещения" Margin="10,10,5,0">
+            <ComboBox ItemsSource="{Binding ВариантыПожарногоРиска}" SelectedItem="{Binding ВыбранныйПожарныйРиск, UpdateSourceTrigger=PropertyChanged}" MinWidth="405" Margin="0,3,0,3"/>
+        </HeaderedContentControl>
+        <Grid Margin="10,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="1" Grid.Column="0" Text="Время нахождения в помещении" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ВремяНахождения, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}" />
+            <TextBox Grid.Row="1" Grid.Column="2" Text="час." IsReadOnly="True" BorderThickness="0" />
+
+            <TextBox Grid.Row="2" Grid.Column="0" Text="Расчетное время эвакуации людей" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding РасчетноеВремяЭвакуации, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" />
+            <TextBox Grid.Row="2" Grid.Column="2" Text="мин" IsReadOnly="True" BorderThickness="0" />
+
+            <TextBox Grid.Row="3" Grid.Column="0" Text="Время начала эвакуации" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ВремяНачалаЭвакуации, UpdateSourceTrigger=LostFocus}" />
+            <TextBox Grid.Row="3" Grid.Column="2" Text="мин" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
+
+            <TextBox Grid.Row="4" Grid.Column="0" Text="Время блокирования эвакуационных путей" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ВремяБлокирования, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" />
+            <TextBox Grid.Row="4" Grid.Column="2" Text="мин" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
+
+            <TextBox Grid.Row="5" Grid.Column="0" Text="Время скопления людей" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ВремяСкопления, UpdateSourceTrigger=LostFocus}" />
+            <TextBox Grid.Row="5" Grid.Column="2" Text="мин" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
+
+            <TextBox Grid.Row="6" Grid.Column="0" Text="Автоматические установки пожаротушения" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
+            <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding УстановкиПожарутшения, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+            <TextBox Grid.Row="7" Grid.Column="0" Text="Учитывается соответствие системы пожарной сигнализации" IsReadOnly="True" BorderThickness="0" />
+            <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding СистемыПожарнойСигнализации, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+            <TextBox Grid.Row="8" Grid.Column="0" Text="Учитывается соответствие системы противодымной защиты" IsReadOnly="True" BorderThickness="0" />
+            <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding СистемыПротиводымнойЗащиты, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+            <TextBox Grid.Row="9" Grid.Column="0" Text="Система оповещения людей" IsReadOnly="True" BorderThickness="0" />
+            <CheckBox Grid.Row="9" Grid.Column="1" IsChecked="{Binding СистемыОповещения, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+
+        <TextBox Text="{Binding ПожарныйРиск, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, StringFormat=Qв: {0}}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Center" />
+        <TextBox Text="{Binding Вывод, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Center" />
+
+        <Button Grid.Row="1" Command="{Binding РассчетCommand}" Content="Расчитать" Margin="10" Padding="3" HorizontalAlignment="Right" />
+    </StackPanel>
+</Window>

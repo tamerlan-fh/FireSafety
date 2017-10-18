@@ -14,6 +14,21 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,9 +49,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icons\usatu.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocX, Version=1.0.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocX.1.0.0.22\lib\net40\DocX.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +79,79 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BasePropertyChanged.cs" />
+    <Compile Include="Controls\ControlTemplateSelector.cs" />
+    <Compile Include="Controls\ModifiedTreeView.cs" />
+    <Compile Include="Controls\TransformControl.cs" />
+    <Compile Include="FireSafetyData\BlockageEvacuationRoutesViewModel.cs" />
+    <Compile Include="FireSafetyData\BlockageEvacuationRoutesWindow.xaml.cs">
+      <DependentUpon>BlockageEvacuationRoutesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FireSafetyData\FireRisk.cs" />
+    <Compile Include="FireSafetyData\FireRiskManager.cs" />
+    <Compile Include="FireSafetyData\FireRiskViewModel.cs" />
+    <Compile Include="FireSafetyData\FireRiskWindow.xaml.cs">
+      <DependentUpon>FireRiskWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FireSafetyData\SmokeGas.cs" />
+    <Compile Include="FireSafetyData\SmokeGasManager.cs" />
+    <Compile Include="FireSafetyData\TypicalLoad.cs" />
+    <Compile Include="FireSafetyData\TypicalLoadManager.cs" />
+    <Compile Include="FireSafetyData\ТаблицаЗависимости.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="Models\ISection.cs" />
+    <Compile Include="Models\Section.cs" />
+    <Compile Include="Models\ExitNode.cs" />
+    <Compile Include="Models\УзелДвери.cs" />
+    <Compile Include="Models\EntryNode.cs" />
+    <Compile Include="Models\Building.cs" />
+    <Compile Include="Models\КоллекцияПутей.cs" />
+    <Compile Include="Models\Настройки.cs" />
+    <Compile Include="Models\Object.cs" />
+    <Compile Include="Models\Путь.cs" />
+    <Compile Include="Models\ObjectStatus.cs" />
+    <Compile Include="Models\Спуск.cs" />
+    <Compile Include="Models\StartNode.cs" />
+    <Compile Include="Models\Node.cs" />
+    <Compile Include="Models\УзелЛестницы.cs" />
+    <Compile Include="Models\УзелПути.cs" />
+    <Compile Include="Models\УчастокЛестницы.cs" />
+    <Compile Include="Models\УчастокПути.cs" />
+    <Compile Include="Models\Floor.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ValueConverters\DoubleRoundConverter.cs" />
+    <Compile Include="ValueConverters\TimeSpanConverter.cs" />
+    <Compile Include="VisualModels\PositionChangedEventArgs.cs" />
+    <Compile Include="VisualModels\VisualNode.cs" />
+    <Compile Include="VisualModels\VisualObject.cs" />
+    <Compile Include="VisualModels\VisualPoint.cs" />
+    <Compile Include="VisualModels\VisualUnit.cs" />
+    <Compile Include="VisualModels\VisualВыход.cs" />
+    <Compile Include="VisualModels\VisualДверь.cs" />
+    <Compile Include="VisualModels\VisualЗдание.cs" />
+    <Compile Include="VisualModels\VisualЛестница.cs" />
+    <Compile Include="VisualModels\VisualСтарт.cs" />
+    <Compile Include="VisualModels\VisualУзелЛестницы.cs" />
+    <Compile Include="VisualModels\VisualУчастокЛестницы.cs" />
+    <Compile Include="VisualModels\VisualУчастокПути.cs" />
+    <Compile Include="VisualModels\VisualЭтаж.cs" />
+    <Compile Include="VisualModels\ЗданиеControl.cs" />
+    <Compile Include="VisualModels\ИнформацияПеремещения.cs" />
+    <Compile Include="VisualModels\РежимДействия.cs" />
+    <Compile Include="VisualModels\СхемаЭвакуации.cs" />
+    <Page Include="FireSafetyData\BlockageEvacuationRoutesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FireSafetyData\FireRiskWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,15 +164,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -86,6 +182,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -94,6 +191,154 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\usatu.ico" />
+    <Resource Include="Icons\БлокировкаIco-64.png" />
+    <Resource Include="Icons\ВыходIco-64.png" />
+    <Resource Include="Icons\ДверьIco-64.png" />
+    <Resource Include="Icons\ЗданиеIco.png" />
+    <Resource Include="Icons\ЛестницаIco-64.png" />
+    <Resource Include="Icons\ЛинейкаIco-46.png" />
+    <Resource Include="Icons\ОткрытьIco-64.png" />
+    <Resource Include="Icons\ОтчетIco-64.png" />
+    <Resource Include="Icons\ПутьIco-64.png" />
+    <Resource Include="Icons\РискIco-64.png" />
+    <Resource Include="Icons\СлоиIco-46.png" />
+    <Resource Include="Icons\СохранитьIco-64.png" />
+    <Resource Include="Icons\СтартIco-64.png" />
+    <Resource Include="Icons\УдалитьIco-64.png" />
+    <Resource Include="Icons\УказательIco-64.png" />
+    <Resource Include="Icons\ЭтажIco-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_poster.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buildings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DocX.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FileName1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Безопасность проверена-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Безопасность проверена-100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Вопрос защиты-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Вопрос защиты-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Вопрос защиты-100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Выход-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Группа пользователей, мужчина и женщина-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Дверь открыта-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Дверь-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Документ-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Документ-100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Костер-46.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Круг-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Курсор-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Курсор-рука-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Лестница Filled-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Лестница-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Линейка-46.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Линейный график-80.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Листы-46.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Ломаная кривая Filled-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Ломаная кривая-64 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Ломаная кривая-64 %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Ломаная кривая-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Огонь-46.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Один палец-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Поэтажный план-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Просроченный-100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Сохранить-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Сохранить-100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Стрелка вниз в круге 2-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Удалить-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-Экспорт-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Без имени-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
