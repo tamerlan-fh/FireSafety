@@ -7,8 +7,8 @@
                     xmlns:cnvrt="clr-namespace:FireSafety.ValueConverters"
                     xmlns:ctrl ="clr-namespace:FireSafety.Controls"
                     xmlns:local="clr-namespace:FireSafety">
-  
-    <!--<cnvrt:TimeSpanConverter x:Key="TimeSpanConverter" />-->
+
+    <cnvrt:TimeSpanConverter x:Key="TimeSpanConverter" />
     <cnvrt:DoubleRoundConverter x:Key="DoubleRoundConverter"/>
 
     <Color x:Key="Fill_over_top">#FFDBDBDB</Color>

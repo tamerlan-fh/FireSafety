@@ -35,12 +35,12 @@ namespace FireSafety.Models
                 if (isSelected == value) return;
 
                 isSelected = value; OnPropertyChanged("IsSelected");
-                if (value) Status = ObjectStatus.Selected;
-                else Status = ObjectStatus.Normal;
+                if (value) Status = EntityStatus.Selected;
+                else Status = EntityStatus.Normal;
             }
         }
         private bool isSelected;
-        public virtual ObjectStatus Status
+        public virtual EntityStatus Status
         {
             get { return status; }
             set
@@ -49,7 +49,7 @@ namespace FireSafety.Models
                 status = value; OnPropertyChanged("Состояние");
             }
         }
-        private ObjectStatus status;
+        private EntityStatus status;
         public abstract BitmapImage Icon { get; }
         public override string ToString()
         {

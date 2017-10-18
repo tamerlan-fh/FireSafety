@@ -128,7 +128,7 @@ namespace FireSafety.VisualModels
 
             using (DrawingContext dc = RenderOpen())
             {
-                if (Состояние == ObjectStatus.Selected)
+                if (Состояние == EntityStatus.Selected)
                 {
                     var d = 10;
                     var вектор = new Vector(d, d);

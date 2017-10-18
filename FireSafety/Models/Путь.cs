@@ -210,7 +210,7 @@ namespace FireSafety.Models
                 предыдущийУчасток = участок;
             }
         }
-        public override ObjectStatus Status
+        public override EntityStatus Status
         {
             get { return base.Status; }
 

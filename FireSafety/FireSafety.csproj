@@ -100,6 +100,7 @@
     <Compile Include="FireSafetyData\ТаблицаЗависимости.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\ISection.cs" />
+    <Compile Include="Models\Scale.cs" />
     <Compile Include="Models\Section.cs" />
     <Compile Include="Models\ExitNode.cs" />
     <Compile Include="Models\УзелДвери.cs" />
@@ -107,9 +108,9 @@
     <Compile Include="Models\Building.cs" />
     <Compile Include="Models\КоллекцияПутей.cs" />
     <Compile Include="Models\Настройки.cs" />
-    <Compile Include="Models\Object.cs" />
+    <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Путь.cs" />
-    <Compile Include="Models\ObjectStatus.cs" />
+    <Compile Include="Models\EntityStatus.cs" />
     <Compile Include="Models\Спуск.cs" />
     <Compile Include="Models\StartNode.cs" />
     <Compile Include="Models\Node.cs" />

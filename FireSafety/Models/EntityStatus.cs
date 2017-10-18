@@ -3,7 +3,7 @@
     /// <summary>
     /// Перечисление возможных состояний обьекта
     /// </summary>
-    public enum ObjectStatus
+    public enum EntityStatus
     {
         Normal,
         Selected,

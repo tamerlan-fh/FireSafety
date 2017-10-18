@@ -22,7 +22,7 @@ namespace FireSafety.VisualModels
         public VisualОбъект(Entity объект, Point позиция, VisualЭтаж родитель) : this(объект, родитель)
         {
             Позиция = позиция;
-            Состояние = ObjectStatus.Normal;
+            Состояние = EntityStatus.Normal;
         }
 
         protected virtual void ОбъектPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -43,7 +43,7 @@ namespace FireSafety.VisualModels
             }
         }
 
-        public virtual ObjectStatus Состояние
+        public virtual EntityStatus Состояние
         {
             get { return Модель.Status; }
             set { Модель.Status = value; }
@@ -55,7 +55,7 @@ namespace FireSafety.VisualModels
             {
                 var радиус = 5;
                 var кисть = Brushes.AliceBlue;
-                if (Состояние == ObjectStatus.Selected)
+                if (Состояние == EntityStatus.Selected)
                     кисть = Brushes.Orange;
                 dc.PushOpacity(0.5);
                 dc.DrawRoundedRectangle(кисть, null, new Rect(точка - new Vector(радиус, радиус), точка + new Vector(formattedText.Width + радиус, formattedText.Height + радиус)), радиус, радиус);

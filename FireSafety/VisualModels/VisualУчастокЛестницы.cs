@@ -22,7 +22,7 @@ namespace FireSafety.VisualModels
             if (Начало == null || Конец == null) return;
             using (DrawingContext dc = RenderOpen())
             {
-                if (Состояние == ObjectStatus.Selected)
+                if (Состояние == EntityStatus.Selected)
                 {
                     dc.PushOpacity(0.5);
                     dc.DrawLine(пероВыделенное, Начало.Позиция, Конец.Позиция);

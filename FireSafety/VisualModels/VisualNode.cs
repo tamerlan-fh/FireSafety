@@ -46,7 +46,7 @@ namespace FireSafety.VisualModels
                 var радиусY = Высота / 2;
                 var d = 10;
 
-                if (Состояние == ObjectStatus.Selected)
+                if (Состояние == EntityStatus.Selected)
                 {
                     dc.PushOpacity(0.5);
                     dc.DrawEllipse(кистьВыделенная, null, Позиция, d + радиусX, d + радиусY);

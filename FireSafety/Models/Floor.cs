@@ -128,7 +128,6 @@ namespace FireSafety.Models
                 return;
             }
         }
-
         public void ДобавитьСпуск(УзелЛестницы узел)
         {
             var этажНиже = РодительскоеЗдание.ВыдатьЭтажНиже(this);
