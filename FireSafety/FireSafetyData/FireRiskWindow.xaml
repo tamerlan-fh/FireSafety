@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FireSafety.FireSafetyData"
         xmlns:cnvrt="clr-namespace:FireSafety.ValueConverters"
         mc:Ignorable="d"
-        Title="Пожарный Риск" Height="300" MinWidth="500" Icon="/Этажи;component/Icons/РискIco-64.png" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" >
+        Title="Пожарный Риск" Height="300" MinWidth="500"  ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Icon="/FireSafety;component/Icons/РискIco-64.png" >
     <Window.Resources>
         <cnvrt:DoubleRoundConverter x:Key="DoubleRoundConverter"/>
     </Window.Resources>
