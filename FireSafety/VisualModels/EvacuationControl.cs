@@ -18,7 +18,7 @@ namespace FireSafety.VisualModels
         public static readonly DependencyProperty BuildingsProperty = DependencyProperty.Register("Buildings", typeof(ObservableCollection<Building>), typeof(EvacuationControl), new FrameworkPropertyMetadata(new PropertyChangedCallback(BuildingsPropertyChanged)));
         private static void BuildingsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as EvacuationControl).ПрименениеНовыхЗначений(e.NewValue as ObservableCollection<Building>);
+            (d as EvacuationControl).ApplyingNewValues(e.NewValue as ObservableCollection<Building>);
         }
 
         public ObservableCollection<Building> Buildings
@@ -262,11 +262,12 @@ namespace FireSafety.VisualModels
             if (CurrentFloor == null) return;
             CurrentFloor.AddVisualEntity(объект);
         }
-        private void ПрименениеНовыхЗначений(ObservableCollection<Building> newBuildings)
+
+        private void ApplyingNewValues(ObservableCollection<Building> newBuildings)
         {
             ToDefaultValues();
 
-            if (buildings == null) return;
+            if (newBuildings == null) return;
             newBuildings.CollectionChanged += BuildingsCollectionChanged;
             foreach (var building in newBuildings)
                 AddBuilding(building);

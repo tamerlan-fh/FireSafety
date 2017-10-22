@@ -137,8 +137,7 @@ namespace FireSafety.Models
         }
         public void ДобавитьСпуск(StairsNode узел)
         {
-            //var этажНиже = РодительскоеЗдание.ВыдатьЭтажНиже(this);
-            var этажНиже = this;
+            var этажНиже = ParentBuilding.ВыдатьЭтажНиже(this);
             if (этажНиже == null) throw new Exception(string.Format("Ошибка при попытке добавить этаж. Под \"{0}\" нет другого этажа", Title));
 
             var новыйУзел = new StairsNode(этажНиже, узел.Position, узел.Title);

@@ -76,6 +76,13 @@ namespace FireSafety.Models
 
             evacuationPlan.ComposeRoutes();
         }
+        public Floor ВыдатьЭтажНиже(Floor этаж)
+        {
+            var индекс = Floors.IndexOf(этаж);
+            if (индекс < 1) return null;
+            else return Floors[индекс - 1];
+        }
+
         private void ОбъектыЭтажаCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
