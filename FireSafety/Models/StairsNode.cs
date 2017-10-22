@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
-    class УзелЛестницы : УзелПути
+    /// <summary>
+    /// лестничный узел
+    /// </summary>
+    class StairsNode : RoadNode
     {
-        private static int индекс = 1;
-        public УзелЛестницы(Floor parent, Point позиция) : this(parent, позиция, string.Format("Лестничный узел {0}", индекс++)) { }
-        public УзелЛестницы(Floor parent, Point позиция, string название) : base(parent, позиция, название)
+        private static int index = 1;
+        public StairsNode(Floor parent, Point position) : this(parent, position, string.Format("Лестничный узел {0}", index++)) { }
+        public StairsNode(Floor parent, Point position, string title) : base(parent, position, title)
         {
 
             Значения = new БулевТип[] { new БулевТип(false), new БулевТип(true) };
             СвязьЭтажомНиже = Значения.FirstOrDefault(x => !x.Значение);
         }
-        public override BitmapImage Icon { get { return Настройки.Instance.УзелIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.УзелIco; } }
         public БулевТип СвязьЭтажомНиже
         {
             get { return связьЭтажомНиже; }
@@ -36,16 +35,16 @@ namespace FireSafety.Models
         public БулевТип[] Значения { get; private set; }
         public bool СвязьЭтажомНижеАктивность
         {
-            get { return ParentFloor.НомерЭтажа != 1 && (СвязьЭтажомНиже.Значение || !OutgoingSections.Any()); }
+            get { return ParentFloor.FloorIndex != 1 && (СвязьЭтажомНиже.Значение || !OutgoingSections.Any()); }
         }
-        public override void AddSection(Section участок)
+        public override void AddSection(Section section)
         {
-            base.AddSection(участок);
+            base.AddSection(section);
             OnPropertyChanged("СвязьЭтажомНижеАктивность");
         }
-        public override void RemoveSection(Section участок)
+        public override void RemoveSection(Section section)
         {
-            base.RemoveSection(участок);
+            base.RemoveSection(section);
             OnPropertyChanged("СвязьЭтажомНижеАктивность");
         }
     }

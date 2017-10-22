@@ -4,29 +4,32 @@ using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
+    /// <summary>
+    /// Дверной проем
+    /// </summary>
     class EntryNode : Node, ISection
     {
         private static int index = 1;
         public EntryNode(Floor parent, Point position) : this(parent, position, string.Format("Дверь {0}", index++)) { }
         public EntryNode(Floor parent, Point position, string title) : base(parent, position, title)
         {
-            //  ДобавитьУчасток(this);
+            Width = 1;
         }
 
         public virtual double Length
         {
             get { return length; }
-            set { length = value; OnPropertyChanged("Длина"); }
+            set { length = value; OnPropertyChanged("Length"); }
         }
         private double length;
         public virtual double Width
         {
             get { return width; }
-            set { width = value; OnPropertyChanged("Ширина"); }
+            set { width = value; OnPropertyChanged("Width"); }
         }
         private double width;
-        public double Area { get { return Length * Width; } }  
-        public override BitmapImage Icon { get { return Настройки.Instance.ДверьIco; } }
+        public double Area { get { return Length * Width; } }
+        public override BitmapImage Icon { get { return Settings.Instance.ДверьIco; } }
         public Node First { get; protected set; }
         public Node Last { get; protected set; }
         public bool NoIncoming { get { return !First.IncomingSections.Any(); } }
@@ -34,27 +37,25 @@ namespace FireSafety.Models
         public virtual double DensityHumanFlow
         {
             get { return densityHumanFlow; }
-            set { densityHumanFlow = value; OnPropertyChanged("ПлотностьЛюдскогоПотока"); }
+            set { densityHumanFlow = value; OnPropertyChanged("DensityHumanFlow"); }
         }
         private double densityHumanFlow;
         public virtual double IntensityHumanFlow
         {
             get { return intensityHumanFlow; }
-            set { intensityHumanFlow = value; OnPropertyChanged("ИнтенсивностьЛюдскогоПотока"); }
+            set { intensityHumanFlow = value; OnPropertyChanged("IntensityHumanFlow"); }
         }
         private double intensityHumanFlow;
-
-        public virtual double Speed
+        public virtual double MovementSpeed
         {
             get { return speed; }
-            set { speed = value; OnPropertyChanged("СкоростьДвижения"); }
+            set { speed = value; OnPropertyChanged("MovementSpeed"); }
         }
         private double speed;
-
         public virtual double MovementTime
         {
             get { return movementTime; }
-            set { movementTime = value; OnPropertyChanged("ВремяДвижения"); }
+            set { movementTime = value; OnPropertyChanged("MovementTime"); }
         }
         private double movementTime;
     }

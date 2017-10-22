@@ -9,15 +9,15 @@ namespace FireSafety.FireSafetyData
     /// </summary>
     public partial class BlockageEvacuationRoutesWindow : Window
     {
-        private BlockageEvacuationRoutesViewModel БлокированиеПутейЭвакуации;
+        private BlockageEvacuationRoutesViewModel BlockageEvacuationRoutes;
         public BlockageEvacuationRoutesWindow()
         {
             InitializeComponent();
-            БлокированиеПутейЭвакуации = new BlockageEvacuationRoutesViewModel();
-            this.DataContext = БлокированиеПутейЭвакуации;
+            BlockageEvacuationRoutes = new BlockageEvacuationRoutesViewModel();
+            this.DataContext = BlockageEvacuationRoutes;
         }
 
-        public TimeSpan ВремяБлокирования { get { return БлокированиеПутейЭвакуации.ВремяБлокирования; } }
+        public TimeSpan BlockageEvacuationRoutesTime { get { return BlockageEvacuationRoutes.ВремяБлокирования; } }
         protected override void OnClosing(CancelEventArgs e)
         {
             DialogResult = true;

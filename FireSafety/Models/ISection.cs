@@ -53,7 +53,7 @@
         /// <summary>
         /// Скорость движения 
         /// </summary>
-        double Speed { get; set; }
+        double MovementSpeed { get; set; }
 
         /// <summary>
         /// Время движения 

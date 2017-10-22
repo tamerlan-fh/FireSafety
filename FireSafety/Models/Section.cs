@@ -13,13 +13,13 @@ namespace FireSafety.Models
         public virtual double Length
         {
             get { return length; }
-            set { length = value; OnPropertyChanged("Длина"); }
+            set { length = value; OnPropertyChanged("Length"); }
         }
         private double length;
         public virtual double Width
         {
             get { return width; }
-            set { width = value; OnPropertyChanged("Ширина"); }
+            set { width = value; OnPropertyChanged("Width"); }
         }
         private double width;
 
@@ -35,7 +35,7 @@ namespace FireSafety.Models
         public virtual double DensityHumanFlow
         {
             get { return densityHumanFlow; }
-            set { densityHumanFlow = value; OnPropertyChanged("ПлотностьЛюдскогоПотока"); }
+            set { densityHumanFlow = value; OnPropertyChanged("DensityHumanFlow"); }
 
         }
         private double densityHumanFlow;
@@ -46,19 +46,19 @@ namespace FireSafety.Models
         public virtual double IntensityHumanFlow
         {
             get { return intensityHumanFlow; }
-            set { intensityHumanFlow = value; OnPropertyChanged("ИнтенсивностьЛюдскогоПотока"); }
+            set { intensityHumanFlow = value; OnPropertyChanged("IntensityHumanFlow"); }
         }
         private double intensityHumanFlow;
 
         /// <summary>
         /// скорость людского потока
         /// </summary>
-        public virtual double Speed
+        public virtual double MovementSpeed
         {
-            get { return speed; }
-            set { speed = value; OnPropertyChanged("СкоростьДвижения"); }
+            get { return movementSpeed; }
+            set { movementSpeed = value; OnPropertyChanged("MovementSpeed"); }
         }
-        private double speed;
+        private double movementSpeed;
 
         /// <summary>
         /// Время движения
@@ -66,10 +66,10 @@ namespace FireSafety.Models
         public virtual double MovementTime
         {
             get { return movementTime; }
-            set { movementTime = value; OnPropertyChanged("ВремяДвижения"); }
+            set { movementTime = value; OnPropertyChanged("MovementTime"); }
         }
         private double movementTime;
 
-        public override BitmapImage Icon { get { return Настройки.Instance.УчастокПутиIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.УчастокПутиIco; } }
     }
 }

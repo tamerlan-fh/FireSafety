@@ -6,6 +6,7 @@
                     mc:Ignorable="d"
                     xmlns:cnvrt="clr-namespace:FireSafety.ValueConverters"
                     xmlns:ctrl ="clr-namespace:FireSafety.Controls"
+                    xmlns:m="clr-namespace:FireSafety.Models"
                     xmlns:local="clr-namespace:FireSafety">
 
     <cnvrt:TimeSpanConverter x:Key="TimeSpanConverter" />
@@ -14,7 +15,6 @@
     <Color x:Key="Fill_over_top">#FFDBDBDB</Color>
     <Color x:Key="Fill_over_bottom">#FFF6F6F6</Color>
     <Brush x:Key="CheckBox_main_color_">#FFd7d7d7</Brush>
-
 
     <Style x:Key="SliderRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -376,7 +376,6 @@
         </Style.Triggers>
     </Style>
 
-
     <Style TargetType="{x:Type ctrl:TransformControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -445,6 +444,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
     <Style x:Key ="RoundButtonTemplate" TargetType ="{x:Type Button}">
         <Setter Property ="Foreground" Value ="Black"/>
         <Setter Property ="FontWeight" Value ="Bold"/>
@@ -480,6 +480,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
     <Style x:Key ="RectButtonTemplate" TargetType ="{x:Type Button}">
         <Setter Property ="Foreground" Value ="Black"/>
         <Setter Property ="FontWeight" Value ="Bold"/>
@@ -507,7 +508,7 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Key="ControlTemplateЭтаж">
+    <DataTemplate x:Key="ControlTemplateFloor" DataType="{x:Type m:Floor}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -518,13 +519,14 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Название, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
 
             <TextBox Grid.Column="0" Grid.Row="1" IsReadOnly="True" Text="Номер Этажа" BorderThickness="0" Margin="2,1"/>
             <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding НомерЭтажа, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
         </Grid>
     </DataTemplate>
-    <DataTemplate x:Key="ControlTemplateЗдание">
+
+    <DataTemplate x:Key="ControlTemplateBuilding" DataType="{x:Type m:Building}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -536,16 +538,17 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Название, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
 
             <TextBox Grid.Column="0" Grid.Row="1" IsReadOnly="True" Text="Число этажей" BorderThickness="0" Margin="2,1"/>
-            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding Этажи.Count, Mode=OneWay}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding Path=Floors.Count, Mode=OneWay}" BorderThickness="0" Margin="2,1"/>
 
             <TextBox Grid.Column="0" Grid.Row="2" IsReadOnly="True" Text="Время эвакуации, мин" ToolTip="Время прохождения, мин" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ВремяЭвакуации, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.000}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=EvacuationTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.000}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
         </Grid>
     </DataTemplate>
-    <DataTemplate x:Key="ControlTemplateОбъект">
+
+    <DataTemplate x:Key="ControlTemplateEntity" DataType="{x:Type m:Entity}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -556,13 +559,14 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Название, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
 
             <TextBox Grid.Column="0" Grid.Row="1" IsReadOnly="True" Text="Расположение" BorderThickness="0" Margin="2,1"/>
-            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding РодительскийОбъект.Название, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
         </Grid>
     </DataTemplate>
-    <DataTemplate x:Key="ControlTemplateДверь">
+
+    <DataTemplate x:Key="ControlTemplateEntryNode" DataType="{x:Type m:EntryNode}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -578,28 +582,29 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Название, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
 
             <TextBox Grid.Column="0" Grid.Row="1" IsReadOnly="True" Text="Расположение" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding РодительскийОбъект.Название, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2"/>
+            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2"/>
 
             <!--<TextBox Grid.Column="0" Grid.Row="2" IsReadOnly="True" Text="Авторазмеры" BorderThickness="0" Margin="2,1" />
                 <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding АвтоРазмеры, UpdateSourceTrigger=PropertyChanged}" Margin="2,1" />-->
 
             <TextBox Grid.Column="0" Grid.Row="3" IsReadOnly="True" Text="Ширина, м" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Ширина,  UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Width,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" BorderThickness="0" Margin="2,1" />
 
-            <TextBox Grid.Column="0" Grid.Row="4" IsReadOnly="True" Text="Высота, м" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Высота,  UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="0" Grid.Row="4" IsReadOnly="True" Text="Длина, м" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Length, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="5" IsReadOnly="True" Text="Интенсивность движения, м/мин" ToolTip="Интенсивность движения, м/мин" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding ИнтенсивностьЛюдскогоПотока, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=IntensityHumanFlow, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="6" IsReadOnly="True" Text="Время прохождения участка, мин" ToolTip="Время прохождения участка, мин" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding ВремяДвижения, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
         </Grid>
     </DataTemplate>
-    <DataTemplate x:Key="ControlTemplateУзелЛестницы">
+
+    <DataTemplate x:Key="ControlTemplateStairsNode" DataType="{x:Type m:StairsNode}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -611,16 +616,17 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Название, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
 
             <TextBox Grid.Column="0" Grid.Row="1" IsReadOnly="True" Text="Расположение" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding РодительскийОбъект.Название, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2"/>
+            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2"/>
 
             <TextBox Grid.Column="0" Grid.Row="2" IsReadOnly="True" Text="Связать с этажом ниже" BorderThickness="0" Margin="2,1" />
-            <ComboBox Grid.Column="1" Grid.Row="2" SelectedItem="{Binding СвязьЭтажомНиже, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Значения}" IsEnabled="{Binding СвязьЭтажомНижеАктивность, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  BorderThickness="0" Margin="2,1" />
+            <ComboBox Grid.Column="1" Grid.Row="2" SelectedItem="{Binding Path=СвязьЭтажомНиже, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Значения}" IsEnabled="{Binding СвязьЭтажомНижеАктивность, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  BorderThickness="0" Margin="2,1" />
         </Grid>
     </DataTemplate>
-    <DataTemplate x:Key="ControlTemplateСтарт">
+
+    <DataTemplate x:Key="ControlTemplateStartNode" DataType="{x:Type m:StartNode}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -633,19 +639,20 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Название, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
 
             <TextBox Grid.Column="0" Grid.Row="1" IsReadOnly="True" Text="Расположение" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding РодительскийОбъект.Название, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2"/>
+            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2"/>
 
             <TextBox Grid.Column="0" Grid.Row="2" IsReadOnly="True" Text="Число людей" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ЧислоЛюдей,  UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=PeopleCount,  UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="3" IsReadOnly="True" Text="Площадь проекции" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding ПлощадьПроекции,  UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=ProjectionArea,  UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1" />
         </Grid>
     </DataTemplate>
-    <DataTemplate x:Key="ControlTemplateПуть">
+
+    <DataTemplate x:Key="ControlTemplateRoute" DataType="{x:Type m:Route}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -661,22 +668,23 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Название, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
 
             <TextBox Grid.Column="0" Grid.Row="3" IsReadOnly="True" Text="Начало" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="3" IsReadOnly="True" Text="{Binding Начало.Название}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="3" IsReadOnly="True" Text="{Binding Path=FirstNode.Title}" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="4" IsReadOnly="True" Text="Конец" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="4" IsReadOnly="True" Text="{Binding Конец.Название}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="4" IsReadOnly="True" Text="{Binding Path=LastNode.Title}" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="5" IsReadOnly="True" Text="Длина, м" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="5" IsReadOnly="True" Text="{Binding Длина, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="5" IsReadOnly="True" Text="{Binding Path=Length, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="6" IsReadOnly="True" Text="Время прохождения, мин" ToolTip="Время прохождения, мин" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding ВремяДвижения, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter }}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter }}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
         </Grid>
     </DataTemplate>
-    <DataTemplate x:Key="ControlTemplateУчастокПути">
+
+    <DataTemplate x:Key="ControlTemplateRoadSection" DataType="{x:Type m:RoadSection}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -695,31 +703,32 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Название, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
 
             <TextBox Grid.Column="0" Grid.Row="1" IsReadOnly="True" Text="Расположение" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding РодительскийОбъект.Название, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2"/>
+            <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2"/>
 
             <TextBox Grid.Column="0" Grid.Row="2" IsReadOnly="True" Text="Начало" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="2" IsReadOnly="True" Text="{Binding Начало.Название}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="2" IsReadOnly="True" Text="{Binding Path=First.Title}" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="3" IsReadOnly="True" Text="Конец" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="3" IsReadOnly="True" Text="{Binding Конец.Название}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="3" IsReadOnly="True" Text="{Binding Path=Last.Title}" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="4" IsReadOnly="True" Text="Ширина, м" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Ширина,  UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Width,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="5" IsReadOnly="True" Text="Длина, м" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Длина, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Length, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="7" IsReadOnly="True" Text="Интенсивность движения, м/мин" ToolTip="Интенсивность движения, м/мин" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding ИнтенсивностьЛюдскогоПотока, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Path=IntensityHumanFlow, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="8" IsReadOnly="True" Text="Скорость движения людского потока, м/мин" ToolTip="Скорость движения людского потока, м/мин" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding СкоростьДвижения, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding Path=MovementSpeed, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
 
             <TextBox Grid.Column="0" Grid.Row="9" IsReadOnly="True" Text="Время прохождения участка, мин" ToolTip="Время прохождения участка, мин" BorderThickness="0" Margin="2,1" />
-            <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding ВремяДвижения, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
+            <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
         </Grid>
     </DataTemplate>
+
 </ResourceDictionary>

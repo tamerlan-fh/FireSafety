@@ -2,6 +2,9 @@
 
 namespace FireSafety.Models
 {
+    /// <summary>
+    /// Сущность, прародитель всех остальных
+    /// </summary>
     abstract class Entity : BasePropertyChanged
     {
         /// <summary>
@@ -46,7 +49,7 @@ namespace FireSafety.Models
             set
             {
                 if (status == value) return;
-                status = value; OnPropertyChanged("Состояние");
+                status = value; OnPropertyChanged("Status");
             }
         }
         private EntityStatus status;

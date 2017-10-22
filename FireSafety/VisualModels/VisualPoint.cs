@@ -3,38 +3,38 @@ using System.Windows.Media;
 
 namespace FireSafety.VisualModels
 {
-    class VisualТочка : VisualЭлемент
+    class VisualPoint : VisualUnit
     {
-        private const double радиус = 6;
-        public VisualТочка(Point позиция)
+        private const double radius = 6;
+        public VisualPoint(Point position)
         {
-            Ширина = 2 * радиус;
-            Высота = 2 * радиус;
-            Позиция = позиция;
-            кистьНормальная = Brushes.White;
+            Width = 2 * radius;
+            Height = 2 * radius;
+            Position = position;
+            normalBrush = Brushes.White;
             Draw();
         }
 
-        public bool Отображена
+        public bool IsVisible
         {
-            get { return отображена; }
+            get { return isVisible; }
             set
             {
-                if (отображена == value) return;
-                отображена = value; Draw();
+                if (isVisible == value) return;
+                isVisible = value; Draw();
             }
         }
-        private bool отображена;
-        public override VisualЭлемент ДатьЭлемент(Point позиция)
+        private bool isVisible;
+        public override VisualUnit GetUnit(Point позиция)
         {
-            if (Отображена)
-                return base.ДатьЭлемент(позиция);
+            if (IsVisible)
+                return base.GetUnit(позиция);
             else return null;
         }
-        public override bool Содержит(Point точка)
+        public override bool Contains(Point point)
         {
-            if (Отображена)
-                return base.Содержит(точка);
+            if (IsVisible)
+                return base.Contains(point);
             else
                 return false;
         }
@@ -42,8 +42,8 @@ namespace FireSafety.VisualModels
         {
             using (DrawingContext dc = RenderOpen())
             {
-                if (Отображена)
-                    dc.DrawRectangle(кистьНормальная, пероНормальное, Габариты);
+                if (IsVisible)
+                    dc.DrawRectangle(normalBrush, normalPen, Dimensions);
             }
         }
     }

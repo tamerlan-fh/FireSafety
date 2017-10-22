@@ -1,82 +1,72 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
 namespace FireSafety.VisualModels
 {
-    abstract class VisualЭлемент : DrawingVisual
+    abstract class VisualUnit : DrawingVisual
     {
-        public VisualЭлемент()
+        public VisualUnit()
         {
-            var радиус = 30;
-            Ширина = 2 * радиус;
-            Высота = 2 * радиус;
+            var radius = 30;
+            Width = 2 * radius;
+            Height = 2 * radius;
         }
 
-        public double Ширина
+        public double Width
         {
-            get { return ширина; }
-            protected set { ширина = value; ВекторДиагонали = new Vector(Ширина, Высота); }
+            get { return width; }
+            protected set { width = value; Diagonal = new Vector(Width, Height); }
         }
-        private double ширина;
+        private double width;
 
-        public double Высота
+        public double Height
         {
-            get { return высота; }
-            protected set { высота = value; ВекторДиагонали = new Vector(Ширина, Высота); }
+            get { return height; }
+            protected set { height = value; Diagonal = new Vector(Width, Height); }
         }
-        private double высота;
-        public virtual Point Позиция
+        private double height;
+        public virtual Point Position
         {
-            get { return позиция; }
+            get { return position; }
             set
             {
-                позиция = value;
-                Габариты = new Rect(Позиция - 0.5 * ВекторДиагонали, Позиция + 0.5 * ВекторДиагонали);
+                position = value;
+                Dimensions = new Rect(Position - 0.5 * Diagonal, Position + 0.5 * Diagonal);
                 Draw();
             }
         }
-        private Point позиция;
-        public Vector ВекторДиагонали { get; protected set; }
-        public virtual Rect Габариты { get; protected set; }
+        private Point position;
+        public Vector Diagonal { get; protected set; }
+        public virtual Rect Dimensions { get; protected set; }
         public abstract void Draw();
-        //{
-        //    using (DrawingContext dc = RenderOpen())
-        //    {
-        //        dc.DrawRectangle(кистьНормальная, пероНормальное, Габариты);
-        //    }
-        //}
 
-        protected Brush кистьНормальная = Brushes.Gray;
-        protected Pen пероНормальное = new Pen(Brushes.Black, 2);
+        protected Brush normalBrush = Brushes.Gray;
+        protected Pen normalPen = new Pen(Brushes.Black, 2);
 
-        protected Brush кистьВыделенная = Brushes.LightGray;
-        protected Pen пероВыделенное = new Pen(Brushes.Black, 2);
+        protected Brush selectBrush = Brushes.LightGray;
+        protected Pen selectPen = new Pen(Brushes.Black, 2);
 
-        public virtual VisualЭлемент ДатьЭлемент(Point позиция)
+        public virtual VisualUnit GetUnit(Point position)
         {
             return this;
         }
 
-        public virtual void Перемещение(Vector сдвиг)
+        public virtual void Move(Vector shift)
         {
-            OnПозицияИзменена(new NodePositionEventArgs(Позиция, сдвиг));
-            Позиция += сдвиг;
+            OnPositionChanged(new NodePositionEventArgs(Position, shift));
+            Position += shift;
         }
 
-        public virtual bool Содержит(Point точка)
+        public virtual bool Contains(Point point)
         {
-            return Габариты.Contains(точка);
+            return Dimensions.Contains(point);
         }
 
-        public event EventHandler<NodePositionEventArgs> ПозицияИзменена;
-        protected virtual void OnПозицияИзменена(NodePositionEventArgs e)
+        public event EventHandler<NodePositionEventArgs> PositionChanged;
+        protected virtual void OnPositionChanged(NodePositionEventArgs e)
         {
-            ПозицияИзменена?.Invoke(this, e);
+            PositionChanged?.Invoke(this, e);
         }
     }
 }

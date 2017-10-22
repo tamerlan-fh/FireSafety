@@ -99,25 +99,25 @@
     <Compile Include="FireSafetyData\TypicalLoadManager.cs" />
     <Compile Include="FireSafetyData\ТаблицаЗависимости.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="Models\BuildingComposition.cs" />
+    <Compile Include="Models\EvacuationPlan.cs" />
     <Compile Include="Models\ISection.cs" />
-    <Compile Include="Models\Scale.cs" />
+    <Compile Include="Models\ZoomTool.cs" />
     <Compile Include="Models\Section.cs" />
     <Compile Include="Models\ExitNode.cs" />
-    <Compile Include="Models\УзелДвери.cs" />
     <Compile Include="Models\EntryNode.cs" />
     <Compile Include="Models\Building.cs" />
-    <Compile Include="Models\КоллекцияПутей.cs" />
-    <Compile Include="Models\Настройки.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\Entity.cs" />
-    <Compile Include="Models\Путь.cs" />
+    <Compile Include="Models\Route.cs" />
     <Compile Include="Models\EntityStatus.cs" />
-    <Compile Include="Models\Спуск.cs" />
+    <Compile Include="Models\FloorsConnection.cs" />
     <Compile Include="Models\StartNode.cs" />
     <Compile Include="Models\Node.cs" />
-    <Compile Include="Models\УзелЛестницы.cs" />
-    <Compile Include="Models\УзелПути.cs" />
-    <Compile Include="Models\УчастокЛестницы.cs" />
-    <Compile Include="Models\УчастокПути.cs" />
+    <Compile Include="Models\StairsNode.cs" />
+    <Compile Include="Models\RoadNode.cs" />
+    <Compile Include="Models\StairsSection.cs" />
+    <Compile Include="Models\RoadSection.cs" />
     <Compile Include="Models\Floor.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -125,26 +125,26 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="ValueConverters\ActionModeConverter.cs" />
     <Compile Include="ValueConverters\DoubleRoundConverter.cs" />
     <Compile Include="ValueConverters\TimeSpanConverter.cs" />
-    <Compile Include="VisualModels\PositionChangedEventArgs.cs" />
+    <Compile Include="VisualModels\NodePositionEventArgs.cs" />
     <Compile Include="VisualModels\VisualNode.cs" />
-    <Compile Include="VisualModels\VisualObject.cs" />
+    <Compile Include="VisualModels\VisualEntity.cs" />
     <Compile Include="VisualModels\VisualPoint.cs" />
     <Compile Include="VisualModels\VisualUnit.cs" />
-    <Compile Include="VisualModels\VisualВыход.cs" />
-    <Compile Include="VisualModels\VisualДверь.cs" />
-    <Compile Include="VisualModels\VisualЗдание.cs" />
-    <Compile Include="VisualModels\VisualЛестница.cs" />
-    <Compile Include="VisualModels\VisualСтарт.cs" />
-    <Compile Include="VisualModels\VisualУзелЛестницы.cs" />
-    <Compile Include="VisualModels\VisualУчастокЛестницы.cs" />
-    <Compile Include="VisualModels\VisualУчастокПути.cs" />
-    <Compile Include="VisualModels\VisualЭтаж.cs" />
-    <Compile Include="VisualModels\ЗданиеControl.cs" />
-    <Compile Include="VisualModels\ИнформацияПеремещения.cs" />
-    <Compile Include="VisualModels\РежимДействия.cs" />
-    <Compile Include="VisualModels\СхемаЭвакуации.cs" />
+    <Compile Include="VisualModels\VisualExitNode.cs" />
+    <Compile Include="VisualModels\VisualEntryNode.cs" />
+    <Compile Include="VisualModels\VisualBuilding.cs" />
+    <Compile Include="VisualModels\VisualStartNode.cs" />
+    <Compile Include="VisualModels\VisualStairsNode.cs" />
+    <Compile Include="VisualModels\VisualStairsSection.cs" />
+    <Compile Include="VisualModels\VisualRoadSection.cs" />
+    <Compile Include="VisualModels\VisualFloor.cs" />
+    <Compile Include="VisualModels\EvacuationControl.cs" />
+    <Compile Include="VisualModels\MoveInformation.cs" />
+    <Compile Include="VisualModels\ActionMode.cs" />
+    <Compile Include="VisualModels\EvacuationPlanImage.cs" />
     <Page Include="FireSafetyData\BlockageEvacuationRoutesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

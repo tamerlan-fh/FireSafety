@@ -21,9 +21,9 @@ namespace FireSafety.Controls
             if (item is Floor) return ControlTemplateЭтаж;
             if (item is Building) return ControlTemplateЗдание;
             if (item is StartNode) return ControlTemplateСтарт;
-            if (item is Путь) return ControlTemplateПуть;
-            if (item is УчастокПути) return ControlTemplateУчастокПути;
-            if (item is УзелЛестницы) return ControlTemplateУзелЛестницы;
+            if (item is Route) return ControlTemplateПуть;
+            if (item is RoadSection) return ControlTemplateУчастокПути;
+            if (item is StairsNode) return ControlTemplateУзелЛестницы;
 
             return ControlTemplateОбъект;
         }

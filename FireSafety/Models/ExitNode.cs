@@ -3,6 +3,9 @@ using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
+    /// <summary>
+    /// Выход
+    /// </summary>
     class ExitNode : Node
     {
         private static int index = 1;
@@ -12,7 +15,6 @@ namespace FireSafety.Models
         {
             OutgoingSectionsAllowed = false;
         }
-
-        public override BitmapImage Icon { get { return Настройки.Instance.ВыходIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.ВыходIco; } }
     }
 }

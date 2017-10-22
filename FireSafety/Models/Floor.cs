@@ -9,26 +9,32 @@ using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
+    /// <summary>
+    /// Этаж
+    /// </summary>
     class Floor : Entity
     {
-        public Func<СхемаЭвакуации> ДатьСхемуЭвакуации { get; set; }
-        public Building РодительскоеЗдание { get { return Parent as Building; } }
+        public Func<EvacuationPlanImage> GetEvacuationPlanImage { get; set; }
+        public Building ParentBuilding { get { return Parent as Building; } }
         public Floor(Building parent) : this("Этаж", parent) { }
         public Floor(string title, Building parent) : base(title, parent)
         {
             Objects = new ObservableCollection<Entity>();
-            ЗагрузитьПланЭтажаCommand = new RelayCommand(param => this.ЗагрузитьПланЭтажа());
+            LoadFloorPlanCommand = new RelayCommand(param => this.LoadFloorPlan());
         }
-        public ICommand ЗагрузитьПланЭтажаCommand { get; protected set; }
-        public int НомерЭтажа
+        public ICommand LoadFloorPlanCommand { get; protected set; }
+        public int FloorIndex
         {
-            get { return РодительскоеЗдание.Floors.IndexOf(this) + 1; }
+            get { return ParentBuilding.Floors.IndexOf(this) + 1; }
         }
         public void ОбновитьНазвание()
         {
-            this.Title = string.Format("Этаж {0}", НомерЭтажа);
+            this.Title = string.Format("Этаж {0}", FloorIndex);
         }
-        private void ЗагрузитьПланЭтажа()
+        /// <summary>
+        /// LoadFloorPlan
+        /// </summary>
+        private void LoadFloorPlan()
         {
             var openFileDialog = new OpenFileDialog();
             //openFileDialog.Filter = "Pdf files (*.pdf)|*.pdf|Image files |*.png;*.bmp;*jpg;*.jepg|All files (*.*)|*.*";
@@ -38,36 +44,37 @@ namespace FireSafety.Models
 
             if (openFileDialog.ShowDialog() != true) return;
 
-            var имяФайла = openFileDialog.FileName;
+            var filename = openFileDialog.FileName;
 
-            var расширение = System.IO.Path.GetExtension(имяФайла).ToLower();
-            switch (расширение)
+            var extension = System.IO.Path.GetExtension(filename).ToLower();
+            switch (extension)
             {
                 //case ".pdf": ЗагрузитьPdf(имяФайла); break;
                 case ".png":
                 case ".bmp":
                 case ".jpg":
-                case ".jepg": ЗагрузитьКартинку(имяФайла); break;
+                case ".jepg": LoadFloorPlanImage(filename); break;
                 default: break;
             }
-        } 
-        private void ЗагрузитьКартинку(string имяФайла)
+        }
+        private void LoadFloorPlanImage(string filename)
         {
             try
             {
-                План = new BitmapImage(new Uri(имяФайла));
+                FloorPlanImage = new BitmapImage(new Uri(filename));
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        public BitmapImage План
+
+        public BitmapImage FloorPlanImage
         {
-            get { return план; }
-            set { план = value; OnPropertyChanged("План"); }
+            get { return floorPlanImage; }
+            set { floorPlanImage = value; OnPropertyChanged("FloorPlanImage"); }
         }
-        private BitmapImage план;
+        private BitmapImage floorPlanImage;
         public ObservableCollection<Entity> Objects { get; private set; }
         public void AddObject(Entity obj)
         {
@@ -89,14 +96,14 @@ namespace FireSafety.Models
                 {
                     участок.First.RemoveSection(участок);
                     удаляемыеОбьекты.Add(участок as Entity);
-                    if (участок.First is УзелПути && участок.First.IsUnrelated)
+                    if (участок.First is RoadNode && участок.First.IsUnrelated)
                         удаляемыеОбьекты.Add(участок.First);
                 }
                 foreach (var участок in узел.OutgoingSections)
                 {
                     участок.Last.RemoveSection(участок);
                     удаляемыеОбьекты.Add(участок as Entity);
-                    if (участок.Last is УзелПути && участок.Last.IsUnrelated)
+                    if (участок.Last is RoadNode && участок.Last.IsUnrelated)
                         удаляемыеОбьекты.Add(участок.Last);
                 }
 
@@ -107,9 +114,9 @@ namespace FireSafety.Models
             }
 
 
-            if (obj is УчастокПути)
+            if (obj is RoadSection)
             {
-                var участок = obj as УчастокПути;
+                var участок = obj as RoadSection;
 
                 участок.First.RemoveSection(участок);
                 участок.Last.RemoveSection(участок);
@@ -117,9 +124,9 @@ namespace FireSafety.Models
                 var удаляемыеОбьекты = new List<Entity>();
                 удаляемыеОбьекты.Add(участок);
 
-                if (участок.First is УзелПути && участок.First.IsUnrelated)
+                if (участок.First is RoadNode && участок.First.IsUnrelated)
                     удаляемыеОбьекты.Add(участок.First);
-                if (участок.Last is УзелПути && участок.Last.IsUnrelated)
+                if (участок.Last is RoadNode && участок.Last.IsUnrelated)
                     удаляемыеОбьекты.Add(участок.Last);
 
                 foreach (var удаляемыйОбъект in удаляемыеОбьекты)
@@ -128,15 +135,30 @@ namespace FireSafety.Models
                 return;
             }
         }
-        public void ДобавитьСпуск(УзелЛестницы узел)
+        public void ДобавитьСпуск(StairsNode узел)
         {
-            var этажНиже = РодительскоеЗдание.ВыдатьЭтажНиже(this);
+            //var этажНиже = РодительскоеЗдание.ВыдатьЭтажНиже(this);
+            var этажНиже = this;
             if (этажНиже == null) throw new Exception(string.Format("Ошибка при попытке добавить этаж. Под \"{0}\" нет другого этажа", Title));
 
-            var новыйУзел = new УзелЛестницы(этажНиже, узел.Position, узел.Title);
+            var новыйУзел = new StairsNode(этажНиже, узел.Position, узел.Title);
             этажНиже.AddObject(новыйУзел);
-            var спуск = new Спуск(узел, новыйУзел, this);
+            var спуск = new FloorsConnection(узел, новыйУзел, this);
         }
-        public override BitmapImage Icon { get { return Настройки.Instance.ЭтажIco; } }
+        public ZoomTool Scale
+        {
+            get { return scale; }
+            set
+            {
+                if (scale == value) return;
+                if (scale == null)
+                    scale = ZoomTool.Empty;
+                else
+                    scale = value;
+                OnPropertyChanged("Scale");
+            }
+        }
+        private ZoomTool scale;
+        public override BitmapImage Icon { get { return Settings.Instance.ЭтажIco; } }
     }
 }

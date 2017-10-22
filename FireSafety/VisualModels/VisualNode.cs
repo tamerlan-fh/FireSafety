@@ -1,60 +1,56 @@
 ﻿using FireSafety.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
 namespace FireSafety.VisualModels
 {
-    class VisualУзел : VisualОбъект
+    class VisualNode : VisualEntity
     {
-        public Node УзелМодель { get { return Модель as Node; } }
-        public VisualУзел(Node объект, Point позиция, VisualЭтаж родитель) : base(объект, позиция, родитель)
+        public Node NodeModel { get { return Model as Node; } }
+        public VisualNode(Node node, Point position, VisualFloor parent) : base(node, position, parent)
         {
-            Ширина = VisualУчастокПути.Толщина + 5;
-            Высота = VisualУчастокПути.Толщина + 5;
+            Width = VisualRoadSection.Thickness + 5;
+            Height = VisualRoadSection.Thickness + 5;
 
-            ВходящиеПути = new List<VisualУчастокПути>();
-            ИсходящиеПути = new List<VisualУчастокПути>();
+            IncomingSections = new List<VisualRoadSection>();
+            OutgoingSections = new List<VisualRoadSection>();
 
-            кистьНормальная = Brushes.LightGreen;
-            кистьВыделенная = кистьНормальная;
-            пероНормальное.Brush = Brushes.Green;
-            пероВыделенное = пероНормальное;
+            normalBrush = Brushes.LightGreen;
+            selectBrush = normalBrush;
+            normalPen.Brush = Brushes.Green;
+            selectPen = normalPen;
             Draw();
         }
-        public List<VisualУчастокПути> ВходящиеПути { get; private set; }
-        public List<VisualУчастокПути> ИсходящиеПути { get; private set; }
-        public void ДобавитьУчасток(VisualУчастокПути участок)
+        public List<VisualRoadSection> IncomingSections { get; private set; }
+        public List<VisualRoadSection> OutgoingSections { get; private set; }
+        public void AddSection(VisualRoadSection section)
         {
-            if (участок.Начало == this)
-                if (!ИсходящиеПути.Contains(участок))
-                    ИсходящиеПути.Add(участок);
-            if (участок.Конец == this)
-                if (!ВходящиеПути.Contains(участок))
-                    ВходящиеПути.Add(участок);
+            if (section.First == this)
+                if (!OutgoingSections.Contains(section))
+                    OutgoingSections.Add(section);
+            if (section.Last == this)
+                if (!IncomingSections.Contains(section))
+                    IncomingSections.Add(section);
         }
 
         public override void Draw()
         {
             using (DrawingContext dc = RenderOpen())
             {
-                var радиусX = Ширина / 2;
-                var радиусY = Высота / 2;
+                var radiusX = Width / 2;
+                var radiusY = Height / 2;
                 var d = 10;
 
-                if (Состояние == EntityStatus.Selected)
+                if (Status == EntityStatus.Selected)
                 {
                     dc.PushOpacity(0.5);
-                    dc.DrawEllipse(кистьВыделенная, null, Позиция, d + радиусX, d + радиусY);
+                    dc.DrawEllipse(selectBrush, null, Position, d + radiusX, d + radiusY);
                     dc.Pop();
                 }
 
-                dc.DrawEllipse(кистьНормальная, пероНормальное, Позиция, радиусX, радиусY);
-                dc.DrawDrawing(НарисоватьНадпись(Позиция));
+                dc.DrawEllipse(normalBrush, normalPen, Position, radiusX, radiusY);
+                dc.DrawDrawing(DrawTitle(Position));
             }
         }
     }

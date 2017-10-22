@@ -6,19 +6,22 @@ using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
-    class Настройки
+    /// <summary>
+    /// Settings
+    /// </summary>
+    class Settings
     {
-        private static Настройки instance;
-        public static Настройки Instance
+        private static Settings instance;
+        public static Settings Instance
         {
             get
             {
                 if (instance == null)
-                    instance = new Настройки();
+                    instance = new Settings();
                 return instance;
             }
         }
-        private Настройки()
+        private Settings()
         {
             ДверьIco = GetBitmapImage(Resources.icons8_Дверь_64, ImageFormat.Png);
             ВыходIco = GetBitmapImage(Resources.icons8_Выход_64, ImageFormat.Png);
@@ -47,11 +50,11 @@ namespace FireSafety.Models
         {
             return GetBitmapImage(new Bitmap(image));
         }
-        public static BitmapImage GetBitmapImage(Bitmap btm, ImageFormat формат)
+        public static BitmapImage GetBitmapImage(Bitmap bitmap, ImageFormat format)
         {
             using (MemoryStream memory = new MemoryStream())
             {
-                btm.Save(memory, формат);
+                bitmap.Save(memory, format);
                 memory.Position = 0;
                 BitmapImage bitmapimage = new BitmapImage();
                 bitmapimage.BeginInit();
@@ -62,6 +65,26 @@ namespace FireSafety.Models
                 return bitmapimage;
             }
         }
+
+        public static Bitmap GetBitmap(BitmapSource source)
+        {
+            using (var stream = new MemoryStream())
+            {
+                var encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(source));
+                encoder.Save(stream);
+                var bitmap = new Bitmap(stream);
+
+                return new Bitmap(bitmap);
+            }
+        }
+
+        public static byte[] GetBytesFromBitmap(Bitmap bitmap)
+        {
+            var converter = new ImageConverter();
+            return (byte[])converter.ConvertTo(bitmap, typeof(byte[]));
+        }
+
         public BitmapImage ДверьIco { get; private set; }
         public BitmapImage ВыходIco { get; private set; }
         public BitmapImage СтартIco { get; private set; }

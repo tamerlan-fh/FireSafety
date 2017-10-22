@@ -14,7 +14,7 @@ namespace FireSafety.Models
             ProjectionArea = 0.125;
             PeopleCount = 1;
         }
-        public override BitmapImage Icon { get { return Настройки.Instance.СтартIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.СтартIco; } }
 
         /// <summary>
         /// Число людей 
@@ -22,7 +22,7 @@ namespace FireSafety.Models
         public int PeopleCount
         {
             get { return peopleCount; }
-            set { peopleCount = value; OnPropertyChanged("ЧислоЛюдей"); }
+            set { peopleCount = value; OnPropertyChanged("PeopleCount"); }
         }
         private int peopleCount;
 
@@ -32,7 +32,7 @@ namespace FireSafety.Models
         public double ProjectionArea
         {
             get { return projectionArea; }
-            set { projectionArea = value; OnPropertyChanged("ПлощадьПроекции"); }
+            set { projectionArea = value; OnPropertyChanged("ProjectionArea"); }
         }
         private double projectionArea;
     }
