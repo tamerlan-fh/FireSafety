@@ -54,7 +54,7 @@ namespace FireSafety.VisualModels
 
         public virtual void Move(Vector shift)
         {
-            OnPositionChanged(new NodePositionEventArgs(Position, shift));
+            OnPositionChanged(new PositionChangedEventArgs(Position, shift));
             Position += shift;
         }
 
@@ -63,8 +63,8 @@ namespace FireSafety.VisualModels
             return Dimensions.Contains(point);
         }
 
-        public event EventHandler<NodePositionEventArgs> PositionChanged;
-        protected virtual void OnPositionChanged(NodePositionEventArgs e)
+        public event EventHandler<PositionChangedEventArgs> PositionChanged;
+        protected virtual void OnPositionChanged(PositionChangedEventArgs e)
         {
             PositionChanged?.Invoke(this, e);
         }

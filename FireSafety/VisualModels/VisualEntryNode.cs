@@ -43,7 +43,7 @@ namespace FireSafety.VisualModels
         }
         public override void Move(Vector shift)
         {
-            OnPositionChanged(new NodePositionEventArgs(Position, shift));
+            OnPositionChanged(new PositionChangedEventArgs(Position, shift));
 
             bottomLeft.Position += shift;
             topRight.Position += shift;
@@ -68,7 +68,7 @@ namespace FireSafety.VisualModels
             this.Children.Add(point);
             point.PositionChanged += NodePositionChanged;
         }
-        private void NodePositionChanged(object sender, NodePositionEventArgs e)
+        private void NodePositionChanged(object sender, PositionChangedEventArgs e)
         {
             var point = sender as VisualPoint;
             var shift = e.Shift;
@@ -93,7 +93,7 @@ namespace FireSafety.VisualModels
                 topRight.Position += new Vector(shift.X, 0);
                 bottomLeft.Position += new Vector(0, shift.Y);
             }
-            OnPositionChanged(new NodePositionEventArgs(Position, new Vector(0, 0)));
+            OnPositionChanged(new PositionChangedEventArgs(Position, new Vector(0, 0)));
 
             NodeModel.Position = topLeft.Position + (bottomRight.Position - topLeft.Position) / 2;
             Dimensions = new Rect(bottomLeft.Position, topRight.Position);

@@ -29,7 +29,7 @@ namespace FireSafety.VisualModels
 
         public const double Thickness = 20;
 
-        private void NodePositionChanged(object sender, NodePositionEventArgs e)
+        private void NodePositionChanged(object sender, PositionChangedEventArgs e)
         {
             Draw();
         }

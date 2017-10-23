@@ -128,7 +128,7 @@
     <Compile Include="ValueConverters\ActionModeConverter.cs" />
     <Compile Include="ValueConverters\DoubleRoundConverter.cs" />
     <Compile Include="ValueConverters\TimeSpanConverter.cs" />
-    <Compile Include="VisualModels\NodePositionEventArgs.cs" />
+    <Compile Include="VisualModels\PositionChangedEventArgs.cs" />
     <Compile Include="VisualModels\VisualNode.cs" />
     <Compile Include="VisualModels\VisualEntity.cs" />
     <Compile Include="VisualModels\VisualPoint.cs" />

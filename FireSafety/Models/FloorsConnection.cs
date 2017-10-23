@@ -10,8 +10,6 @@
 
         //}
 
-        private static int index = 1;
-
         public FloorsConnection(Node first, Node last, Floor parent) : base("Спуск", parent)
         {
             this.First = first;

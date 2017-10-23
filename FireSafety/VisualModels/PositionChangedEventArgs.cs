@@ -3,11 +3,11 @@ using System.Windows;
 
 namespace FireSafety.VisualModels
 {
-    class NodePositionEventArgs : EventArgs
+    class PositionChangedEventArgs : EventArgs
     {
         private Point oldPosition;
         private Vector shift;
-        public NodePositionEventArgs(Point oldPosition, Vector shift)
+        public PositionChangedEventArgs(Point oldPosition, Vector shift)
         {
             this.oldPosition = oldPosition;
             this.shift = shift;
