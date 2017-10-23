@@ -40,6 +40,8 @@ namespace FireSafety.VisualModels
             Last.Move(shift);
         }
 
+        public double Length { get { return (Last.Position - First.Position).Length; } }
+
         public VisualNode First { get; private set; }
         public VisualNode Last { get; private set; }
         public override EntityStatus Status

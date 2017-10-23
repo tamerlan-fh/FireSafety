@@ -124,7 +124,10 @@ namespace FireSafety.VisualModels
                 {
                     var win = new ScaleWindow(length, CurrentFloor.Model.Scale);
                     if (win.ShowDialog() == true)
+                    {
                         CurrentFloor.Model.Scale = win.Scale;
+                        CurrentFloor.ApplyScale();
+                    }
                 }
                 visuals.Remove(scaleSection);
                 scaleSection = null;

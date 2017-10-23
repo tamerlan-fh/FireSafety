@@ -587,9 +587,6 @@
             <TextBox Grid.Column="0" Grid.Row="1" IsReadOnly="True" Text="Расположение" BorderThickness="0" Margin="2,1" />
             <TextBox Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2"/>
 
-            <!--<TextBox Grid.Column="0" Grid.Row="2" IsReadOnly="True" Text="Авторазмеры" BorderThickness="0" Margin="2,1" />
-                <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding АвтоРазмеры, UpdateSourceTrigger=PropertyChanged}" Margin="2,1" />-->
-
             <TextBox Grid.Column="0" Grid.Row="3" IsReadOnly="True" Text="Ширина, м" BorderThickness="0" Margin="2,1" />
             <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Width,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" BorderThickness="0" Margin="2,1" />
 
@@ -614,6 +611,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1" />
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
@@ -623,6 +621,8 @@
 
             <TextBox Grid.Column="0" Grid.Row="2" IsReadOnly="True" Text="Связать с этажом ниже" BorderThickness="0" Margin="2,1" />
             <ComboBox Grid.Column="1" Grid.Row="2" SelectedItem="{Binding Path=СвязьЭтажомНиже, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Значения}" IsEnabled="{Binding СвязьЭтажомНижеАктивность, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  BorderThickness="0" Margin="2,1" />
+
+
         </Grid>
     </DataTemplate>
 
@@ -701,6 +701,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" IsReadOnly="True" Text="Название" BorderThickness="0" Margin="2,1" />
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="2,1"/>
@@ -728,6 +729,9 @@
 
             <TextBox Grid.Column="0" Grid.Row="9" IsReadOnly="True" Text="Время прохождения участка, мин" ToolTip="Время прохождения участка, мин" BorderThickness="0" Margin="2,1" />
             <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsReadOnly="True" BorderThickness="0" Margin="2,1" />
+
+            <TextBox Grid.Column="0" Grid.Row="10" IsReadOnly="True" Text="Авторазмеры" BorderThickness="0" Margin="2,1" />
+            <CheckBox Grid.Column="1" Grid.Row="10" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" Margin="2,1" />
         </Grid>
     </DataTemplate>
 

@@ -101,7 +101,7 @@ namespace FireSafety.VisualModels
                 var rect = new Rect((CWidth - width) / 2, (CHeight - height) / 2, width, height);
                 cropedRect = new Int32Rect((int)rect.Location.X, (int)rect.Location.Y, (int)rect.Width, (int)rect.Height);
 
-              
+
                 if (shadowIsActive)
                 {
                     var vector = new Vector(10, 10);
@@ -152,7 +152,11 @@ namespace FireSafety.VisualModels
 
         public void ApplyScale()
         {
-           
+            foreach (var entuty in VisualEntities.Where(x => x.Model is IScalable))
+            {
+                if ((entuty.Model as IScalable).AutoSize)
+                    (entuty.Model as IScalable).Length = Model.Scale.GetActualLength((entuty as VisualRoadSection).Length);
+            }
         }
     }
 }

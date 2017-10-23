@@ -11,6 +11,7 @@ namespace FireSafety.Models
         /// Автоматически подстраивать размеры в соответствии с масштабом
         /// </summary>
         bool AutoSize { get; }
+        double Length { get; set; }
     }
 
     /// <summary>

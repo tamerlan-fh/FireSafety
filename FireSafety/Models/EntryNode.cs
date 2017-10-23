@@ -8,7 +8,7 @@ namespace FireSafety.Models
     /// <summary>
     /// Дверной проем
     /// </summary>
-    class EntryNode : Node, ISection, IScalable
+    class EntryNode : Node, ISection
     {
         private static int index = 1;
         public EntryNode(Floor parent, Point position) : this(parent, position, string.Format("Дверь {0}", index++)) { }

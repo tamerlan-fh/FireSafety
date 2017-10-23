@@ -76,7 +76,7 @@ namespace FireSafety.Models
             get { return autoSize; }
             set { autoSize = value; OnPropertyChanged("AutoSize"); }
         }
-        private bool autoSize;
+        private bool autoSize = true;
 
         public override BitmapImage Icon { get { return Settings.Instance.УчастокПутиIco; } }
     }
