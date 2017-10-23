@@ -1,4 +1,5 @@
 ﻿using FireSafety.Models;
+using FireSafety.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -103,16 +104,36 @@ namespace FireSafety.VisualModels
                 moveInformation.Unit.Move(shift);
 
                 moveInformation.StartPosition = position;
+                return;
+            }
+
+            if (IsSetScale)
+            {
+                lastPointScale = e.GetPosition(this);
+                DrawScaleSection();
             }
         }
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             IsMoving = false;
+
+            if (IsSetScale)
+            {
+                var length = (lastPointScale - firstPointScale).Length;
+                if (length > 0)
+                {
+                    var win = new ScaleWindow(length, CurrentFloor.Model.Scale);
+                    if (win.ShowDialog() == true)
+                        CurrentFloor.Model.Scale = win.Scale;
+                }
+                visuals.Remove(scaleSection);
+                scaleSection = null;
+            }
         }
 
         #endregion
 
-        #region ПостроениеПути
+        #region Построение отрезков
 
         private VisualNode startSection = null;
         private bool IsMakingSection
@@ -169,44 +190,76 @@ namespace FireSafety.VisualModels
 
         #endregion
 
+        #region Масштабирование
+
+        private bool IsSetScale
+        {
+            get { return SelectedActionMode == ActionMode.SetScale && scaleSection != null; }
+        }
+
+        private Point firstPointScale;
+        private Point lastPointScale;
+        private DrawingVisual scaleSection;
+        private void DrawScaleSection()
+        {
+            if (scaleSection == null) return;
+            using (DrawingContext dc = scaleSection.RenderOpen())
+            {
+                var radius = 10;
+                var pen = new Pen(Brushes.Black, radius / 5);
+
+                dc.DrawEllipse(null, pen, firstPointScale, radius, radius);
+                dc.DrawLine(pen, firstPointScale + new Vector(-radius, 0), firstPointScale + new Vector(radius, 0));
+                dc.DrawLine(pen, firstPointScale + new Vector(0, -radius), firstPointScale + new Vector(0, radius));
+
+                dc.DrawEllipse(null, pen, lastPointScale, radius, radius);
+                dc.DrawLine(pen, lastPointScale + new Vector(-radius, 0), lastPointScale + new Vector(radius, 0));
+                dc.DrawLine(pen, lastPointScale + new Vector(0, -radius), lastPointScale + new Vector(0, radius));
+
+                dc.DrawLine(new Pen(Brushes.Black, radius / 5) { DashStyle = new DashStyle(new double[] { radius / 2, radius / 2 }, radius / 2) }, firstPointScale, lastPointScale);
+            }
+        }
+
+        #endregion
+
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             if (CurrentFloor == null) return;
             e.Handled = true;
-            var позиция = e.GetPosition(this);
+            var position = e.GetPosition(this);
             try
             {
                 switch (SelectedActionMode)
                 {
                     case ActionMode.AddStart:
                         {
-                            var старт = new StartNode(CurrentFloor.Model, позиция);
-                            AddVisualEntity(new VisualStartNode(старт, позиция, CurrentFloor)); break;
+                            var start = new StartNode(CurrentFloor.Model, position);
+                            AddVisualEntity(new VisualStartNode(start, position, CurrentFloor)); break;
                         }
                     case ActionMode.AddExit:
                         {
-                            var выход = new ExitNode(CurrentFloor.Model, позиция);
-                            AddVisualEntity(new VisualExitNode(выход, позиция, CurrentFloor)); break;
+                            var exit = new ExitNode(CurrentFloor.Model, position);
+                            AddVisualEntity(new VisualExitNode(exit, position, CurrentFloor)); break;
                         }
                     case ActionMode.AddEntry:
                         {
-                            var дверь = new EntryNode(CurrentFloor.Model, позиция);
-                            AddVisualEntity(new VisualEntryNode(дверь, позиция, CurrentFloor)); break;
+                            var entry = new EntryNode(CurrentFloor.Model, position);
+                            AddVisualEntity(new VisualEntryNode(entry, position, CurrentFloor)); break;
                         }
                     case ActionMode.AddStairs:
                     case ActionMode.AddRoad:
                         {
-                            MakeSection(позиция);
+                            MakeSection(position);
                             break;
                         }
                     case ActionMode.Move:
                         {
-                            var объект = CurrentFloor.GetVisualEntity(позиция);
-                            if (объект != null)
+                            var entity = CurrentFloor.GetVisualEntity(position);
+                            if (entity != null)
                             {
                                 e.Handled = true;
-                                moveInformation = new MoveInformation(объект.GetUnit(позиция), позиция);
-                                объект.Model.IsSelected = true;
+                                moveInformation = new MoveInformation(entity.GetUnit(position), position);
+                                entity.Model.IsSelected = true;
                             }
                             else
                                 e.Handled = false;
@@ -215,8 +268,18 @@ namespace FireSafety.VisualModels
                         }
                     case ActionMode.Remove:
                         {
-                            var объект = CurrentFloor.GetVisualEntity(позиция);
-                            CurrentFloor.RemoveVisualEntity(объект);
+                            var entity = CurrentFloor.GetVisualEntity(position);
+                            CurrentFloor.RemoveVisualEntity(entity);
+                            break;
+                        }
+                    case ActionMode.SetScale:
+                        {
+                            firstPointScale = position;
+                            lastPointScale = position;
+
+                            scaleSection = new DrawingVisual();
+                            visuals.Add(scaleSection);
+                            DrawScaleSection();
                             break;
                         }
                 }
@@ -257,10 +320,10 @@ namespace FireSafety.VisualModels
                 building.Model.Floors.CollectionChanged -= FloorsCollectionChanged;
             buildings.Clear();
         }
-        private void AddVisualEntity(VisualEntity объект)
+        private void AddVisualEntity(VisualEntity entry)
         {
             if (CurrentFloor == null) return;
-            CurrentFloor.AddVisualEntity(объект);
+            CurrentFloor.AddVisualEntity(entry);
         }
 
         private void ApplyingNewValues(ObservableCollection<Building> newBuildings)
@@ -296,8 +359,8 @@ namespace FireSafety.VisualModels
             if (дубликат != null) return;
 
             buildings.Add(new VisualBuilding(building));
-            foreach (var этаж in building.Floors)
-                AddFloor(этаж);
+            foreach (var floor in building.Floors)
+                AddFloor(floor);
             building.Floors.CollectionChanged += FloorsCollectionChanged;
         }
         private void FloorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -306,22 +369,22 @@ namespace FireSafety.VisualModels
             {
                 case NotifyCollectionChangedAction.Add:
                     {
-                        foreach (var этаж in e.NewItems)
-                            AddFloor(этаж as Floor);
+                        foreach (var floor in e.NewItems)
+                            AddFloor(floor as Floor);
                         break;
                     }
                 case NotifyCollectionChangedAction.Remove:
                     {
-                        foreach (var этаж in e.OldItems)
-                            RemoveFloor(этаж as Floor);
+                        foreach (var floor in e.OldItems)
+                            RemoveFloor(floor as Floor);
                         break;
                     }
             }
         }
         private void AddFloor(Floor floor)
         {
-            var дубликат = floors.FirstOrDefault(x => x.Model == floor);
-            if (дубликат != null) return;
+            var clone = floors.FirstOrDefault(x => x.Model == floor);
+            if (clone != null) return;
 
             floors.Add(new VisualFloor(floor));
         }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="FireSafety.MainWindow"
+﻿<Window x:Class="FireSafety.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,7 +11,7 @@
         xmlns:vm="clr-namespace:FireSafety.VisualModels"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="ПО пожарного риска" Height="720" Width="1280" Icon="Icons/usatu.ico" WindowStartupLocation="CenterScreen">
+        Title="ПО пожарного риска" Height="720" Width="1280"  WindowStartupLocation="CenterScreen" Icon="/FireSafety;component/Icons/usatu.ico">
     <Window.Resources>
         <cnvrt:TimeSpanConverter x:Key="TimeSpanConverter" />
         <cnvrt:ActionModeConverter x:Key="ActionModeConverter" />
@@ -50,52 +50,52 @@
 
             <StackPanel Grid.Column="0" Margin="0,0,30,0" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Vertical">
                 <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding LoadBuildingCommand}" Margin="5" ToolTip="Загрузить здание">
-                    <Image Source="Icons/ОткрытьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/ОткрытьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </Button>
                 <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding SaveBuldingCommand}" Margin="5" ToolTip="Сохранить текущее здание">
-                    <Image Source="Icons/СохранитьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/СохранитьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </Button>
                 <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding ComposeReportCommand}" Margin="5" ToolTip="Сформировать отчет">
-                    <Image Source="Icons/ОтчетIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/ОтчетIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </Button>
                 <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding CalculateBlockageEvacuationRoutesCommand}" Margin="5" ToolTip="Рассчет блокирования путей эвакуации">
-                    <Image Source="Icons/БлокировкаIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/БлокировкаIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </Button>
                 <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding CalculateFireRiskCommand}" Margin="5" ToolTip="Рассчет пожарного риска">
-                    <Image Source="Icons/РискIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/РискIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </Button>
             </StackPanel>
 
             <StackPanel Grid.Column="0" Margin="30,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
                 <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.Move}}" Margin="5" ToolTip="Курсор">
-                    <Image Source="Icons/УказательIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/УказательIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </RadioButton>
                 <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.AddEntry}}" Margin="5" ToolTip="Дверной проем">
-                    <Image Source="Icons/ДверьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/ДверьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </RadioButton>
                 <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.AddExit}}" Margin="5" ToolTip="Выход">
-                    <Image Source="Icons/ВыходIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/ВыходIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </RadioButton>
                 <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.AddStart}}" Margin="5" ToolTip="Старт">
-                    <Image Source="Icons/СтартIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/СтартIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </RadioButton>
                 <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.AddRoad}}" Margin="5" ToolTip="Построение пути эвакуации">
-                    <Image Source="Icons/ПутьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/ПутьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </RadioButton>
                 <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.AddStairs}}" Margin="5" ToolTip="Лестница">
-                    <Image Source="Icons/ЛестницаIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/ЛестницаIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </RadioButton>
                 <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.Remove}}" Margin="5" ToolTip="Удалить">
-                    <Image Source="Icons/УдалитьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/УдалитьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </RadioButton>
             </StackPanel>
 
             <StackPanel Grid.Column="0" Margin="30,0,0,30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
                 <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding CurrentFloor.LoadFloorPlanCommand}" Margin="5" ToolTip="Сменить план этажа">
-                    <Image Source="Icons/СлоиIco-46.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/СлоиIco-46.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </Button>
                 <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.SetScale}}" Margin="5" ToolTip="Масштаб">
-                    <Image Source="Icons/ЛинейкаIco-46.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                    <Image Source="/FireSafety;component/Icons/ЛинейкаIco-46.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                 </RadioButton>
                 <Slider  Width="150" x:Name="ZoomSlider" Minimum="0.1" Maximum="3.5" Value="1.0" Margin="5" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center" />
             </StackPanel>
@@ -124,13 +124,13 @@
 
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8" >
                     <Button Style="{StaticResource RectButtonTemplate}" Height="50" Command="{Binding AddBuildingCommand}" ToolTip="Добавить Здание">
-                        <Image Source="Icons/ЗданиеIco.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                        <Image Source="/FireSafety;component/Icons/ЗданиеIco.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                     </Button>
                     <Button Style="{StaticResource RectButtonTemplate}" Height="50" Command="{Binding AddFloorCommand}" Margin="5,0,0,0" ToolTip="Добавить Этаж">
-                        <Image Source="Icons/ЭтажIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                        <Image Source="/FireSafety;component/Icons/ЭтажIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                     </Button>
                     <Button Style="{StaticResource RectButtonTemplate}" Height="50" Command="{Binding RemoveSelectedEntityCommand}" Margin="5,0,0,0" ToolTip="Удалить">
-                        <Image Source="Icons/УдалитьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
+                        <Image Source="/FireSafety;component/Icons/УдалитьIco-64.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
                     </Button>
                 </StackPanel>
 

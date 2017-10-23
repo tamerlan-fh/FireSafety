@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
@@ -6,7 +7,7 @@ namespace FireSafety.Models
     /// <summary>
     /// Абстрактный класс единица участка пути
     /// </summary>
-    abstract class Section : Entity, ISection
+    abstract class Section : Entity, ISection, IScalable
     {
         public Section(string title, Entity parent) : base(title, parent) { }
 
@@ -69,6 +70,13 @@ namespace FireSafety.Models
             set { movementTime = value; OnPropertyChanged("MovementTime"); }
         }
         private double movementTime;
+
+        public bool AutoSize
+        {
+            get { return autoSize; }
+            set { autoSize = value; OnPropertyChanged("AutoSize"); }
+        }
+        private bool autoSize;
 
         public override BitmapImage Icon { get { return Settings.Instance.УчастокПутиIco; } }
     }

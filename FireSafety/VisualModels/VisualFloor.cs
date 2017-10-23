@@ -149,5 +149,10 @@ namespace FireSafety.VisualModels
 
             return null;
         }
+
+        public void ApplyScale()
+        {
+           
+        }
     }
 }

@@ -4,9 +4,8 @@ using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
-namespace FireSafety
+namespace FireSafety.ViewModels
 {
     class MainWindowViewModel : BasePropertyChanged
     {

@@ -1,4 +1,5 @@
-﻿using System.Windows.Media.Imaging;
+﻿using FireSafety.ViewModels;
+using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
@@ -58,11 +59,5 @@ namespace FireSafety.Models
         {
             return Title;
         }
-        public bool AutoSize
-        {
-            get { return autoSize; }
-            set { autoSize = value; OnPropertyChanged("AutoSize"); }
-        }
-        private bool autoSize;
     }
 }

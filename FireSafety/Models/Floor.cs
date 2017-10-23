@@ -157,7 +157,7 @@ namespace FireSafety.Models
                 OnPropertyChanged("Scale");
             }
         }
-        private ZoomTool scale;
+        private ZoomTool scale = ZoomTool.Empty;
         public override BitmapImage Icon { get { return Settings.Instance.ЭтажIco; } }
     }
 }

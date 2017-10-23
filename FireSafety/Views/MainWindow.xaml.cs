@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using FireSafety.ViewModels;
+using System.Windows;
 
-namespace FireSafety
+namespace FireSafety.Views
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FireSafety
+namespace FireSafety.ViewModels
 {
     class BasePropertyChanged : INotifyPropertyChanged
     {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -7,7 +8,7 @@ namespace FireSafety.Models
     /// <summary>
     /// Дверной проем
     /// </summary>
-    class EntryNode : Node, ISection
+    class EntryNode : Node, ISection, IScalable
     {
         private static int index = 1;
         public EntryNode(Floor parent, Point position) : this(parent, position, string.Format("Дверь {0}", index++)) { }
@@ -58,5 +59,17 @@ namespace FireSafety.Models
             set { movementTime = value; OnPropertyChanged("MovementTime"); }
         }
         private double movementTime;
+
+        public bool AutoSize
+        {
+            get { return autoSize; }
+            set { autoSize = value; OnPropertyChanged("AutoSize"); }
+        }
+        private bool autoSize;
+
+        public void ApplyScale()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
