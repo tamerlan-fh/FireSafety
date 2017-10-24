@@ -15,15 +15,6 @@
     <Window.Resources>
         <cnvrt:TimeSpanConverter x:Key="TimeSpanConverter" />
         <cnvrt:ActionModeConverter x:Key="ActionModeConverter" />
-
-        <!--<vm:ActionMode x:Key="Move">Move</vm:ActionMode>
-        <vm:ActionMode x:Key="AddEntry" >AddEntry</vm:ActionMode>
-        <vm:ActionMode x:Key="AddStart" >AddStart</vm:ActionMode>
-        <vm:ActionMode x:Key="AddExit" >AddExit</vm:ActionMode>
-        <vm:ActionMode x:Key="AddStairs" >AddStairs</vm:ActionMode>
-        <vm:ActionMode x:Key="AddRoad" >AddRoad</vm:ActionMode>
-        <vm:ActionMode x:Key="Remove" >Remove</vm:ActionMode>
-        <vm:ActionMode x:Key="SetScale" >SetScale</vm:ActionMode>-->
     </Window.Resources>
 
     <DockPanel>
@@ -101,7 +92,7 @@
             </StackPanel>
 
             <DockPanel Margin="10" Grid.Column="1">
-                <HeaderedContentControl DockPanel.Dock="Bottom" Height="200" >
+                <HeaderedContentControl DockPanel.Dock="Bottom" Height="auto" >
                     <HeaderedContentControl.Header>
                         <TextBox Text="Свойства" IsReadOnly="True" BorderThickness="0" FontWeight="Bold" />
                     </HeaderedContentControl.Header>
@@ -110,13 +101,13 @@
                         <ContentPresenter.ContentTemplateSelector>
                             <ctrl:ControlTemplateSelector 
                                 ControlTemplateОбъект="{StaticResource ControlTemplateEntity}" 
-                                ControlTemplateДверь="{StaticResource ControlTemplateEntryNode}"
-                                ControlTemplateПуть="{StaticResource ControlTemplateRoute}"
-                                ControlTemplateСтарт="{StaticResource ControlTemplateStartNode}"
-                                ControlTemplateУчастокПути="{StaticResource ControlTemplateRoadSection}"
-                                ControlTemplateЗдание="{StaticResource ControlTemplateBuilding}"
-                                ControlTemplateЭтаж="{StaticResource ControlTemplateFloor}"
-                                ControlTemplateУзелЛестницы="{StaticResource ControlTemplateStairsNode}"/>
+                                ControlTemplateEntryNode="{StaticResource ControlTemplateEntryNode}"
+                                ControlTemplateRoute="{StaticResource ControlTemplateRoute}"
+                                ControlTemplateStartNode="{StaticResource ControlTemplateStartNode}"
+                                ControlTemplateRoadSection="{StaticResource ControlTemplateRoadSection}"
+                                ControlTemplateBuilding="{StaticResource ControlTemplateBuilding}"
+                                ControlTemplateFloor="{StaticResource ControlTemplateFloor}"
+                                ControlTemplateStairsNode="{StaticResource ControlTemplateStairsNode}"/>
                         </ContentPresenter.ContentTemplateSelector>
                     </ContentPresenter>
                 </HeaderedContentControl>
