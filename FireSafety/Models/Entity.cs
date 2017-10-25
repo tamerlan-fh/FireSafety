@@ -1,4 +1,5 @@
 ﻿using FireSafety.ViewModels;
+using System;
 using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
@@ -6,6 +7,7 @@ namespace FireSafety.Models
     /// <summary>
     /// Сущность, прародитель всех остальных
     /// </summary>
+    
     abstract class Entity : BasePropertyChanged
     {
         /// <summary>
@@ -43,6 +45,7 @@ namespace FireSafety.Models
                 else Status = EntityStatus.Normal;
             }
         }
+        
         private bool isSelected;
         public virtual EntityStatus Status
         {
@@ -53,6 +56,7 @@ namespace FireSafety.Models
                 status = value; OnPropertyChanged("Status");
             }
         }
+        
         private EntityStatus status;
         public abstract BitmapImage Icon { get; }
         public override string ToString()

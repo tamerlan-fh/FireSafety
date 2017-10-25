@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
@@ -6,6 +7,7 @@ namespace FireSafety.Models
     /// <summary>
     /// Выход
     /// </summary>
+    
     class ExitNode : Node
     {
         private static int index = 1;

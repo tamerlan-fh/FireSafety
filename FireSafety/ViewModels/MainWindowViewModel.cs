@@ -1,4 +1,5 @@
-﻿using FireSafety.Models;
+﻿using FireSafety.IO;
+using FireSafety.Models;
 using FireSafety.VisualModels;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
@@ -84,11 +85,12 @@ namespace FireSafety.ViewModels
             AddBuildingCommand = new RelayCommand(param => this.AddBuilding());
             AddFloorCommand = new RelayCommand(param => this.AddFloor(), param => CurrentBuilding != null);
             RemoveSelectedEntityCommand = new RelayCommand(param => this.RemoveSelectedEntity(), param => CanRemoveSelectedEntity());
-            LoadBuildingCommand = new RelayCommand(param => LoadBuilding());
             CalculateBlockageEvacuationRoutesCommand = new RelayCommand(param => CurrentBuilding.CalculateBlockageEvacuationRoutes(), param => CurrentBuilding != null);
             CalculateFireRiskCommand = new RelayCommand(param => CurrentBuilding.CalculateFireRisk(), param => CurrentBuilding != null);
             ComposeReportCommand = new RelayCommand(param => CurrentBuilding.ComposeReport(), param => CurrentBuilding != null);
-            SaveBuldingCommand = new RelayCommand(param => CurrentBuilding.Save(), param => CurrentBuilding != null);
+
+            SaveBuldingCommand = new RelayCommand(param => SaveBuilding(), param => CurrentBuilding != null);
+            LoadBuildingCommand = new RelayCommand(param => LoadBuilding());
 
             Buildings = new ObservableCollection<Building>();
             var bilding = new Building();
@@ -101,7 +103,11 @@ namespace FireSafety.ViewModels
 
         private void AddBuilding()
         {
-            Buildings.Add(new Building());
+            AddBuilding(new Building());
+        }
+        private void AddBuilding(Building building)
+        {
+            Buildings.Add(building);
         }
         private void AddFloor()
         {
@@ -180,16 +186,27 @@ namespace FireSafety.ViewModels
         private void LoadBuilding()
         {
             var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.Filter = "dat files (*.dat)|*.dat|All files (*.*)|*.*";
             openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
 
             if (openFileDialog.ShowDialog() != true) return;
 
+            var b = SaveBuildingManager.Instance.Load(openFileDialog.FileName);
+            AddBuilding(b);
         }
-        private void SaveBulding()
-        {
 
+        private void SaveBuilding()
+        {
+            var saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "dat files (*.dat)|*.dat|All files (*.*)|*.*";
+            saveFileDialog.FilterIndex = 2;
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.FileName = string.Format("{0}.dat", CurrentBuilding.Title);
+
+            if (saveFileDialog.ShowDialog() == true)
+                SaveBuildingManager.Instance.Save(CurrentBuilding, saveFileDialog.FileName);
         }
     }
 }

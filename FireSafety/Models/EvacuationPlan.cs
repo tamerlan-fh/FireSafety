@@ -115,7 +115,7 @@ namespace FireSafety.Models
 
                 foreach (var участок in route.Sections.Skip(1))
                 {
-                    if (участок is FloorsConnection) continue;
+                    if (участок is FloorsConnectionSection) continue;
 
                     if (участок.GetType() == typeof(RoadSection))
                     {
@@ -228,7 +228,7 @@ namespace FireSafety.Models
             foreach (var route in routes)
             {
                 document.InsertParagraph(route.Title, false, заголовок1);
-                var числоСтрок = route.Sections.Count - route.Sections.Count(x => x is FloorsConnection) + 1;
+                var числоСтрок = route.Sections.Count - route.Sections.Count(x => x is FloorsConnectionSection) + 1;
                 var таблица = document.AddTable(числоСтрок, 7);
                 таблица.Rows[0].Cells[0].Paragraphs.First().InsertText("Участок", false, заголовок2);
                 таблица.Rows[0].Cells[1].Paragraphs.First().InsertText("Длина, м", false, заголовок2);
@@ -241,7 +241,7 @@ namespace FireSafety.Models
                 var строка = 1;
                 foreach (var участок in route.Sections)
                 {
-                    if (участок is FloorsConnection) continue;
+                    if (участок is FloorsConnectionSection) continue;
                     таблица.Rows[строка].Cells[0].Paragraphs.First().InsertText(участок.Title, false, нормальный);
                     таблица.Rows[строка].Cells[1].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(участок.Length, 3)), false, нормальный);
                     таблица.Rows[строка].Cells[2].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(участок.Width, 3)), false, нормальный);

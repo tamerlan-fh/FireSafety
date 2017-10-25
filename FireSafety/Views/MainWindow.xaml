@@ -168,14 +168,15 @@
                     </TreeView.Resources>
                 </ctrl:ModifiedTreeView>
 
-                <HeaderedContentControl Grid.Row="3" Height="auto" >
-                    <HeaderedContentControl.Header>
-                        <TextBox Text="Свойства" IsReadOnly="True" BorderThickness="0" FontWeight="Bold" />
-                    </HeaderedContentControl.Header>
-                    <ContentPresenter Content="{Binding SelectedEntity, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                        <ContentPresenter.ContentTemplateSelector>
-                            <ctrl:ControlTemplateSelector 
-                                ControlTemplateОбъект="{StaticResource ControlTemplateEntity}" 
+                <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
+                    <HeaderedContentControl  >
+                        <HeaderedContentControl.Header>
+                            <TextBox Text="Свойства" IsReadOnly="True" BorderThickness="0" FontWeight="Bold" />
+                        </HeaderedContentControl.Header>
+                        <ContentPresenter Content="{Binding SelectedEntity, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                            <ContentPresenter.ContentTemplateSelector>
+                                <ctrl:ControlTemplateSelector 
+                                ControlTemplateEntity="{StaticResource ControlTemplateEntity}" 
                                 ControlTemplateEntryNode="{StaticResource ControlTemplateEntryNode}"
                                 ControlTemplateRoute="{StaticResource ControlTemplateRoute}"
                                 ControlTemplateStartNode="{StaticResource ControlTemplateStartNode}"
@@ -183,9 +184,10 @@
                                 ControlTemplateBuilding="{StaticResource ControlTemplateBuilding}"
                                 ControlTemplateFloor="{StaticResource ControlTemplateFloor}"
                                 ControlTemplateStairsNode="{StaticResource ControlTemplateStairsNode}"/>
-                        </ContentPresenter.ContentTemplateSelector>
-                    </ContentPresenter>
-                </HeaderedContentControl>
+                            </ContentPresenter.ContentTemplateSelector>
+                        </ContentPresenter>
+                    </HeaderedContentControl>
+                </ScrollViewer>
             </Grid>
         </Grid>
     </DockPanel>

@@ -13,30 +13,29 @@ namespace FireSafety.Models
         public StairsNode(Floor parent, Point position) : this(parent, position, string.Format("Лестничный узел {0}", index++)) { }
         public StairsNode(Floor parent, Point position, string title) : base(parent, position, title)
         {
-
-            Значения = new БулевТип[] { new БулевТип(false), new БулевТип(true) };
-            СвязьЭтажомНиже = Значения.FirstOrDefault(x => !x.Значение);
+            IsFloorsConnected = false;
         }
         public override BitmapImage Icon { get { return Settings.Instance.УзелIco; } }
-        public БулевТип СвязьЭтажомНиже
+
+
+        public bool IsFloorsConnected
         {
-            get { return связьЭтажомНиже; }
+            get { return isFloorsConnected; }
             set
             {
-                //   if (!СвязьЭтажомНижеАктивность) { OnPropertyChanged("СвязьЭтажомНижеАктивность"); return; }
-
-                связьЭтажомНиже = value; OnPropertyChanged("СвязьЭтажомНиже");
-                if (связьЭтажомНиже.Значение)
-                    ParentFloor.ДобавитьСпуск(this);
+                isFloorsConnected = value; OnPropertyChanged("IsFloorsConnected");
+                if (IsFloorsConnected)
+                    ParentFloor.AddFloorsConnectionSection(this);
             }
         }
-        private БулевТип связьЭтажомНиже;
+        private bool isFloorsConnected;
 
-        public БулевТип[] Значения { get; private set; }
-        public bool СвязьЭтажомНижеАктивность
+
+        public bool CanAddFloorsConnection
         {
-            get { return ParentFloor.FloorIndex != 1 && (СвязьЭтажомНиже.Значение || !OutgoingSections.Any()); }
+            get { return ParentFloor.FloorIndex != 1 && (IsFloorsConnected || !OutgoingSections.Any()); }
         }
+     
         public override void AddSection(Section section)
         {
             base.AddSection(section);
@@ -46,19 +45,6 @@ namespace FireSafety.Models
         {
             base.RemoveSection(section);
             OnPropertyChanged("СвязьЭтажомНижеАктивность");
-        }
-    }
-
-    class БулевТип
-    {
-        public БулевТип(bool значение)
-        {
-            Значение = значение;
-        }
-        public bool Значение;
-        public override string ToString()
-        {
-            return Значение ? "Да" : "Нет";
         }
     }
 }

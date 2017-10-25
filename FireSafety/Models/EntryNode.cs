@@ -8,21 +8,19 @@ namespace FireSafety.Models
     /// <summary>
     /// Дверной проем
     /// </summary>
+    
     class EntryNode : Node, ISection
     {
+        
         private static int index = 1;
         public EntryNode(Floor parent, Point position) : this(parent, position, string.Format("Дверь {0}", index++)) { }
         public EntryNode(Floor parent, Point position, string title) : base(parent, position, title)
         {
             Width = 1;
+            Length = 0;
         }
 
-        public virtual double Length
-        {
-            get { return length; }
-            set { length = value; OnPropertyChanged("Length"); }
-        }
-        private double length;
+        public virtual double Length { get; private set; } 
         public virtual double Width
         {
             get { return width; }
@@ -59,13 +57,6 @@ namespace FireSafety.Models
             set { movementTime = value; OnPropertyChanged("MovementTime"); }
         }
         private double movementTime;
-
-        public bool AutoSize
-        {
-            get { return autoSize; }
-            set { autoSize = value; OnPropertyChanged("AutoSize"); }
-        }
-        private bool autoSize;
 
         public void ApplyScale()
         {

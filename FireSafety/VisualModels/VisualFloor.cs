@@ -17,9 +17,9 @@ namespace FireSafety.VisualModels
     {
         public Floor Model { get; private set; }
         public List<VisualEntity> VisualEntities { get; private set; }
-        public VisualFloor(Floor модель)
+        public VisualFloor(Floor model)
         {
-            Model = модель;
+            Model = model;
 
             this.VisualEntities = new List<VisualEntity>();
 
@@ -27,6 +27,35 @@ namespace FireSafety.VisualModels
             Model.PropertyChanged += ModelPropertyChanged;
             Model.Objects.CollectionChanged += EntitiesCollectionChanged;
             Model.GetEvacuationPlanImage = GetEvacuationPlanImage;
+
+            Initialization();
+        }
+
+        private void Initialization()
+        {
+            foreach (var obj in Model.Objects)
+            {
+                if (obj is StartNode) { AddVisual(new VisualStartNode(obj as StartNode, this)); continue; }
+                if (obj is EntryNode) { AddVisual(new VisualEntryNode(obj as EntryNode, this)); continue; }
+                if (obj is ExitNode) { AddVisual(new VisualExitNode(obj as ExitNode, this)); continue; }
+                if (obj is StairsNode) { AddVisual(new VisualStairsNode(obj as StairsNode, this)); continue; }
+                if (obj is RoadNode) { AddVisual(new VisualNode(obj as RoadNode, this)); continue; }
+
+
+
+                if (obj is Section)
+                {
+                    var first = (VisualNode)VisualEntities.Where(x => x.Model is Node).FirstOrDefault(x => x.Model == (obj as Section).First);
+                    var last = (VisualNode)VisualEntities.Where(x => x.Model is Node).FirstOrDefault(x => x.Model == (obj as Section).Last);
+                    if (first != null && last != null)
+                    {
+                        if (obj is RoadSection)
+                            AddVisual(new VisualRoadSection(first, last, obj as RoadSection, this));
+                        else if (obj is StairsSection)
+                            AddVisual(new VisualStairsSection(first, last, obj as StairsSection, this));
+                    }
+                }
+            }
         }
 
         private EvacuationPlanImage GetEvacuationPlanImage()
@@ -47,11 +76,11 @@ namespace FireSafety.VisualModels
             {
                 foreach (var item in e.OldItems)
                 {
-                    var объект = VisualEntities.FirstOrDefault(x => x.Model == item);
-                    if (объект == null) continue;
+                    var obj = VisualEntities.FirstOrDefault(x => x.Model == item);
+                    if (obj == null) continue;
 
-                    VisualEntities.Remove(объект);
-                    Children.Remove(объект);
+                    VisualEntities.Remove(obj);
+                    Children.Remove(obj);
                 }
             }
 
@@ -59,12 +88,12 @@ namespace FireSafety.VisualModels
             {
                 foreach (var item in e.NewItems)
                 {
-                    if (VisualEntities.FirstOrDefault(x => x.Model == item) != null) continue;
+                    if (VisualEntities.Any(x => x.Model == item)) continue;
 
                     if (item.GetType() == typeof(StairsNode))
                     {
-                        var узел = item as StairsNode;
-                        AddVisualEntity(new VisualNode(узел, узел.Position, this));
+                        var node = item as StairsNode;
+                        AddVisualEntity(new VisualNode(node, this));
                     }
                 }
             }
@@ -119,11 +148,16 @@ namespace FireSafety.VisualModels
         #endregion
         public void AddVisualEntity(VisualEntity entity)
         {
-            if (entity == null || VisualEntities.Contains(entity) || VisualEntities.FirstOrDefault(x => x.Model == entity.Model) != null) return;
+            AddVisual(entity);
+            Model.AddObject(entity.Model);
+        }
 
-            if (entity is VisualRoadSection)
+        private void AddVisual(VisualEntity entity)
+        {
+            if (entity == null || VisualEntities.Contains(entity) || VisualEntities.Any(x => x.Model == entity.Model)) return;
+
+            if (entity.Model is Section)
             {
-                // ДобавитьУчасток(объект as VisualУчастокПути);
                 VisualEntities.Insert(0, entity);
                 Children.Insert(0, entity);
             }
@@ -132,8 +166,6 @@ namespace FireSafety.VisualModels
                 VisualEntities.Add(entity);
                 Children.Add(entity);
             }
-            Model.AddObject(entity.Model);
-
         }
         public void RemoveVisualEntity(VisualEntity entity)
         {

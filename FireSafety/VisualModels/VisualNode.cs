@@ -8,7 +8,7 @@ namespace FireSafety.VisualModels
     class VisualNode : VisualEntity
     {
         public Node NodeModel { get { return Model as Node; } }
-        public VisualNode(Node node, Point position, VisualFloor parent) : base(node, position, parent)
+        public VisualNode(Node node, VisualFloor parent) : base(node, node.Position, parent)
         {
             Width = VisualRoadSection.Thickness + 5;
             Height = VisualRoadSection.Thickness + 5;

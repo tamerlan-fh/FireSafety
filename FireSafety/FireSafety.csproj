@@ -79,6 +79,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IO\BuildingSaveFile.cs" />
+    <Compile Include="IO\SaveBuildingManager.cs" />
+    <Compile Include="ValueConverters\BooleanValueConverter.cs" />
     <Compile Include="ViewModels\BasePropertyChanged.cs" />
     <Compile Include="Controls\ControlTemplateSelector.cs" />
     <Compile Include="Controls\ModifiedTreeView.cs" />
@@ -111,7 +114,7 @@
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\EntityStatus.cs" />
-    <Compile Include="Models\FloorsConnection.cs" />
+    <Compile Include="Models\FloorsConnectionSection.cs" />
     <Compile Include="Models\StartNode.cs" />
     <Compile Include="Models\Node.cs" />
     <Compile Include="Models\StairsNode.cs" />

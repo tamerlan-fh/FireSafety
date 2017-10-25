@@ -13,16 +13,16 @@ namespace FireSafety.VisualModels
         private VisualPoint topRight;
         private VisualPoint bottomLeft;
         private VisualPoint bottomRight;
-        public VisualEntryNode(EntryNode node, Point position, VisualFloor floor) : base(node, position, floor)
+        public VisualEntryNode(EntryNode node, VisualFloor floor) : base(node, floor)
         {
             points = new List<VisualPoint>();
             var dx = 60;
             var dy = 30;
 
-            topLeft = new VisualPoint(position + new Vector(-dx, -dy)); AddPoint(topLeft);
-            topRight = new VisualPoint(position + new Vector(dx, -dy)); AddPoint(topRight);
-            bottomRight = new VisualPoint(position + new Vector(dx, dy)); AddPoint(bottomRight);
-            bottomLeft = new VisualPoint(position + new Vector(-dx, dy)); AddPoint(bottomLeft);
+            topLeft = new VisualPoint(node.Position + new Vector(-dx, -dy)); AddPoint(topLeft);
+            topRight = new VisualPoint(node.Position + new Vector(dx, -dy)); AddPoint(topRight);
+            bottomRight = new VisualPoint(node.Position + new Vector(dx, dy)); AddPoint(bottomRight);
+            bottomLeft = new VisualPoint(node.Position + new Vector(-dx, dy)); AddPoint(bottomLeft);
             Dimensions = new Rect(bottomLeft.Position, topRight.Position);
             Draw();
         }

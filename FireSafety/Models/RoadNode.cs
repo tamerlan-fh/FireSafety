@@ -1,10 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace FireSafety.Models
 {
     /// <summary>
     /// узел пути
-    /// </summary>
+    /// </summary>   
     class RoadNode : Node
     {
         private static int index = 1;

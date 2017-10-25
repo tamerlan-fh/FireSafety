@@ -7,7 +7,7 @@ namespace FireSafety.VisualModels
     class VisualStairsNode : VisualNode
     {
         public StairsNode StairsNode { get { return Model as StairsNode; } }
-        public VisualStairsNode(Node node, Point position, VisualFloor floor) : base(node, position, floor)
+        public VisualStairsNode(Node node, VisualFloor floor) : base(node, floor)
         {
             normalBrush = Brushes.Orange;
             selectBrush = normalBrush;
@@ -31,7 +31,7 @@ namespace FireSafety.VisualModels
                 }
 
                 dc.DrawEllipse(normalBrush, normalPen, Position, radiusX, radiusY);
-                if (StairsNode.СвязьЭтажомНиже.Значение)
+                if (StairsNode.IsFloorsConnected)
                 {
                     var v = new Vector(Width, Height);
                 }

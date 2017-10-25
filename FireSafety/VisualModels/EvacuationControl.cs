@@ -157,9 +157,9 @@ namespace FireSafety.VisualModels
                 switch (SelectedActionMode)
                 {
                     case ActionMode.AddStairs:
-                        node = new VisualStairsNode(new StairsNode(CurrentFloor.Model, position), position, CurrentFloor); break;
+                        node = new VisualStairsNode(new StairsNode(CurrentFloor.Model, position), CurrentFloor); break;
                     case ActionMode.AddRoad:
-                        node = new VisualNode(new RoadNode(CurrentFloor.Model, position), position, CurrentFloor); break;
+                        node = new VisualNode(new RoadNode(CurrentFloor.Model, position), CurrentFloor); break;
                 }
                 AddVisualEntity(node);
 
@@ -237,17 +237,17 @@ namespace FireSafety.VisualModels
                     case ActionMode.AddStart:
                         {
                             var start = new StartNode(CurrentFloor.Model, position);
-                            AddVisualEntity(new VisualStartNode(start, position, CurrentFloor)); break;
+                            AddVisualEntity(new VisualStartNode(start, CurrentFloor)); break;
                         }
                     case ActionMode.AddExit:
                         {
                             var exit = new ExitNode(CurrentFloor.Model, position);
-                            AddVisualEntity(new VisualExitNode(exit, position, CurrentFloor)); break;
+                            AddVisualEntity(new VisualExitNode(exit, CurrentFloor)); break;
                         }
                     case ActionMode.AddEntry:
                         {
                             var entry = new EntryNode(CurrentFloor.Model, position);
-                            AddVisualEntity(new VisualEntryNode(entry, position, CurrentFloor)); break;
+                            AddVisualEntity(new VisualEntryNode(entry, CurrentFloor)); break;
                         }
                     case ActionMode.AddStairs:
                     case ActionMode.AddRoad:
@@ -358,8 +358,8 @@ namespace FireSafety.VisualModels
         }
         private void AddBuilding(Building building)
         {
-            var дубликат = buildings.FirstOrDefault(x => x.Model == building);
-            if (дубликат != null) return;
+            var clone = buildings.FirstOrDefault(x => x.Model == building);
+            if (clone != null) return;
 
             buildings.Add(new VisualBuilding(building));
             foreach (var floor in building.Floors)

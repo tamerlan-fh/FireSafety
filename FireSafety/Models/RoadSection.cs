@@ -1,8 +1,11 @@
-﻿namespace FireSafety.Models
+﻿using System;
+
+namespace FireSafety.Models
 {
     /// <summary>
     /// участок пути
     /// </summary>
+    
     class RoadSection : Section
     {
         private static int index = 1;

@@ -6,7 +6,7 @@ namespace FireSafety.VisualModels
 {
     class VisualExitNode : VisualNode
     {
-        public VisualExitNode(ExitNode node, Point position, VisualFloor floor) : base(node, position, floor)
+        public VisualExitNode(ExitNode node,  VisualFloor floor) : base(node, floor)
         {
             Width = 60;
             Height = 60;

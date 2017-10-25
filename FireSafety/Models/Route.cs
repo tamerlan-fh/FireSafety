@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
+    
     class Route : Entity, IDisposable
     {
         private static int index = 1;

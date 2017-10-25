@@ -17,6 +17,7 @@ namespace FireSafety.Models
     /// <summary>
     /// Сведения о маштабе 
     /// </summary>
+    
     public class ZoomTool
     {
         /// <summary>

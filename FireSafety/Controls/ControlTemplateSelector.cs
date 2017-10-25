@@ -6,7 +6,7 @@ namespace FireSafety.Controls
 {
     public class ControlTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate ControlTemplateОбъект { get; set; }
+        public DataTemplate ControlTemplateEntity { get; set; }
         public DataTemplate ControlTemplateEntryNode { get; set; }
         public DataTemplate ControlTemplateFloor { get; set; }
         public DataTemplate ControlTemplateStartNode { get; set; }
@@ -24,8 +24,8 @@ namespace FireSafety.Controls
             if (item is Route) return ControlTemplateRoute;
             if (item is RoadSection) return ControlTemplateRoadSection;
             if (item is StairsNode) return ControlTemplateStairsNode;
-
-            return ControlTemplateОбъект;
+            
+            return ControlTemplateEntity;
         }
     }
 }

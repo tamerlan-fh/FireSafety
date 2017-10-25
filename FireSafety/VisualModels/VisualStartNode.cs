@@ -6,7 +6,7 @@ namespace FireSafety.VisualModels
 {
     class VisualStartNode : VisualNode
     {
-        public VisualStartNode(StartNode node, Point position, VisualFloor floor) : base(node, position, floor)
+        public VisualStartNode(StartNode node, VisualFloor floor) : base(node, floor)
         {
             Width = 60;
             Height = 60;

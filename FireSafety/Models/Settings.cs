@@ -52,7 +52,7 @@ namespace FireSafety.Models
         }
         public static BitmapImage GetBitmapImage(Bitmap bitmap, ImageFormat format)
         {
-            using (MemoryStream memory = new MemoryStream())
+            using (var memory = new MemoryStream())
             {
                 bitmap.Save(memory, format);
                 memory.Position = 0;
@@ -83,6 +83,38 @@ namespace FireSafety.Models
         {
             var converter = new ImageConverter();
             return (byte[])converter.ConvertTo(bitmap, typeof(byte[]));
+        }
+
+        public static byte[] GetBytesFromBitmapImage(BitmapImage bitmap)
+        {
+            if (bitmap == null) return new byte[] { };
+
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+            using (var ms = new MemoryStream())
+            {
+                encoder.Save(ms);
+                return ms.ToArray();
+            }
+        }
+
+        public static BitmapImage GetBitmapImage(byte[] bytes)
+        {
+            if (bytes == null || bytes.Length == 0) return null;
+
+            var imageSource = new BitmapImage();
+
+            using (MemoryStream stream = new MemoryStream(bytes))
+            {
+                //  stream.Seek(0, SeekOrigin.Begin);
+                stream.Position = 0;
+                imageSource.BeginInit();
+                imageSource.StreamSource = stream;
+                imageSource.CacheOption = BitmapCacheOption.OnLoad;
+                imageSource.EndInit();
+            }
+
+            return imageSource;
         }
 
         public BitmapImage ДверьIco { get; private set; }

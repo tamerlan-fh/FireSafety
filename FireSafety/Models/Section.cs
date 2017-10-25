@@ -7,6 +7,7 @@ namespace FireSafety.Models
     /// <summary>
     /// Абстрактный класс единица участка пути
     /// </summary>
+    
     abstract class Section : Entity, ISection, IScalable
     {
         public Section(string title, Entity parent) : base(title, parent) { }

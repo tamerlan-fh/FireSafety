@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
+    
     class StartNode : Node
     {
         private static int index = 1;

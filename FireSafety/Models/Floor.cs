@@ -135,14 +135,17 @@ namespace FireSafety.Models
                 return;
             }
         }
-        public void ДобавитьСпуск(StairsNode узел)
+        public void AddFloorsConnectionSection(StairsNode node)
         {
-            var этажНиже = ParentBuilding.ВыдатьЭтажНиже(this);
-            if (этажНиже == null) throw new Exception(string.Format("Ошибка при попытке добавить этаж. Под \"{0}\" нет другого этажа", Title));
+            if (!Objects.Contains(node)) return;
 
-            var новыйУзел = new StairsNode(этажНиже, узел.Position, узел.Title);
-            этажНиже.AddObject(новыйУзел);
-            var спуск = new FloorsConnection(узел, новыйУзел, this);
+            var floor = ParentBuilding.ВыдатьЭтажНиже(this);
+            if (floor == null) throw new Exception(string.Format("Ошибка при попытке добавить этаж. Под \"{0}\" нет другого этажа", Title));
+
+            var newNode = new StairsNode(floor, node.Position, node.Title);
+            floor.AddObject(newNode);
+            var спуск = new FloorsConnectionSection(node, newNode, this);
+            AddObject(спуск);
         }
         public ZoomTool Scale
         {
