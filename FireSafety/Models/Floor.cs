@@ -31,13 +31,10 @@ namespace FireSafety.Models
         {
             this.Title = string.Format("Этаж {0}", FloorIndex);
         }
-        /// <summary>
-        /// LoadFloorPlan
-        /// </summary>
+
         private void LoadFloorPlan()
         {
             var openFileDialog = new OpenFileDialog();
-            //openFileDialog.Filter = "Pdf files (*.pdf)|*.pdf|Image files |*.png;*.bmp;*jpg;*.jepg|All files (*.*)|*.*";
             openFileDialog.Filter = "Image files |*.png;*.bmp;*jpg;*.jepg|All files (*.*)|*.*";
             openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
@@ -49,7 +46,6 @@ namespace FireSafety.Models
             var extension = System.IO.Path.GetExtension(filename).ToLower();
             switch (extension)
             {
-                //case ".pdf": ЗагрузитьPdf(имяФайла); break;
                 case ".png":
                 case ".bmp":
                 case ".jpg":
@@ -82,59 +78,59 @@ namespace FireSafety.Models
 
             Objects.Add(obj);
         }
-        public void RemoveObject(Entity obj)
+
+        public void RemoveObject(Entity entity)
         {
-            if (obj == null) return;
+            if (entity == null) return;
 
-            if (obj is Node)
+            var objToRemove = new List<Entity>();
+
+            if (entity is Node)
             {
-                var узел = obj as Node;
-                var удаляемыеОбьекты = new List<Entity>();
-                удаляемыеОбьекты.Add(узел);
+                var node = entity as Node;
+                objToRemove.Add(node);
 
-                foreach (var участок in узел.IncomingSections)
+                foreach (var section in node.IncomingSections)
                 {
-                    участок.First.RemoveSection(участок);
-                    удаляемыеОбьекты.Add(участок as Entity);
-                    if (участок.First is RoadNode && участок.First.IsUnrelated)
-                        удаляемыеОбьекты.Add(участок.First);
+                    section.First.RemoveSection(section);
+                    objToRemove.Add(section);
+
+                    if (section.First is RoadNode && section.First.IsUnrelated)
+                        objToRemove.Add(section.First);
                 }
-                foreach (var участок in узел.OutgoingSections)
+                foreach (var section in node.OutgoingSections)
                 {
-                    участок.Last.RemoveSection(участок);
-                    удаляемыеОбьекты.Add(участок as Entity);
-                    if (участок.Last is RoadNode && участок.Last.IsUnrelated)
-                        удаляемыеОбьекты.Add(участок.Last);
+                    section.Last.RemoveSection(section);
+                    objToRemove.Add(section);
+
+                    if (section.Last is RoadNode && section.Last.IsUnrelated)
+                        objToRemove.Add(section.Last);
                 }
-
-                foreach (var удаляемыйОбъект in удаляемыеОбьекты)
-                    Objects.Remove(удаляемыйОбъект);
-
-                return;
             }
-
-
-            if (obj is Section)
+            else if (entity is Section)
             {
-                var section = obj as Section;
+                var section = entity as Section;
 
                 section.First.RemoveSection(section);
                 section.Last.RemoveSection(section);
 
-                var удаляемыеОбьекты = new List<Entity>();
-                удаляемыеОбьекты.Add(section);
 
-                if (section.First.GetType() == typeof(RoadNode) && section.First.IsUnrelated)
-                    удаляемыеОбьекты.Add(section.First);
-                if (section.Last.GetType() == typeof(RoadNode) && section.Last.IsUnrelated)
-                    удаляемыеОбьекты.Add(section.Last);
+                objToRemove.Add(section);
 
-                foreach (var удаляемыйОбъект in удаляемыеОбьекты)
-                    Objects.Remove(удаляемыйОбъект);
-
-                return;
+                if (section.First is RoadNode && section.First.IsUnrelated)
+                    objToRemove.Add(section.First);
+                if (section.Last is RoadNode && section.Last.IsUnrelated)
+                    objToRemove.Add(section.Last);
             }
+
+            //foreach (var obj in objToRemove)
+            //    Objects.Remove(obj);
+
+            foreach (var obj in objToRemove)
+                if (obj != null && obj.Parent != null && obj.Parent is Floor)
+                    (obj.Parent as Floor).Objects.Remove(obj);
         }
+
         public void AddFloorsConnectionSection(StairsNode node)
         {
             if (!Objects.Contains(node)) return;

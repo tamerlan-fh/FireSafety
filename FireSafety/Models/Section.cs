@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
@@ -7,7 +6,7 @@ namespace FireSafety.Models
     /// <summary>
     /// Абстрактный класс единица участка пути
     /// </summary>
-    
+
     abstract class Section : Entity, ISection, IScalable
     {
         public Section(string title, Entity parent) : base(title, parent) { }

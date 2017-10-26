@@ -14,6 +14,8 @@ namespace FireSafety.Controls
         public DataTemplate ControlTemplateRoadSection { get; set; }
         public DataTemplate ControlTemplateBuilding { get; set; }
         public DataTemplate ControlTemplateStairsNode { get; set; }
+        public DataTemplate ControlTemplateFloorsConnectionSection { get; set; }
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item == null) return null;
@@ -22,9 +24,10 @@ namespace FireSafety.Controls
             if (item is Building) return ControlTemplateBuilding;
             if (item is StartNode) return ControlTemplateStartNode;
             if (item is Route) return ControlTemplateRoute;
+            if (item is FloorsConnectionSection) return ControlTemplateFloorsConnectionSection;
             if (item is RoadSection) return ControlTemplateRoadSection;
             if (item is StairsNode) return ControlTemplateStairsNode;
-            
+
             return ControlTemplateEntity;
         }
     }

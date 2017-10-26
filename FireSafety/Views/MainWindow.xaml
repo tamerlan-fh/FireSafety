@@ -184,6 +184,7 @@
                                         ControlTemplateRoadSection="{StaticResource ControlTemplateRoadSection}"
                                         ControlTemplateBuilding="{StaticResource ControlTemplateBuilding}"
                                         ControlTemplateFloor="{StaticResource ControlTemplateFloor}"
+                                        ControlTemplateFloorsConnectionSection="{StaticResource ControlTemplateFloorsConnectionSection}"
                                         ControlTemplateStairsNode="{StaticResource ControlTemplateStairsNode}"/>
                             </ContentPresenter.ContentTemplateSelector>
                         </ContentPresenter>

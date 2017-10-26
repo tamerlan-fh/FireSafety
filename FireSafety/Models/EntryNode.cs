@@ -7,8 +7,7 @@ namespace FireSafety.Models
 {
     /// <summary>
     /// Дверной проем
-    /// </summary>
-    
+    /// </summary>  
     class EntryNode : Node, ISection
     {
         

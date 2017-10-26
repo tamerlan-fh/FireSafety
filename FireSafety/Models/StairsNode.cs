@@ -34,9 +34,10 @@ namespace FireSafety.Models
 
         private void RemoveFloorsConnection()
         {
-            foreach(var connection in OutgoingSections.Where(x=>x is FloorsConnectionSection).ToArray())
+            foreach (var connection in OutgoingSections.Where(x => x is FloorsConnectionSection).ToArray())
             {
-                ParentFloor.RemoveObject(connection);
+                (connection.Parent as Floor).RemoveObject(connection);
+                //ParentFloor.RemoveObject(connection);
             }
         }
 
@@ -44,16 +45,12 @@ namespace FireSafety.Models
         {
             get { return ParentFloor.FloorIndex != 1 && (IsFloorsConnected || !OutgoingSections.Any()); }
         }
-     
-        //public override void AddSection(Section section)
-        //{
-        //    base.AddSection(section);
-        //    OnPropertyChanged("СвязьЭтажомНижеАктивность");
-        //}
-        //public override void RemoveSection(Section section)
-        //{
-        //    base.RemoveSection(section);
-        //    OnPropertyChanged("СвязьЭтажомНижеАктивность");
-        //}
+
+        public override void RemoveSection(Section section)
+        {
+            base.RemoveSection(section);
+            if (section is FloorsConnectionSection)
+                IsFloorsConnected = false;
+        }
     }
 }
