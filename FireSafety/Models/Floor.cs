@@ -114,20 +114,20 @@ namespace FireSafety.Models
             }
 
 
-            if (obj is RoadSection)
+            if (obj is Section)
             {
-                var участок = obj as RoadSection;
+                var section = obj as Section;
 
-                участок.First.RemoveSection(участок);
-                участок.Last.RemoveSection(участок);
+                section.First.RemoveSection(section);
+                section.Last.RemoveSection(section);
 
                 var удаляемыеОбьекты = new List<Entity>();
-                удаляемыеОбьекты.Add(участок);
+                удаляемыеОбьекты.Add(section);
 
-                if (участок.First is RoadNode && участок.First.IsUnrelated)
-                    удаляемыеОбьекты.Add(участок.First);
-                if (участок.Last is RoadNode && участок.Last.IsUnrelated)
-                    удаляемыеОбьекты.Add(участок.Last);
+                if (section.First.GetType() == typeof(RoadNode) && section.First.IsUnrelated)
+                    удаляемыеОбьекты.Add(section.First);
+                if (section.Last.GetType() == typeof(RoadNode) && section.Last.IsUnrelated)
+                    удаляемыеОбьекты.Add(section.Last);
 
                 foreach (var удаляемыйОбъект in удаляемыеОбьекты)
                     Objects.Remove(удаляемыйОбъект);

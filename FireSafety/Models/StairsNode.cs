@@ -26,25 +26,34 @@ namespace FireSafety.Models
                 isFloorsConnected = value; OnPropertyChanged("IsFloorsConnected");
                 if (IsFloorsConnected)
                     ParentFloor.AddFloorsConnectionSection(this);
+                else
+                    RemoveFloorsConnection();
             }
         }
         private bool isFloorsConnected;
 
+        private void RemoveFloorsConnection()
+        {
+            foreach(var connection in OutgoingSections.Where(x=>x is FloorsConnectionSection).ToArray())
+            {
+                ParentFloor.RemoveObject(connection);
+            }
+        }
 
         public bool CanAddFloorsConnection
         {
             get { return ParentFloor.FloorIndex != 1 && (IsFloorsConnected || !OutgoingSections.Any()); }
         }
      
-        public override void AddSection(Section section)
-        {
-            base.AddSection(section);
-            OnPropertyChanged("СвязьЭтажомНижеАктивность");
-        }
-        public override void RemoveSection(Section section)
-        {
-            base.RemoveSection(section);
-            OnPropertyChanged("СвязьЭтажомНижеАктивность");
-        }
+        //public override void AddSection(Section section)
+        //{
+        //    base.AddSection(section);
+        //    OnPropertyChanged("СвязьЭтажомНижеАктивность");
+        //}
+        //public override void RemoveSection(Section section)
+        //{
+        //    base.RemoveSection(section);
+        //    OnPropertyChanged("СвязьЭтажомНижеАктивность");
+        //}
     }
 }

@@ -98,7 +98,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="200" />
                 </Grid.RowDefinitions>
 
                 <GridSplitter Grid.Row="2" ShowsPreview="False" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
@@ -173,17 +173,18 @@
                         <HeaderedContentControl.Header>
                             <TextBox Text="Свойства" IsReadOnly="True" BorderThickness="0" FontWeight="Bold" />
                         </HeaderedContentControl.Header>
+
                         <ContentPresenter Content="{Binding SelectedEntity, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                             <ContentPresenter.ContentTemplateSelector>
                                 <ctrl:ControlTemplateSelector 
-                                ControlTemplateEntity="{StaticResource ControlTemplateEntity}" 
-                                ControlTemplateEntryNode="{StaticResource ControlTemplateEntryNode}"
-                                ControlTemplateRoute="{StaticResource ControlTemplateRoute}"
-                                ControlTemplateStartNode="{StaticResource ControlTemplateStartNode}"
-                                ControlTemplateRoadSection="{StaticResource ControlTemplateRoadSection}"
-                                ControlTemplateBuilding="{StaticResource ControlTemplateBuilding}"
-                                ControlTemplateFloor="{StaticResource ControlTemplateFloor}"
-                                ControlTemplateStairsNode="{StaticResource ControlTemplateStairsNode}"/>
+                                        ControlTemplateEntity="{StaticResource ControlTemplateEntity}" 
+                                        ControlTemplateEntryNode="{StaticResource ControlTemplateEntryNode}"
+                                        ControlTemplateRoute="{StaticResource ControlTemplateRoute}"
+                                        ControlTemplateStartNode="{StaticResource ControlTemplateStartNode}"
+                                        ControlTemplateRoadSection="{StaticResource ControlTemplateRoadSection}"
+                                        ControlTemplateBuilding="{StaticResource ControlTemplateBuilding}"
+                                        ControlTemplateFloor="{StaticResource ControlTemplateFloor}"
+                                        ControlTemplateStairsNode="{StaticResource ControlTemplateStairsNode}"/>
                             </ContentPresenter.ContentTemplateSelector>
                         </ContentPresenter>
                     </HeaderedContentControl>
