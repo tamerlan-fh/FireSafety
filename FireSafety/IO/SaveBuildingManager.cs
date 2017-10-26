@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FireSafety.IO
 {
@@ -22,7 +20,6 @@ namespace FireSafety.IO
         }
         private static SaveBuildingManager instance;
         private SaveBuildingManager() { }
-
         public void Save(Building building, string filename)
         {
             var files = new List<SavedFile>();
@@ -50,7 +47,6 @@ namespace FireSafety.IO
                 formatter.Serialize(fs, files);
             }
         }
-
         private BuildingSavedFile BuildingSave(Building building)
         {
             return new BuildingSavedFile()
@@ -123,7 +119,6 @@ namespace FireSafety.IO
                 IsFloorsConnected = node.IsFloorsConnected
             };
         }
-
         private NodeSavedFile SaveNode(Node node)
         {
             return new NodeSavedFile()
