@@ -32,7 +32,8 @@
 
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Transparent" />
 
-            <Grid Grid.Column="0" IsEnabled="{Binding CurrentFloorNotNull, UpdateSourceTrigger=PropertyChanged}">
+            <!--<Grid Grid.Column="0" IsEnabled="{Binding CurrentFloorNotNull, UpdateSourceTrigger=PropertyChanged}">-->
+            <Grid Grid.Column="0">
                 <ctrl:TransformControl Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="10" ClipToBounds="True" ZoomFactor="1.1" MinZoomScale="{Binding ElementName=ZoomSlider, Path=Minimum}" MaxZoomScale="{Binding ElementName=ZoomSlider, Path=Maximum}" ZoomScale="{Binding ElementName=ZoomSlider, Path=Value, Mode=TwoWay}" Margin="10,10,5,10" Background="#99F0F8FF" >
                     <vsl:EvacuationControl Buildings="{Binding Buildings}" SelectedFloor="{Binding CurrentFloor, UpdateSourceTrigger=PropertyChanged}" SelectedActionMode="{Binding Mode, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </ctrl:TransformControl>
