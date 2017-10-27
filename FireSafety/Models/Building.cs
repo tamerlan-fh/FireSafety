@@ -33,6 +33,10 @@ namespace FireSafety.Models
         public ObservableCollection<Floor> Floors { get; private set; }
         public ObservableCollection<Entity> Objects { get; private set; }
 
+        public bool IsEmpty
+        {
+            get { return !Floors.Any(); }
+        }
         public Floor CurrentFloor
         {
             get { return currentFloor; }

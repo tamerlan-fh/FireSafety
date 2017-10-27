@@ -55,12 +55,12 @@ namespace FireSafety.VisualModels
         public static readonly DependencyProperty SelectedFloorProperty = DependencyProperty.Register("SelectedFloor", typeof(Floor), typeof(EvacuationControl), new FrameworkPropertyMetadata(new PropertyChangedCallback(SelectedFloorPropertyChanged)));
         private static void SelectedFloorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var выбранныйЭтаж = e.NewValue as Floor;
+            var floor = e.NewValue as Floor;
             var control = d as EvacuationControl;
-            if (выбранныйЭтаж == null)
+            if (floor == null)
                 control.CurrentFloor = null;
             else
-                control.CurrentFloor = control.floors.FirstOrDefault(x => x.Model == выбранныйЭтаж);
+                control.CurrentFloor = control.floors.FirstOrDefault(x => x.Model == floor);
         }
 
         /// <summary>
@@ -395,6 +395,9 @@ namespace FireSafety.VisualModels
         {
             var visual = floors.FirstOrDefault(x => x.Model == floor);
             floors.Remove(visual);
+
+            if (floor.ParentBuilding.IsEmpty)
+                CurrentFloor = null;
         }
 
         #region Базовые

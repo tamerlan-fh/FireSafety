@@ -27,7 +27,7 @@
             </Grid.RowDefinitions>
 
             <TextBox Grid.Row="0" Grid.Column="0" Text="Длина, пиксели:" Style="{StaticResource TextLabel}" HorizontalAlignment="Right" Margin="3"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PixelLength, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextLabel}" TextAlignment="Left" Margin="3"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PixelLength, Mode=OneWay, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextLabel}" TextAlignment="Left" Margin="3"/>
             <TextBox Grid.Row="1" Grid.Column="0" Text="Фактическое значение, м :" Style="{StaticResource TextLabel}" HorizontalAlignment="Right" Margin="3"/>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FactLength, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" TextAlignment="Left" Margin="3">
                 <TextBox.InputBindings>
