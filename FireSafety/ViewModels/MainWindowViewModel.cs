@@ -39,6 +39,7 @@ namespace FireSafety.ViewModels
             get { return selectedEntity; }
             set
             {
+                if (SelectedEntity == value) return;
                 selectedEntity = value;
                 if (value == null) return;
 
@@ -50,8 +51,10 @@ namespace FireSafety.ViewModels
                     CurrentBuilding = value as Building;
                 else if (SelectedEntity is Route)
                     return;
-                else if (SelectedEntity != null)
+                else if (SelectedEntity.Parent is Floor)
                     CurrentFloor = SelectedEntity.Parent as Floor;
+                else if (SelectedEntity.Parent is Building)
+                    CurrentBuilding = SelectedEntity.Parent as Building;
             }
         }
         private Entity selectedEntity;
@@ -60,6 +63,7 @@ namespace FireSafety.ViewModels
             get { return currentFloor; }
             set
             {
+                if (CurrentFloor == value) return;
                 currentFloor = value;
                 OnPropertyChanged("CurrentFloor");
                 if (CurrentFloor != null)
@@ -72,10 +76,11 @@ namespace FireSafety.ViewModels
             get { return currentBuilding; }
             set
             {
-                if (currentBuilding == value) return;
+                if (CurrentBuilding == value) return;
                 currentBuilding = value;
                 OnPropertyChanged("CurrentBuilding");
-                if (CurrentFloor == null && CurrentBuilding != null) CurrentFloor = CurrentBuilding.Floors.FirstOrDefault();
+                if (CurrentFloor == null && CurrentBuilding != null)
+                    CurrentFloor = CurrentBuilding.Floors.FirstOrDefault();
             }
         }
         private Building currentBuilding;
@@ -105,18 +110,22 @@ namespace FireSafety.ViewModels
         {
             AddBuilding(new Building());
         }
+
         private void AddBuilding(Building building)
         {
             Buildings.Add(building);
+            SelectedEntity = building;
         }
         private void AddFloor()
         {
             if (CurrentBuilding == null) return;
-            var этаж = new Floor(CurrentBuilding);
-            CurrentBuilding.AddFloor(этаж);
-            CurrentBuilding.CurrentFloor = этаж;
-            if (CurrentFloor == null) CurrentFloor = этаж;
+            var floor = new Floor(CurrentBuilding);
+
+            CurrentBuilding.AddFloor(floor);
+            CurrentBuilding.CurrentFloor = floor;
+            SelectedEntity = floor;
         }
+
         private void RemoveSelectedEntity()
         {
             Mode = ActionMode.Remove;
@@ -124,64 +133,37 @@ namespace FireSafety.ViewModels
 
             if (SelectedEntity is Building)
             {
+                var index = Buildings.IndexOf(SelectedEntity as Building);
                 Buildings.Remove(SelectedEntity as Building);
 
-                CurrentBuilding = Buildings.FirstOrDefault();
-                SelectedEntity = CurrentBuilding;
-                if (CurrentBuilding != null)
-                    CurrentFloor = CurrentBuilding.CurrentFloor;
+                if (index >= Buildings.Count - 1)
+                    CurrentBuilding = Buildings.LastOrDefault();
                 else
-                    CurrentFloor = null;
+                    CurrentBuilding = Buildings[index];
+
+                SelectedEntity = CurrentBuilding;
                 return;
             }
 
             if (SelectedEntity is Floor)
             {
                 CurrentBuilding.RemoveFloor(SelectedEntity as Floor);
-                CurrentFloor = CurrentBuilding.CurrentFloor;
-                SelectedEntity = CurrentFloor;
+                SelectedEntity = CurrentBuilding.CurrentFloor;
                 return;
             }
 
             CurrentFloor.RemoveObject(SelectedEntity);
             SelectedEntity = CurrentFloor.Objects.FirstOrDefault();
             if (SelectedEntity == null) SelectedEntity = CurrentFloor;
-
-
-
-            //if (ВыделенныйОбъект is Здание)
-            //{
-            //    Здания.Remove(ВыделенныйОбъект as Здание);
-
-            //    ТекущееЗдание = Здания.FirstOrDefault();
-            //    ВыделенныйОбъект = ТекущееЗдание;
-            //    if (ТекущееЗдание != null)
-            //        ТекущийЭтаж = ТекущееЗдание.ТекущийЭтаж;
-            //    else
-            //        ТекущийЭтаж = null;
-            //    return;
-            //}
-
-            //if (ВыделенныйОбъект is Этаж)
-            //{
-            //    ТекущееЗдание.УдалитьЭтаж(ВыделенныйОбъект as Этаж);
-            //    ТекущийЭтаж = ТекущееЗдание.Этажи.FirstOrDefault();
-            //    if (ТекущийЭтаж == null)
-            //        ВыделенныйОбъект = ТекущееЗдание;
-            //    else
-            //        ВыделенныйОбъект = ТекущийЭтаж;
-            //    return;
-            //}
-
-            //if (ТекущийЭтаж == null) return;
-
-            //ТекущийЭтаж.УдалитьОбъект(ВыделенныйОбъект);
-            //ВыделенныйОбъект = ТекущийЭтаж.Объекты.FirstOrDefault();
-            //if (ВыделенныйОбъект == null) ВыделенныйОбъект = ТекущийЭтаж;
         }
+
         private bool CanRemoveSelectedEntity()
         {
-            return !(SelectedEntity is Route) && SelectedEntity != null;
+            return SelectedEntity != null &&
+                 (SelectedEntity is Node
+                || SelectedEntity is Section
+                || SelectedEntity is Building
+                || SelectedEntity is Floor);
         }
         private void LoadBuilding()
         {

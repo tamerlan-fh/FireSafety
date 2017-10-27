@@ -26,8 +26,8 @@ namespace FireSafety.Models
             };
         }
         public Building() : this(string.Format("Здание {0}", index++)) { }
-        
-        private EvacuationPlan evacuationPlan;    
+
+        private EvacuationPlan evacuationPlan;
         private BuildingComposition buildingComposition;
 
         public ObservableCollection<Floor> Floors { get; private set; }
@@ -48,7 +48,7 @@ namespace FireSafety.Models
             get { return evacuationTime; }
             set { evacuationTime = value; OnPropertyChanged("EvacuationTime"); }
         }
-        
+
         private double evacuationTime;
         public void AddFloor(Floor floor)
         {
@@ -56,26 +56,26 @@ namespace FireSafety.Models
 
             Floors.Add(floor);
             floor.ОбновитьНазвание();
-            floor.Objects.CollectionChanged += ОбъектыЭтажаCollectionChanged;
+            floor.Objects.CollectionChanged += FloorObjectsCollectionChanged;
 
             if (CurrentFloor == null) CurrentFloor = floor;
         }
         public void RemoveFloor(Floor floor)
         {
             if (!Floors.Contains(floor)) return;
-            var индекс = Floors.IndexOf(floor);
-            if (Floors.Count == 1) индекс = -1;
-            else if (floor == Floors.LastOrDefault()) индекс--;
 
+            var index = Floors.IndexOf(floor);
 
             Floors.Remove(floor);
-            floor.Objects.CollectionChanged -= ОбъектыЭтажаCollectionChanged;
+            floor.Objects.CollectionChanged -= FloorObjectsCollectionChanged;
 
-            if (индекс < 0) CurrentFloor = null;
-            else CurrentFloor = Floors[индекс];
+            if (index >= Floors.Count - 1)
+                CurrentFloor = Floors.LastOrDefault();
+            else
+                CurrentFloor = Floors[index];
 
-            foreach (var x in Floors)
-                x.ОбновитьНазвание();
+            foreach (var f in Floors)
+                f.ОбновитьНазвание();
 
             evacuationPlan.ComposeRoutes();
         }
@@ -86,12 +86,12 @@ namespace FireSafety.Models
             else return Floors[индекс - 1];
         }
 
-        private void ОбъектыЭтажаCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void FloorObjectsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                foreach (var обьект in e.NewItems)
-                    if (обьект is Section) evacuationPlan.ComposeRoutes();
+                foreach (var obj in e.NewItems)
+                    if (obj is Section) evacuationPlan.ComposeRoutes();
 
                 return;
             }
@@ -99,6 +99,7 @@ namespace FireSafety.Models
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 evacuationPlan.ComposeRoutes();
+                return;
             }
         }
 
@@ -114,7 +115,7 @@ namespace FireSafety.Models
                 blockageEvacuationRoutesTime = window.BlockageEvacuationRoutesTime.TotalMinutes;
             }
         }
-        
+
         private double blockageEvacuationRoutesTime = 0;
 
         public void CalculateFireRisk()
@@ -156,24 +157,6 @@ namespace FireSafety.Models
                 document.Save();
             }
         }
-        //public static void Save(Building bilding, string filename)
-        //{
-        //    var formatter = new BinaryFormatter();
-        //    // получаем поток, куда будем записывать сериализованный объект
-        //    using (var fs = new FileStream(filename, FileMode.OpenOrCreate))
-        //    {
-        //        formatter.Serialize(fs, bilding);
-        //    }
-        //}
-
-        //public static Building Load(string filename)
-        //{
-        //    var formatter = new BinaryFormatter();
-        //    using (var fs = new FileStream(filename, FileMode.OpenOrCreate))
-        //    {
-        //        return (Building)formatter.Deserialize(fs);
-        //    }
-        //}
         public override BitmapImage Icon { get { return Settings.Instance.ЗданиеIco; } }
     }
 }
