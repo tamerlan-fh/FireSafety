@@ -64,5 +64,7 @@ namespace FireSafety.VisualModels
             }
             return title.Drawing;
         }
+
+        public abstract void ApplyScale(ZoomTool scale);
     }
 }

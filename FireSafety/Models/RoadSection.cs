@@ -20,8 +20,12 @@ namespace FireSafety.Models
         {
             this.First = first;
             this.Last = last;
-            First.AddSection(this);
-            Last.AddSection(this);
+
+            // не стоит преждевременно обозначать участок в его узлах,
+            // возможно участок не будет добавляться в коллекцию объектов этажа
+            // разумно будет эту операуцию проводить при добавлении в коллекцию
+            //First.AddSection(this);
+            //Last.AddSection(this);
             Width = 1;
             Length = (Last.Position - First.Position).Length / 100;
         }

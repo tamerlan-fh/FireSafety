@@ -139,6 +139,7 @@
     <Compile Include="VisualModels\VisualNode.cs" />
     <Compile Include="VisualModels\VisualEntity.cs" />
     <Compile Include="VisualModels\VisualPoint.cs" />
+    <Compile Include="VisualModels\VisualThumb.cs" />
     <Compile Include="VisualModels\VisualUnit.cs" />
     <Compile Include="VisualModels\VisualExitNode.cs" />
     <Compile Include="VisualModels\VisualEntryNode.cs" />

@@ -24,6 +24,7 @@ namespace FireSafety.VisualModels
             selectPen.Brush = Brushes.Yellow;
             selectPen.Thickness = Thickness + 20;
 
+            ApplyScale(ParentFloor.Model.Scale);
             Draw();
         }
 
@@ -32,6 +33,7 @@ namespace FireSafety.VisualModels
         private void NodePositionChanged(object sender, PositionChangedEventArgs e)
         {
             Draw();
+            ApplyScale(ParentFloor.Model.Scale);
         }
 
         public override void Move(Vector shift)
@@ -92,6 +94,13 @@ namespace FireSafety.VisualModels
                 dc.DrawLine(normalPen, First.Position, Last.Position);
                 dc.DrawDrawing(DrawTitle(First.Position + (Last.Position - First.Position) / 2));
             }
+        }
+
+        public override void ApplyScale(ZoomTool scale)
+        {
+            if (!Model.AutoSize) return;
+
+            (Model as Section).Length =  scale.GetActualLength(Length);
         }
     }
 }

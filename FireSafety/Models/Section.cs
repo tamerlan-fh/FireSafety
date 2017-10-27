@@ -7,7 +7,7 @@ namespace FireSafety.Models
     /// Абстрактный класс единица участка пути
     /// </summary>
 
-    abstract class Section : Entity, ISection, IScalable
+    abstract class Section : Entity, ISection
     {
         public Section(string title, Entity parent) : base(title, parent) { }
 
@@ -70,13 +70,6 @@ namespace FireSafety.Models
             set { movementTime = value; OnPropertyChanged("MovementTime"); }
         }
         private double movementTime;
-
-        public bool AutoSize
-        {
-            get { return autoSize; }
-            set { autoSize = value; OnPropertyChanged("AutoSize"); }
-        }
-        private bool autoSize = true;
 
         public override BitmapImage Icon { get { return Settings.Instance.УчастокПутиIco; } }
     }

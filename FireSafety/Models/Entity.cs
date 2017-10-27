@@ -1,5 +1,4 @@
 ﻿using FireSafety.ViewModels;
-using System;
 using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
@@ -7,7 +6,7 @@ namespace FireSafety.Models
     /// <summary>
     /// Сущность, прародитель всех остальных
     /// </summary>
-    
+
     abstract class Entity : BasePropertyChanged
     {
         /// <summary>
@@ -26,7 +25,7 @@ namespace FireSafety.Models
         public virtual string Title
         {
             get { return title; }
-            set { if (title == value) return; title = value; OnPropertyChanged("Название"); }
+            set { if (title == value) return; title = value; OnPropertyChanged("Title"); }
         }
         private string title;
 
@@ -55,9 +54,14 @@ namespace FireSafety.Models
                 if (status == value) return;
                 status = value; OnPropertyChanged("Status");
             }
-        }
-        
+        }       
         private EntityStatus status;
+        public bool AutoSize
+        {
+            get { return autoSize; }
+            set { autoSize = value; OnPropertyChanged("AutoSize"); }
+        }
+        private bool autoSize = true;
         public abstract BitmapImage Icon { get; }
         public override string ToString()
         {

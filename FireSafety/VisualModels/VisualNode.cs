@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
+using System;
 
 namespace FireSafety.VisualModels
 {
@@ -53,5 +54,7 @@ namespace FireSafety.VisualModels
                 dc.DrawDrawing(DrawTitle(Position));
             }
         }
+
+        public override void ApplyScale(ZoomTool scale) { }
     }
 }

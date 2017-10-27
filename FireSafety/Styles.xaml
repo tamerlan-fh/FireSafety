@@ -441,6 +441,10 @@
                             <Setter TargetName ="InnerRing2" Property ="Width" Value ="55"/>
                             <Setter TargetName ="InnerRing2" Property ="Opacity" Value ="0"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName ="InnerRing2" Property ="Fill" Value ="Gray"/>
+                            <Setter TargetName ="InnerRing2" Property ="Opacity" Value ="0.5"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -510,7 +514,6 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="TextBoxReadOnly" TargetType="TextBox">
         <Setter Property="IsReadOnly" Value="True"/>
         <Setter Property="BorderThickness" Value="0" />
@@ -518,6 +521,7 @@
         <Setter Property="Margin" Value="2,1"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
     </Style>
+   
     <Style x:Key="TextBoxStyle" TargetType="TextBox" >
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="Margin" Value="2,1"/>
@@ -527,10 +531,11 @@
     <DataTemplate x:Key="ControlTemplateFloor" DataType="{x:Type m:Floor}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
-                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition MinWidth="110"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
@@ -540,14 +545,17 @@
 
             <TextBox Grid.Column="0" Grid.Row="1" Text="Номер Этажа" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding НомерЭтажа, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxStyle}" />
+
+            <TextBox Grid.Column="0" Grid.Row="2" Text="Фон" Style="{StaticResource TextBoxReadOnly}" />
+            <Button Grid.Column="1" Grid.Row="2" Command="{Binding ClearFloorPlanCommand}" Content="Очистить" Margin="2" />
         </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="ControlTemplateBuilding" DataType="{x:Type m:Building}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
-                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -568,8 +576,8 @@
     <DataTemplate x:Key="ControlTemplateEntity" DataType="{x:Type m:Entity}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
-                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -583,10 +591,28 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Key="ControlTemplateEntityReadOnly" DataType="{x:Type m:Entity}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
+
+            <TextBox Grid.Column="0" Grid.Row="1" Text="Расположение" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="ControlTemplateFloorsConnectionSection" DataType="{x:Type m:FloorsConnectionSection}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
+                <ColumnDefinition MinWidth="130"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -604,8 +630,8 @@
     <DataTemplate x:Key="ControlTemplateEntryNode" DataType="{x:Type m:EntryNode}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
-                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -640,8 +666,8 @@
     <DataTemplate x:Key="ControlTemplateStairsNode" DataType="{x:Type m:StairsNode}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
-                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -670,8 +696,8 @@
     <DataTemplate x:Key="ControlTemplateStartNode" DataType="{x:Type m:StartNode}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
-                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -696,8 +722,8 @@
     <DataTemplate x:Key="ControlTemplateRoute" DataType="{x:Type m:Route}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
-                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -728,8 +754,8 @@
     <DataTemplate x:Key="ControlTemplateRoadSection" DataType="{x:Type m:RoadSection}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="150"/>
-                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>

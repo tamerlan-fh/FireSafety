@@ -52,7 +52,6 @@ namespace FireSafety.Models
             get { return evacuationTime; }
             set { evacuationTime = value; OnPropertyChanged("EvacuationTime"); }
         }
-
         private double evacuationTime;
         public void AddFloor(Floor floor)
         {
@@ -72,6 +71,7 @@ namespace FireSafety.Models
 
             Floors.Remove(floor);
             floor.Objects.CollectionChanged -= FloorObjectsCollectionChanged;
+            floor.RemoveObjects();
 
             if (index >= Floors.Count - 1)
                 CurrentFloor = Floors.LastOrDefault();
@@ -82,6 +82,17 @@ namespace FireSafety.Models
                 f.ОбновитьНазвание();
 
             evacuationPlan.ComposeRoutes();
+        }
+
+        public bool CanAddSection(Section section)
+        {
+            if (section == null) return false;
+
+            foreach (var route in evacuationPlan.Routes)
+                if (route.Sections.Any(x => section.First == x.First || section.First == x.Last)
+                    && route.Sections.Any(x => section.Last == x.First || section.Last == x.Last))
+                    return false;
+            return true;
         }
         public Floor ВыдатьЭтажНиже(Floor этаж)
         {

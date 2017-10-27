@@ -184,11 +184,8 @@ namespace FireSafety.VisualModels
 
         public void ApplyScale()
         {
-            foreach (var entuty in VisualEntities.Where(x => x.Model is IScalable))
-            {
-                if ((entuty.Model as IScalable).AutoSize)
-                    (entuty.Model as IScalable).Length = Model.Scale.GetActualLength((entuty as VisualRoadSection).Length);
-            }
+            foreach (var entuty in VisualEntities)
+                entuty.ApplyScale(Model.Scale);
         }
     }
 }

@@ -21,8 +21,10 @@ namespace FireSafety.Models
         {
             Objects = new ObservableCollection<Entity>();
             LoadFloorPlanCommand = new RelayCommand(param => this.LoadFloorPlan());
+            ClearFloorPlanCommand = new RelayCommand(param => ClearFloorPlan(), param => FloorPlanImage != null);
         }
         public ICommand LoadFloorPlanCommand { get; protected set; }
+        public ICommand ClearFloorPlanCommand { get; protected set; }
         public int FloorIndex
         {
             get { return ParentBuilding.Floors.IndexOf(this) + 1; }
@@ -64,7 +66,10 @@ namespace FireSafety.Models
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        private void ClearFloorPlan()
+        {
+            FloorPlanImage = null;
+        }
         public BitmapImage FloorPlanImage
         {
             get { return floorPlanImage; }
@@ -76,9 +81,19 @@ namespace FireSafety.Models
         {
             if (Objects.Contains(obj)) return;
 
+            if (obj is Section)
+            {
+                var section = obj as Section;
+                section.First.AddSection(section);
+                section.Last.AddSection(section);
+            }
+
             Objects.Add(obj);
         }
-
+        public bool CanAddSection(Section section)
+        {
+            return ParentBuilding.CanAddSection(section);
+        }
         public void RemoveObject(Entity entity)
         {
             if (entity == null) return;
@@ -130,7 +145,6 @@ namespace FireSafety.Models
                 if (obj != null && obj.Parent != null && obj.Parent is Floor)
                     (obj.Parent as Floor).Objects.Remove(obj);
         }
-
         public void AddFloorsConnectionSection(StairsNode node)
         {
             if (!Objects.Contains(node)) return;
@@ -142,6 +156,12 @@ namespace FireSafety.Models
             floor.AddObject(newNode);
             var спуск = new FloorsConnectionSection(node, newNode, this);
             AddObject(спуск);
+        }
+        public void RemoveObjects()
+        {
+            var objects = new List<Entity>(Objects);
+            foreach (var obj in objects)
+                RemoveObject(obj);
         }
         public ZoomTool Scale
         {

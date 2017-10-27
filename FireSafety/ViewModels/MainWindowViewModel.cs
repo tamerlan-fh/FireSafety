@@ -68,6 +68,8 @@ namespace FireSafety.ViewModels
                 OnPropertyChanged("CurrentFloor");
                 if (CurrentFloor != null)
                     CurrentBuilding = CurrentFloor.ParentBuilding;
+
+                CurrentFloorNotNull = CurrentFloor != null;
             }
         }
         private Floor currentFloor;
@@ -76,14 +78,28 @@ namespace FireSafety.ViewModels
             get { return currentBuilding; }
             set
             {
-                if (CurrentBuilding == value) return;
-                currentBuilding = value;
-                OnPropertyChanged("CurrentBuilding");
-                if (CurrentFloor == null && CurrentBuilding != null)
+                if (CurrentBuilding != value)
+                {
+                    currentBuilding = value;
+                    OnPropertyChanged("CurrentBuilding");
+                }
+
+                if (CurrentBuilding == null)
+                { CurrentFloor = null; return; }
+
+                if ((CurrentFloor == null || CurrentFloor.Parent != CurrentBuilding)
+                    && CurrentBuilding != null)
                     CurrentFloor = CurrentBuilding.Floors.FirstOrDefault();
             }
         }
         private Building currentBuilding;
+
+        public bool CurrentFloorNotNull
+        {
+            get { return currentFloorNotNull; }
+            set { currentFloorNotNull = value; OnPropertyChanged("CurrentFloorNotNull"); }
+        }
+        private bool currentFloorNotNull = false;
         public MainWindowViewModel()
         {
             ExitCommand = new RelayCommand(param => App.Current.Shutdown());
@@ -148,7 +164,8 @@ namespace FireSafety.ViewModels
             if (SelectedEntity is Floor)
             {
                 CurrentBuilding.RemoveFloor(SelectedEntity as Floor);
-                SelectedEntity = CurrentBuilding.CurrentFloor;
+                CurrentFloor = CurrentBuilding.CurrentFloor;
+                SelectedEntity = CurrentFloor;
                 return;
             }
 

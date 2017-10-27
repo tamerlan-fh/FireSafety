@@ -36,12 +36,10 @@ namespace FireSafety.VisualModels
         private static void SelectedActionModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != e.NewValue)
-                (d as EvacuationControl).IsMakingSection = false;
+                (d as EvacuationControl).IsCreatingLine = false;
         }
 
-        /// <summary>
-        /// SelectedActionMode
-        /// </summary>
+
         public ActionMode SelectedActionMode
         {
             get { return (ActionMode)GetValue(SelectedActionModeProperty); }
@@ -88,7 +86,6 @@ namespace FireSafety.VisualModels
         #region Перемещение
 
         private MoveInformation moveInformation = null;
-
         private bool IsMoving
         {
             get { return moveInformation != null; }
@@ -104,54 +101,49 @@ namespace FireSafety.VisualModels
                 moveInformation.Unit.Move(shift);
 
                 moveInformation.StartPosition = position;
-                return;
-            }
 
-            if (IsSetScale)
-            {
-                lastPointScale = e.GetPosition(this);
-                DrawScaleSection();
+                return;
             }
         }
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
-            IsMoving = false;
-
-            if (IsSetScale)
-            {
-                var length = (lastPointScale - firstPointScale).Length;
-                if (length > 0)
-                {
-                    var win = new ScaleWindow(length, CurrentFloor.Model.Scale);
-                    if (win.ShowDialog() == true)
-                    {
-                        CurrentFloor.Model.Scale = win.Scale;
-                        CurrentFloor.ApplyScale();
-                    }
-                }
-                visuals.Remove(scaleSection);
-                scaleSection = null;
-            }
+            if (!IsCreatingLine)
+                IsMoving = false;
         }
 
         #endregion
 
         #region Построение отрезков
 
-        private VisualNode startSection = null;
-        private bool IsMakingSection
+        private CreatingLineInformation CreatingLineInf
         {
-            get { return startSection != null; }
-            set { if (value == false) startSection = null; }
-        }
-        private void MakeSection(Point position)
-        {
-            VisualNode node = null;
-            var entity = CurrentFloor.GetVisualEntity(position);
-            if (entity is VisualNode)
+            get { return creatingLineInf; }
+            set
             {
-                node = entity as VisualNode;
+                if (creatingLineInf != null)
+                    visuals.Remove(creatingLineInf.Drawing);
+
+                creatingLineInf = value;
+                if (creatingLineInf != null)
+                {
+                    visuals.Add(creatingLineInf.Drawing);
+                    moveInformation = new MoveInformation(creatingLineInf.LastUnit, creatingLineInf.LastPosition);
+                }
             }
+        }
+        private CreatingLineInformation creatingLineInf = null;
+
+        public bool IsCreatingLine
+        {
+            get { return CreatingLineInf != null; }
+            set { if (value == false) CreatingLineInf = null; }
+        }
+        private void CreatingSection(Point position)
+        {
+            var entity = CurrentFloor.GetVisualEntity(position);
+            VisualNode node = null;
+            if (entity is VisualNode)
+                node = entity as VisualNode;
             else
             {
                 switch (SelectedActionMode)
@@ -162,33 +154,43 @@ namespace FireSafety.VisualModels
                         node = new VisualNode(new RoadNode(CurrentFloor.Model, position), CurrentFloor); break;
                 }
                 AddVisualEntity(node);
-
             }
 
-            if (IsMakingSection)
+            if (IsCreatingLine)
             {
                 if (!node.NodeModel.IncomingSectionsAllowed) return;
-                if (startSection == node) return;
-                VisualRoadSection участок = null;
+                if (CreatingLineInf.FirstUnit == node || !(CreatingLineInf.FirstUnit is VisualNode)) return;
+
+                VisualRoadSection section = null;
+                Section model = null;
+                switch (SelectedActionMode)
+                {
+                    case ActionMode.AddStairs:
+                        model = new StairsSection(CreatingLineInf.FirstNode.NodeModel, node.NodeModel, CurrentFloor.Model); break;
+                    case ActionMode.AddRoad:
+                        model = new RoadSection(CreatingLineInf.FirstNode.NodeModel, node.NodeModel, CurrentFloor.Model); break;
+                }
+
+                // по каким-то причинам (образовывается петля) нет возможности добавить данный участок
+                if (!CurrentFloor.Model.CanAddSection(model))
+                    return;
 
                 switch (SelectedActionMode)
                 {
                     case ActionMode.AddStairs:
-                        участок = new VisualStairsSection(startSection, node, new StairsSection(startSection.NodeModel, node.NodeModel, CurrentFloor.Model), CurrentFloor); break;
+                        section = new VisualStairsSection(CreatingLineInf.FirstNode, node, model as StairsSection, CurrentFloor); break;
                     case ActionMode.AddRoad:
-                        участок = new VisualRoadSection(startSection, node, new RoadSection(startSection.NodeModel, node.NodeModel, CurrentFloor.Model), CurrentFloor); break;
+                        section = new VisualRoadSection(CreatingLineInf.FirstNode, node, model as RoadSection, CurrentFloor); break;
                 }
 
-                AddVisualEntity(участок);
-                startSection = node;
-            }
-            else
-            {
-                startSection = node;
+                AddVisualEntity(section);
+
             }
 
-            if (!startSection.NodeModel.OutgoingSectionsAllowed)
-                IsMakingSection = false;
+            CreatingLineInf = new CreatingLineInformation(node);
+
+            if (!CreatingLineInf.FirstNode.NodeModel.OutgoingSectionsAllowed)
+                IsCreatingLine = false;
         }
 
         #endregion
@@ -197,39 +199,41 @@ namespace FireSafety.VisualModels
 
         private bool IsSetScale
         {
-            get { return SelectedActionMode == ActionMode.SetScale && scaleSection != null; }
+            get { return SelectedActionMode == ActionMode.SetScale; }
         }
 
-        private Point firstPointScale;
-        private Point lastPointScale;
-        private DrawingVisual scaleSection;
-        private void DrawScaleSection()
+        private void SetScale()
         {
-            if (scaleSection == null) return;
-            using (DrawingContext dc = scaleSection.RenderOpen())
+            if (!IsSetScale || !IsCreatingLine) return;
+
+            var length = CreatingLineInf.Length;
+            if (length > 0)
             {
-                var radius = 10;
-                var pen = new Pen(Brushes.Black, radius / 5);
-
-                dc.DrawEllipse(null, pen, firstPointScale, radius, radius);
-                dc.DrawLine(pen, firstPointScale + new Vector(-radius, 0), firstPointScale + new Vector(radius, 0));
-                dc.DrawLine(pen, firstPointScale + new Vector(0, -radius), firstPointScale + new Vector(0, radius));
-
-                dc.DrawEllipse(null, pen, lastPointScale, radius, radius);
-                dc.DrawLine(pen, lastPointScale + new Vector(-radius, 0), lastPointScale + new Vector(radius, 0));
-                dc.DrawLine(pen, lastPointScale + new Vector(0, -radius), lastPointScale + new Vector(0, radius));
-
-                dc.DrawLine(new Pen(Brushes.Black, radius / 5) { DashStyle = new DashStyle(new double[] { radius / 2, radius / 2 }, radius / 2) }, firstPointScale, lastPointScale);
+                var win = new ScaleWindow(length, CurrentFloor.Model.Scale);
+                if (win.ShowDialog() == true)
+                {
+                    CurrentFloor.Model.Scale = win.Scale;
+                    CurrentFloor.ApplyScale();
+                }
             }
+
+            IsCreatingLine = false;
         }
 
         #endregion
 
+        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            IsCreatingLine = false;
+            base.OnMouseRightButtonDown(e);
+        }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             if (CurrentFloor == null) return;
+
             e.Handled = true;
             var position = e.GetPosition(this);
+
             try
             {
                 switch (SelectedActionMode)
@@ -252,7 +256,7 @@ namespace FireSafety.VisualModels
                     case ActionMode.AddStairs:
                     case ActionMode.AddRoad:
                         {
-                            MakeSection(position);
+                            CreatingSection(position);
                             break;
                         }
                     case ActionMode.Move:
@@ -277,12 +281,13 @@ namespace FireSafety.VisualModels
                         }
                     case ActionMode.SetScale:
                         {
-                            firstPointScale = position;
-                            lastPointScale = position;
-
-                            scaleSection = new DrawingVisual();
-                            visuals.Add(scaleSection);
-                            DrawScaleSection();
+                            if (IsCreatingLine)
+                            {
+                                CreatingLineInf.LastPosition = position;
+                                SetScale();
+                            }
+                            else
+                                CreatingLineInf = new CreatingLineInformation(new VisualThumb(position));
                             break;
                         }
                 }
@@ -303,7 +308,7 @@ namespace FireSafety.VisualModels
                 if (currentFloor == value) return;
                 currentFloor = value;
                 visuals.Clear();
-                IsMakingSection = false;
+                IsCreatingLine = false;
                 if (currentFloor == null) return;
                 visuals.Add(currentFloor);
             }
@@ -314,7 +319,7 @@ namespace FireSafety.VisualModels
         {
             CurrentFloor = null;
             IsMoving = false;
-            IsMakingSection = false;
+            IsCreatingLine = false;
 
             floors.Clear();
 
@@ -328,7 +333,6 @@ namespace FireSafety.VisualModels
             if (CurrentFloor == null) return;
             CurrentFloor.AddVisualEntity(entry);
         }
-
         private void ApplyingNewValues(ObservableCollection<Building> newBuildings)
         {
             ToDefaultValues();
@@ -352,6 +356,8 @@ namespace FireSafety.VisualModels
                     }
                 case NotifyCollectionChangedAction.Remove:
                     {
+                        foreach (var building in e.OldItems)
+                            RemoveBuilding(building as Building);
                         break;
                     }
             }
@@ -366,6 +372,17 @@ namespace FireSafety.VisualModels
                 AddFloor(floor);
             building.Floors.CollectionChanged += FloorsCollectionChanged;
         }
+
+        private void RemoveBuilding(Building building)
+        {
+            building.Floors.CollectionChanged -= FloorsCollectionChanged;
+            foreach (var floor in building.Floors)
+                RemoveFloor(floor);
+
+            var visual = buildings.FirstOrDefault(x => x.Model == building);
+            buildings.Remove(visual);
+        }
+
         private void FloorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -393,6 +410,8 @@ namespace FireSafety.VisualModels
         }
         private void RemoveFloor(Floor floor)
         {
+            floor.ParentBuilding.Floors.CollectionChanged -= FloorsCollectionChanged;
+
             var visual = floors.FirstOrDefault(x => x.Model == floor);
             floors.Remove(visual);
 

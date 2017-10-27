@@ -3,18 +3,6 @@
 namespace FireSafety.Models
 {
     /// <summary>
-    /// Интерфейс, характеризующий, что объект зависит от масштаба
-    /// </summary>
-    interface IScalable
-    {
-        /// <summary>
-        /// Автоматически подстраивать размеры в соответствии с масштабом
-        /// </summary>
-        bool AutoSize { get; }
-        double Length { get; set; }
-    }
-
-    /// <summary>
     /// Сведения о маштабе 
     /// </summary>
     
@@ -29,14 +17,15 @@ namespace FireSafety.Models
         /// Значение длины графического представления
         /// </summary>
         public double GraphicLength { get; private set; }
+
+        public static double E = 0.001;
         public ZoomTool(double actualLength, double graphicLength)
         {
-            double e = 0.001;
-            if (actualLength < e || graphicLength < e)
-                throw new Exception(string.Format("Необходимо задать значения, превышающие {e}", e));
+            if (actualLength < E || graphicLength < E)
+                throw new Exception(string.Format("Необходимо задать значения, превышающие {e}", E));
 
-            this.ActualLength = actualLength;
-            this.GraphicLength = graphicLength;
+            ActualLength = actualLength;
+            GraphicLength = graphicLength;
         }
 
         public double Ratio
@@ -66,7 +55,7 @@ namespace FireSafety.Models
             if (object.ReferenceEquals(left, null) || object.ReferenceEquals(right, null))
                 return false;
 
-            return Math.Abs(right.Ratio - left.Ratio) < 0.05;
+            return Math.Abs(right.Ratio - left.Ratio) < E;
         }
         public static bool operator !=(ZoomTool left, ZoomTool right)
         {

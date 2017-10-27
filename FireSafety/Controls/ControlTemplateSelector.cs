@@ -15,6 +15,7 @@ namespace FireSafety.Controls
         public DataTemplate ControlTemplateBuilding { get; set; }
         public DataTemplate ControlTemplateStairsNode { get; set; }
         public DataTemplate ControlTemplateFloorsConnectionSection { get; set; }
+        public DataTemplate ControlTemplateEntityReadOnly { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -27,6 +28,7 @@ namespace FireSafety.Controls
             if (item is FloorsConnectionSection) return ControlTemplateFloorsConnectionSection;
             if (item is RoadSection) return ControlTemplateRoadSection;
             if (item is StairsNode) return ControlTemplateStairsNode;
+            if (item is BuildingComposition || item is EvacuationPlan) return ControlTemplateEntityReadOnly;
 
             return ControlTemplateEntity;
         }
