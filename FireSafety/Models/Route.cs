@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
-    
+
     class Route : Entity, IDisposable
     {
         private static int index = 1;
@@ -32,6 +32,12 @@ namespace FireSafety.Models
         {
             get { return Sections.LastOrDefault().Last; }
         }
+
+        /// <summary>
+        /// Стартовый узел пути
+        /// </summary>
+        public StartNode Start { get { return FirstNode as StartNode; } }
+
         public void AddSections(IEnumerable<Section> sections)
         {
             foreach (var section in sections)
@@ -69,6 +75,10 @@ namespace FireSafety.Models
             set { length = value; OnPropertyChanged("Length"); }
         }
         private double length;
+
+        /// <summary>
+        /// Является сформированным - соединяет старт с выходом
+        /// </summary>
         public bool IsFormed
         {
             get { return (FirstNode is StartNode && LastNode is ExitNode); }
@@ -84,7 +94,7 @@ namespace FireSafety.Models
                     (section as Entity).Status = value;
             }
         }
-        public override BitmapImage Icon { get { return Settings.Instance.ПутьIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.RouteIco; } }
 
         public event EventHandler<RouteChangedEventArgs> RouteChanged;
         protected virtual void OnRouteChanged(string name, object value)

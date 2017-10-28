@@ -30,16 +30,23 @@ namespace FireSafety.VisualModels
 
         public const double Thickness = 20;
 
+        private bool isMoving = false;
+
         private void NodePositionChanged(object sender, PositionChangedEventArgs e)
         {
             Draw();
-            ApplyScale(ParentFloor.Model.Scale);
+            if (!isMoving)
+                ApplyScale(ParentFloor.Model.Scale);
         }
 
         public override void Move(Vector shift)
         {
+            isMoving = true;
+
             First.Move(shift);
             Last.Move(shift);
+
+            isMoving = false;
         }
 
         public double Length { get { return (Last.Position - First.Position).Length; } }
@@ -100,7 +107,7 @@ namespace FireSafety.VisualModels
         {
             if (!Model.AutoSize) return;
 
-            (Model as Section).Length =  scale.GetActualLength(Length);
+            (Model as Section).Length = scale.GetActualLength(Length);
         }
     }
 }

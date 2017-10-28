@@ -227,6 +227,7 @@ namespace FireSafety.VisualModels
             IsCreatingLine = false;
             base.OnMouseRightButtonDown(e);
         }
+
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             if (CurrentFloor == null) return;
@@ -298,23 +299,6 @@ namespace FireSafety.VisualModels
             }
         }
 
-        private List<VisualFloor> floors;
-        private List<VisualBuilding> buildings;
-        private VisualFloor CurrentFloor
-        {
-            get { return currentFloor; }
-            set
-            {
-                if (currentFloor == value) return;
-                currentFloor = value;
-                visuals.Clear();
-                IsCreatingLine = false;
-                if (currentFloor == null) return;
-                visuals.Add(currentFloor);
-            }
-        }
-        private VisualFloor currentFloor;
-
         private void ToDefaultValues()
         {
             CurrentFloor = null;
@@ -328,11 +312,13 @@ namespace FireSafety.VisualModels
                 building.Model.Floors.CollectionChanged -= FloorsCollectionChanged;
             buildings.Clear();
         }
+
         private void AddVisualEntity(VisualEntity entry)
         {
             if (CurrentFloor == null) return;
             CurrentFloor.AddVisualEntity(entry);
         }
+
         private void ApplyingNewValues(ObservableCollection<Building> newBuildings)
         {
             ToDefaultValues();
@@ -344,6 +330,12 @@ namespace FireSafety.VisualModels
 
             CurrentFloor = floors.FirstOrDefault();
         }
+
+
+        #region Здания
+
+        private List<VisualBuilding> buildings;
+
         private void BuildingsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -362,6 +354,7 @@ namespace FireSafety.VisualModels
                     }
             }
         }
+
         private void AddBuilding(Building building)
         {
             var clone = buildings.FirstOrDefault(x => x.Model == building);
@@ -383,6 +376,26 @@ namespace FireSafety.VisualModels
             buildings.Remove(visual);
         }
 
+        #endregion
+
+        #region Этажи
+
+        private List<VisualFloor> floors;
+
+        private VisualFloor CurrentFloor
+        {
+            get { return currentFloor; }
+            set
+            {
+                if (currentFloor == value) return;
+                currentFloor = value;
+                visuals.Clear();
+                IsCreatingLine = false;
+                if (currentFloor == null) return;
+                visuals.Add(currentFloor);
+            }
+        }
+        private VisualFloor currentFloor;
         private void FloorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -401,6 +414,7 @@ namespace FireSafety.VisualModels
                     }
             }
         }
+
         private void AddFloor(Floor floor)
         {
             var clone = floors.FirstOrDefault(x => x.Model == floor);
@@ -408,6 +422,7 @@ namespace FireSafety.VisualModels
 
             floors.Add(new VisualFloor(floor));
         }
+
         private void RemoveFloor(Floor floor)
         {
             floor.ParentBuilding.Floors.CollectionChanged -= FloorsCollectionChanged;
@@ -418,6 +433,8 @@ namespace FireSafety.VisualModels
             if (floor.ParentBuilding.IsEmpty)
                 CurrentFloor = null;
         }
+
+        #endregion
 
         #region Базовые
 

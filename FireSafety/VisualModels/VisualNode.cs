@@ -1,8 +1,6 @@
 ﻿using FireSafety.Models;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Media;
-using System;
 
 namespace FireSafety.VisualModels
 {
@@ -23,8 +21,11 @@ namespace FireSafety.VisualModels
             selectPen = normalPen;
             Draw();
         }
+
         public List<VisualRoadSection> IncomingSections { get; private set; }
+
         public List<VisualRoadSection> OutgoingSections { get; private set; }
+
         public void AddSection(VisualRoadSection section)
         {
             if (section.First == this)

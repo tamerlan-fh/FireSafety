@@ -53,14 +53,24 @@ namespace FireSafety.Models
                 RemoveRoute(route);
         }
 
+        /// <summary>
+        /// Содержит хотя бы один несформированный путь
+        /// </summary>
         public bool ContainsUnformedRoutes
         {
-            get { return Routes.FirstOrDefault(x => !(x.FirstNode is StartNode && x.LastNode is ExitNode)) != null; }
+            get { return Routes.Any(x => !x.IsFormed); }
+            //get { return Routes.FirstOrDefault(x => !(x.FirstNode is StartNode && x.LastNode is ExitNode)) != null; }
         }
+
+        /// <summary>
+        /// Содержит хотя бы один сформированный путь
+        /// </summary>
         public bool ContainsFormedRoutes
         {
-            get { return Routes.FirstOrDefault(x => (x.FirstNode is StartNode && x.LastNode is ExitNode)) != null; }
+            get { return Routes.Any(x => x.IsFormed); }
+            //get { return Routes.FirstOrDefault(x => (x.FirstNode is StartNode && x.LastNode is ExitNode)) != null; }
         }
+
         public double EvacuationTime
         {
             get { return ParentBuilding.EvacuationTime; }
@@ -77,7 +87,7 @@ namespace FireSafety.Models
 
         private bool IsCalculated = false;
         private bool NeedCalculate = false;
-        private TimeSpan CalculateInterval = TimeSpan.FromSeconds(1);
+        private TimeSpan CalculateInterval = TimeSpan.FromSeconds(0.5);
         /// <summary>
         /// Пересчитать параметры маршрутов
         /// необходимо при изменении значений отдельных звеньев маршрутов
@@ -96,37 +106,30 @@ namespace FireSafety.Models
             var routes = Routes.Where(x => x.IsFormed);
             if (!routes.Any()) return;
 
-            var рассматриваемыеУчастки = new List<ISection>();
-            foreach (var route in routes)
-                рассматриваемыеУчастки.AddRange(route.Sections);
-            рассматриваемыеУчастки = рассматриваемыеУчастки.Distinct().ToList();
-
-            var рассмотренныеУчастки = new List<ISection>();
-
             foreach (var route in routes)
             {
                 route.MovementTime = 0;
 
-                var первыйУчасток = route.Sections.First();
-                var старт = route.FirstNode as StartNode;
-                первыйУчасток.DensityHumanFlow = старт.PeopleCount * старт.ProjectionArea / (первыйУчасток.Length * первыйУчасток.Width);
+                var firstSection = route.Sections.First();
+                var start = route.Start;
+                firstSection.DensityHumanFlow = start.PeopleCount * start.ProjectionArea / (firstSection.Length * firstSection.Width);
 
-                if (первыйУчасток.GetType() == typeof(RoadSection))
+                if (firstSection.GetType() == typeof(RoadSection))
                 {
-                    первыйУчасток.IntensityHumanFlow = ТаблицаЗависимостиГоризонтальныйПуть.Instance.ИнтенсивностьЧерезПлотность(первыйУчасток.DensityHumanFlow);
-                    первыйУчасток.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезПлотность(первыйУчасток.DensityHumanFlow);
+                    firstSection.IntensityHumanFlow = ТаблицаЗависимостиГоризонтальныйПуть.Instance.ИнтенсивностьЧерезПлотность(firstSection.DensityHumanFlow);
+                    firstSection.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезПлотность(firstSection.DensityHumanFlow);
                 }
 
-                if (первыйУчасток.GetType() == typeof(StairsSection))
+                if (firstSection.GetType() == typeof(StairsSection))
                 {
-                    первыйУчасток.MovementSpeed = ТаблицаЗависимостиЛестницаВниз.Instance.СкоростьЧерезПлотность(первыйУчасток.DensityHumanFlow);
-                    первыйУчасток.IntensityHumanFlow = ТаблицаЗависимостиЛестницаВниз.Instance.Интенсивность(первыйУчасток.DensityHumanFlow);
+                    firstSection.MovementSpeed = ТаблицаЗависимостиЛестницаВниз.Instance.СкоростьЧерезПлотность(firstSection.DensityHumanFlow);
+                    firstSection.IntensityHumanFlow = ТаблицаЗависимостиЛестницаВниз.Instance.Интенсивность(firstSection.DensityHumanFlow);
                 }
 
-                первыйУчасток.MovementTime = первыйУчасток.Length / первыйУчасток.MovementSpeed;
-                route.MovementTime += первыйУчасток.MovementTime;
+                firstSection.MovementTime = firstSection.Length / firstSection.MovementSpeed;
+                route.MovementTime += firstSection.MovementTime;
 
-                Section предыдущийУчасток = первыйУчасток;
+                var previousSection = firstSection;
 
                 foreach (var section in route.Sections.Skip(1))
                 {
@@ -134,25 +137,25 @@ namespace FireSafety.Models
 
                     if (section.GetType() == typeof(RoadSection))
                     {
-                        section.IntensityHumanFlow = предыдущийУчасток.IntensityHumanFlow * предыдущийУчасток.Width / section.Width;
+                        section.IntensityHumanFlow = previousSection.IntensityHumanFlow * previousSection.Width / section.Width;
                         section.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(section.IntensityHumanFlow);
                         section.MovementTime = section.Length / section.MovementSpeed;
                     }
                     if (section.GetType() == typeof(StairsSection))
                     {
-                        section.IntensityHumanFlow = предыдущийУчасток.IntensityHumanFlow * предыдущийУчасток.Width / section.Width;
+                        section.IntensityHumanFlow = previousSection.IntensityHumanFlow * previousSection.Width / section.Width;
                         section.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(section.IntensityHumanFlow);
                         section.MovementTime = section.Length / section.MovementSpeed;
                     }
                     if (section.GetType() == typeof(EntryNode))
                     {
                         section.IntensityHumanFlow = 2.5 + 3.75 * section.Width;
-                        section.MovementTime = старт.PeopleCount * 0.1 / (section.IntensityHumanFlow * section.Width);
+                        section.MovementTime = start.PeopleCount * 0.1 / (section.IntensityHumanFlow * section.Width);
                     }
 
                     route.MovementTime += section.MovementTime;
 
-                    предыдущийУчасток = section;
+                    previousSection = section;
                 }
             }
 
@@ -174,47 +177,47 @@ namespace FireSafety.Models
             Clear();
 
             var sections = new List<Section>();
-            foreach (var этаж in ParentBuilding.Floors)
-                sections.AddRange(этаж.Objects.Where(x => x is Section).Select(x => x as Section));
+            foreach (var floor in ParentBuilding.Floors)
+                sections.AddRange(floor.Objects.Where(x => x is Section).Select(x => x as Section));
 
-            var стартовыеУчастки = sections.Where(x => x.NoIncoming);
+            var firstSections = sections.Where(x => x.NoIncoming);
 
             var routes = new List<Route>();
-            int индекс = 1;
+            int index = 1;
 
-            foreach (var стартовыйУчасток in стартовыеУчастки)
+            foreach (var firstSection in firstSections)
             {
-                var текущийУчасток = стартовыйУчасток;
-                var текущийПуть = new List<Section>();
-                var пройденныеУчастки = new List<Section>();
-                var стек = new Stack<Section>();
-                стек.Push(текущийУчасток);
+                var currentSection = firstSection;
+                var currentRoute = new List<Section>();
+                var goneSections = new List<Section>();
+                var stack = new Stack<Section>();
+                stack.Push(currentSection);
 
-                while (стек.Any())
+                while (stack.Any())
                 {
-                    текущийУчасток = стек.Peek();
-                    if (!текущийПуть.Contains(текущийУчасток))
-                        текущийПуть.Add(текущийУчасток);
+                    currentSection = stack.Peek();
+                    if (!currentRoute.Contains(currentSection))
+                        currentRoute.Add(currentSection);
 
-                    if (текущийУчасток.NoOutgoing)
+                    if (currentSection.NoOutgoing)
                     {
-                        var путь = new Route(string.Format("Путь {0}", индекс++), ParentBuilding);
-                        путь.AddSections(текущийПуть);
-                        routes.Add(путь);
+                        var route = new Route(string.Format("Путь {0}", index++), ParentBuilding);
+                        route.AddSections(currentRoute);
+                        routes.Add(route);
 
-                        пройденныеУчастки.Add(текущийУчасток);
+                        goneSections.Add(currentSection);
                     }
 
-                    if (пройденныеУчастки.Contains(текущийУчасток))
+                    if (goneSections.Contains(currentSection))
                     {
-                        стек.Pop();
-                        текущийПуть.Remove(текущийУчасток);
+                        stack.Pop();
+                        currentRoute.Remove(currentSection);
                     }
                     else
                     {
-                        foreach (var участок in текущийУчасток.Last.OutgoingSections)
-                            стек.Push(участок);
-                        пройденныеУчастки.Add(текущийУчасток);
+                        foreach (var section in currentSection.Last.OutgoingSections)
+                            stack.Push(section);
+                        goneSections.Add(currentSection);
                     }
                 }
             }
@@ -222,76 +225,69 @@ namespace FireSafety.Models
             foreach (var route in routes)
                 AddRoute(route);
         }
+
         public DocX CreateDocument(string title)
         {
             var document = DocX.Create(title, DocumentTypes.Document);
 
             var routes = Routes.Where(x => x.IsFormed);
 
-            var заголовок1 = new Formatting() { Bold = true, Size = 16 };
-            var заголовок2 = new Formatting() { Bold = true, Size = 12 };
-            var нормальный = new Formatting() { Bold = false, Size = 12 };
-            document.InsertParagraph(Title, false, заголовок1);
+            var headerFormat1 = new Formatting() { Bold = true, Size = 16 };
+            var headerFormat2 = new Formatting() { Bold = true, Size = 12 };
+            var normalFormat = new Formatting() { Bold = false, Size = 12 };
+            document.InsertParagraph(Title, false, headerFormat1);
             document.InsertParagraph();
 
             foreach (var floor in ParentBuilding.Floors)
             {
-                var схема = floor.GetEvacuationPlanImage();
-                using (MemoryStream ms = new MemoryStream(Settings.GetBytesFromBitmap(схема.BitmapValue)))
+                var planImage = floor.GetEvacuationPlanImage();
+                using (var ms = new MemoryStream(Settings.GetBytesFromBitmap(planImage.BitmapValue)))
                 {
-                    Novacode.Image img = document.AddImage(ms); // Create image.
+                    double width = 672;
+                    double height = planImage.Height * width / planImage.Width;
 
-                    Paragraph p = document.InsertParagraph(string.Format("Схема эвакуации '{0}'", floor.Title), false);
-                    double ширина = 672;
-                    double высота = схема.Height * ширина / схема.Width;
-                    Picture pic1 = img.CreatePicture((int)высота, (int)ширина);     // Create picture.
-                    p.InsertPicture(pic1, 0); // Insert picture into paragraph.
+                    var image = document.AddImage(ms); // Create image.
+                    var picture = image.CreatePicture((int)height, (int)width);     // Create picture.
+
+                    var paragraph = document.InsertParagraph(string.Format("Схема эвакуации '{0}'", floor.Title), false);
+                    paragraph.InsertPicture(picture, 0); // Insert picture into paragraph.
                 }
             }
 
             foreach (var route in routes)
             {
-                document.InsertParagraph(route.Title, false, заголовок1);
-                var числоСтрок = route.Sections.Count - route.Sections.Count(x => x is FloorsConnectionSection) + 1;
-                var таблица = document.AddTable(числоСтрок, 7);
-                таблица.Rows[0].Cells[0].Paragraphs.First().InsertText("Участок", false, заголовок2);
-                таблица.Rows[0].Cells[1].Paragraphs.First().InsertText("Длина, м", false, заголовок2);
-                таблица.Rows[0].Cells[2].Paragraphs.First().InsertText("Ширина, м", false, заголовок2);
-                таблица.Rows[0].Cells[3].Paragraphs.First().InsertText("Площадь, м2", false, заголовок2);
-                таблица.Rows[0].Cells[4].Paragraphs.First().InsertText("Интенсивность движения людского потока, м/мин", false, заголовок2);
-                таблица.Rows[0].Cells[5].Paragraphs.First().InsertText("Скорость движения людского потока, м/мин", false, заголовок2);
-                таблица.Rows[0].Cells[6].Paragraphs.First().InsertText("Время прохождения участка, мин", false, заголовок2);
+                document.InsertParagraph(route.Title, false, headerFormat1);
+                var rowsCount = route.Sections.Count - route.Sections.Count(x => x is FloorsConnectionSection) + 1;
+                var table = document.AddTable(rowsCount, 7);
+                table.Rows[0].Cells[0].Paragraphs.First().InsertText("Участок", false, headerFormat2);
+                table.Rows[0].Cells[1].Paragraphs.First().InsertText("Длина, м", false, headerFormat2);
+                table.Rows[0].Cells[2].Paragraphs.First().InsertText("Ширина, м", false, headerFormat2);
+                table.Rows[0].Cells[3].Paragraphs.First().InsertText("Площадь, м2", false, headerFormat2);
+                table.Rows[0].Cells[4].Paragraphs.First().InsertText("Интенсивность движения людского потока, м/мин", false, headerFormat2);
+                table.Rows[0].Cells[5].Paragraphs.First().InsertText("Скорость движения людского потока, м/мин", false, headerFormat2);
+                table.Rows[0].Cells[6].Paragraphs.First().InsertText("Время прохождения участка, мин", false, headerFormat2);
 
-                var строка = 1;
-                foreach (var участок in route.Sections)
+                var rowIndex = 1;
+                foreach (var section in route.Sections)
                 {
-                    if (участок is FloorsConnectionSection) continue;
-                    таблица.Rows[строка].Cells[0].Paragraphs.First().InsertText(участок.Title, false, нормальный);
-                    таблица.Rows[строка].Cells[1].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(участок.Length, 3)), false, нормальный);
-                    таблица.Rows[строка].Cells[2].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(участок.Width, 3)), false, нормальный);
-                    // таблица.Rows[строка].Cells[3].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(участок.Площадь, 3)), false, нормальный);
-                    таблица.Rows[строка].Cells[4].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(участок.IntensityHumanFlow, 3)), false, нормальный);
-                    таблица.Rows[строка].Cells[5].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(участок.MovementSpeed, 3)), false, нормальный);
-                    таблица.Rows[строка].Cells[6].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(участок.MovementTime, 3)), false, нормальный);
-                    строка++;
-                    //if (участок.Конец is Дверь)
-                    //{
-                    //    var дверь = участок.Конец as Дверь;
-                    //    таблица.Rows[строка].Cells[0].Paragraphs.First().InsertText(дверь.Название, false, нормальный);
-                    //    таблица.Rows[строка].Cells[2].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(дверь.Ширина, 3)), false, нормальный);
-                    //    таблица.Rows[строка].Cells[4].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(дверь.ИнтенсивностьЛюдскогоПотока, 3)), false, нормальный);
-                    //    таблица.Rows[строка].Cells[6].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(дверь.ВремяДвижения, 3)), false, нормальный);
-                    //    строка++;
-                    //}
+                    if (section is FloorsConnectionSection) continue;
+                    table.Rows[rowIndex].Cells[0].Paragraphs.First().InsertText(section.Title, false, normalFormat);
+                    table.Rows[rowIndex].Cells[1].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.Length, 3)), false, normalFormat);
+                    table.Rows[rowIndex].Cells[2].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.Width, 3)), false, normalFormat);
+                    table.Rows[rowIndex].Cells[4].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.IntensityHumanFlow, 3)), false, normalFormat);
+                    table.Rows[rowIndex].Cells[5].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.MovementSpeed, 3)), false, normalFormat);
+                    table.Rows[rowIndex].Cells[6].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.MovementTime, 3)), false, normalFormat);
+                    rowIndex++;
                 }
 
-                document.InsertTable(таблица);
-                document.InsertParagraph(string.Format("Общее время t: {0} мин ", Math.Round(route.MovementTime, 3)), false, заголовок2);
+                document.InsertTable(table);
+                document.InsertParagraph(string.Format("Общее время t: {0} мин ", Math.Round(route.MovementTime, 3)), false, headerFormat2);
                 document.InsertParagraph();
             }
 
             return document;
         }
-        public override BitmapImage Icon { get { return Settings.Instance.ПутьIco; } }
+
+        public override BitmapImage Icon { get { return Settings.Instance.RouteIco; } }
     }
 }

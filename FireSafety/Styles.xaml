@@ -13,6 +13,7 @@
     <cnvrt:TimeSpanConverter x:Key="TimeSpanConverter" />
     <cnvrt:DoubleRoundConverter x:Key="DoubleRoundConverter"/>
     <cnvrt:BooleanValueConverter x:Key="BooleanValueConverter" />
+    <cnvrt:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
     <Color x:Key="Fill_active_top">#FF8FC1E5</Color>
     <Brush x:Key="Fill_active_top_">#FF8FC1E5</Brush>
@@ -1032,7 +1033,7 @@
             <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Width,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
 
             <TextBox Grid.Column="0" Grid.Row="5" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Length, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" VerticalContentAlignment="Top" Style="{StaticResource TextBoxStyle}" />
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Length, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsEnabled="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}" VerticalContentAlignment="Top" Style="{StaticResource TextBoxStyle}" />
 
             <TextBox Grid.Column="0" Grid.Row="7" Text="Интенсивность движения, м/мин" ToolTip="Интенсивность движения, м/мин" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Path=IntensityHumanFlow, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />

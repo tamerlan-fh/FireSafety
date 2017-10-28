@@ -17,6 +17,6 @@ namespace FireSafety.Models
         {
             OutgoingSectionsAllowed = false;
         }
-        public override BitmapImage Icon { get { return Settings.Instance.ВыходIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.ExitIco; } }
     }
 }

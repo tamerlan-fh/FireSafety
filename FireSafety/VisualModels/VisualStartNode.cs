@@ -16,6 +16,7 @@ namespace FireSafety.VisualModels
             normalPen.Brush = Brushes.Blue;
             Draw();
         }
+
         public override void Draw()
         {
             using (DrawingContext dc = RenderOpen())

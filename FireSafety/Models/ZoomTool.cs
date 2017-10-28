@@ -19,6 +19,12 @@ namespace FireSafety.Models
         public double GraphicLength { get; private set; }
 
         public static double E = 0.001;
+
+        /// <summary>
+        /// Масштаб
+        /// </summary>
+        /// <param name="actualLength">фактическое значение длины (метры)</param>
+        /// <param name="graphicLength">графическое представление (пиксели)
         public ZoomTool(double actualLength, double graphicLength)
         {
             if (actualLength < E || graphicLength < E)
@@ -45,7 +51,7 @@ namespace FireSafety.Models
 
         public static ZoomTool Empty
         {
-            get { return new ZoomTool(1, 1); }
+            get { return new ZoomTool(15, 1920); }
         }
 
         public static bool operator ==(ZoomTool left, ZoomTool right)

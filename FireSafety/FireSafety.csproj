@@ -82,6 +82,7 @@
     <Compile Include="IO\BuildingSaveFile.cs" />
     <Compile Include="IO\SaveBuildingManager.cs" />
     <Compile Include="ValueConverters\BooleanValueConverter.cs" />
+    <Compile Include="ValueConverters\InverseBooleanConverter.cs" />
     <Compile Include="ViewModels\BasePropertyChanged.cs" />
     <Compile Include="Controls\ControlTemplateSelector.cs" />
     <Compile Include="Controls\ModifiedTreeView.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Views\ScaleWindow.xaml.cs">
       <DependentUpon>ScaleWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VisualModels\CreatingLineInformation.cs" />
     <Compile Include="VisualModels\PositionChangedEventArgs.cs" />
     <Compile Include="VisualModels\VisualNode.cs" />
     <Compile Include="VisualModels\VisualEntity.cs" />
@@ -194,6 +196,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -205,139 +208,25 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Icons\usatu.ico" />
-    <Resource Include="Icons\БлокировкаIco-64.png" />
-    <Resource Include="Icons\ВыходIco-64.png" />
-    <Resource Include="Icons\ДверьIco-64.png" />
-    <Resource Include="Icons\ЗданиеIco.png" />
-    <Resource Include="Icons\ЛестницаIco-64.png" />
-    <Resource Include="Icons\ЛинейкаIco-46.png" />
-    <Resource Include="Icons\ОткрытьIco-64.png" />
-    <Resource Include="Icons\ОтчетIco-64.png" />
-    <Resource Include="Icons\ПутьIco-64.png" />
-    <Resource Include="Icons\РискIco-64.png" />
-    <Resource Include="Icons\СлоиIco-46.png" />
-    <Resource Include="Icons\СохранитьIco-64.png" />
-    <Resource Include="Icons\СтартIco-64.png" />
-    <Resource Include="Icons\УдалитьIco-64.png" />
-    <Resource Include="Icons\УказательIco-64.png" />
-    <Resource Include="Icons\ЭтажIco-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\_poster.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\buildings.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DocX.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FileName1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Безопасность проверена-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Безопасность проверена-100.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Вопрос защиты-50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Вопрос защиты-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Вопрос защиты-100.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Выход-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Группа пользователей, мужчина и женщина-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Дверь открыта-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Дверь-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Документ-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Документ-100.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Костер-46.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Круг-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Курсор-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Курсор-рука-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Лестница Filled-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Лестница-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Линейка-46.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Линейный график-80.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Листы-46.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Ломаная кривая Filled-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Ломаная кривая-64 %281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Ломаная кривая-64 %282%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Ломаная кривая-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Огонь-46.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Один палец-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Поэтажный план-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Просроченный-100.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Сохранить-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Сохранить-100.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Стрелка вниз в круге 2-50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Удалить-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-Экспорт-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Без имени-1.png" />
+    <Resource Include="Icons\blockage_evacuation_routes_icon_64.png" />
+    <Resource Include="Icons\entry_icon_64.png" />
+    <Resource Include="Icons\stairs_icon_64.png" />
+    <Resource Include="Icons\open_icon_64.png" />
+    <Resource Include="Icons\documen_icon_64.png" />
+    <Resource Include="Icons\route_icon_64.png" />
+    <Resource Include="Icons\fire_risk_icon_64.png" />
+    <Resource Include="Icons\save_icon_64.png" />
+    <Resource Include="Icons\remove_icon_64.png" />
+    <Resource Include="Icons\cursor_icon_64.png" />
+    <Resource Include="Icons\floor_icon_64.png" />
+    <Resource Include="Icons\start_icon_64.png" />
+    <Resource Include="Icons\exit_icon_64.png" />
+    <Resource Include="Icons\background_icon_64.png" />
+    <Resource Include="Icons\scale_icon_64.png" />
+    <Resource Include="Icons\building_icon_64.png" />
+    <Resource Include="Icons\building_icon_64_2.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -350,6 +239,21 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DocX.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\node_icon_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\floors_connection_icon_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\section_icon_.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Image1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

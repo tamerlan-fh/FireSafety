@@ -5,8 +5,7 @@ using System.Windows.Media.Imaging;
 namespace FireSafety.VisualModels
 {
     class EvacuationPlanImage
-    {
-      
+    {     
         public EvacuationPlanImage(BitmapSource source)
         {
             BitmapSourceValue = source;

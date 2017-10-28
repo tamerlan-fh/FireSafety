@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
@@ -33,5 +34,6 @@ namespace FireSafety.Models
             if (e.PropertyName == "Title")
                 OnPropertyChanged("Title");
         }
+        public override BitmapImage Icon { get { return Settings.Instance.FloorsConnectionIco; } }
     }
 }

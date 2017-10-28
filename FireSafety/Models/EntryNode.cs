@@ -27,7 +27,7 @@ namespace FireSafety.Models
         }
         private double width;
         public double Area { get { return Length * Width; } }
-        public override BitmapImage Icon { get { return Settings.Instance.ДверьIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.EntryIco; } }
         public Node First { get; protected set; }
         public Node Last { get; protected set; }
         public bool NoIncoming { get { return !First.IncomingSections.Any(); } }

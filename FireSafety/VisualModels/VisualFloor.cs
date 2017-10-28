@@ -1,12 +1,8 @@
 ﻿using FireSafety.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -28,48 +24,72 @@ namespace FireSafety.VisualModels
             Model.Objects.CollectionChanged += EntitiesCollectionChanged;
             Model.GetEvacuationPlanImage = GetEvacuationPlanImage;
 
-            Initialization();
-        }
-
-        private void Initialization()
-        {
             foreach (var obj in Model.Objects)
                 AddEntity(obj);
         }
-
-        private void AddEntity(Entity obj)
-        {
-            if (obj is StartNode) { AddVisual(new VisualStartNode(obj as StartNode, this)); return; }
-            if (obj is EntryNode) { AddVisual(new VisualEntryNode(obj as EntryNode, this)); return; }
-            if (obj is ExitNode) { AddVisual(new VisualExitNode(obj as ExitNode, this)); return; }
-            if (obj is StairsNode) { AddVisual(new VisualStairsNode(obj as StairsNode, this)); return; }
-            if (obj is RoadNode) { AddVisual(new VisualNode(obj as RoadNode, this)); return; }
-
-            if (obj is Section)
-            {
-                var first = (VisualNode)VisualEntities.Where(x => x.Model is Node).FirstOrDefault(x => x.Model == (obj as Section).First);
-                var last = (VisualNode)VisualEntities.Where(x => x.Model is Node).FirstOrDefault(x => x.Model == (obj as Section).Last);
-                if (first != null && last != null)
-                {
-                    if (obj is RoadSection)
-                        AddVisual(new VisualRoadSection(first, last, obj as RoadSection, this));
-                    else if (obj is StairsSection)
-                        AddVisual(new VisualStairsSection(first, last, obj as StairsSection, this));
-                }
-            }
-        }
-
+      
         private EvacuationPlanImage GetEvacuationPlanImage()
         {
             //исходная область этажа
-            var bmpSource = new RenderTargetBitmap(CWidth, CHeight, 96, 96, PixelFormats.Pbgra32);
+            var bmpSource = new RenderTargetBitmap(Width, Height, 96, 96, PixelFormats.Pbgra32);
             bmpSource.Render(this);
 
             //область, включающая схему этажа
             var croped = new CroppedBitmap(bmpSource, cropedRect);
-
-            return new EvacuationPlanImage(croped);
+            return new EvacuationPlanImage(bmpSource);
         }
+     
+        private void ModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "FloorPlanImage": { CreateBackground(); break; }
+            }
+        }
+
+        #region Фон
+
+        private const int Width = 1920;
+        private const int Height = 1080;
+        /// <summary>
+        /// прямоугольная область, где располагаются визуальные обьекты этажа
+        /// </summary>
+        private Int32Rect cropedRect = new Int32Rect(0, 0, Width, Height);
+        private void CreateBackground(bool shadowIsActive = true)
+        {
+            using (var dc = RenderOpen())
+            {
+                double width = Width;
+                double height = Height;
+
+                if (Model.FloorPlanImage != null)
+                {
+                    if (Model.FloorPlanImage.Width * Height / Model.FloorPlanImage.Height > Width)
+                        height = Model.FloorPlanImage.Height * Width / Model.FloorPlanImage.Width;
+                    else
+                        width = Model.FloorPlanImage.Width * Height / Model.FloorPlanImage.Height;
+                }
+                var rect = new Rect((Width - width) / 2, (Height - height) / 2, width, height);
+                cropedRect = new Int32Rect((int)rect.Location.X, (int)rect.Location.Y, (int)rect.Width, (int)rect.Height);
+
+
+                if (shadowIsActive)
+                {
+                    var vector = new Vector(10, 10);
+                    dc.DrawRectangle(Brushes.Gray, null, new Rect(rect.TopLeft + vector, rect.BottomRight + vector));
+                }
+
+
+                if (Model.FloorPlanImage == null)
+                    dc.DrawRectangle(Brushes.White, new Pen(Brushes.Black, 1), rect);
+                else
+                    dc.DrawImage(Model.FloorPlanImage, rect);
+            }
+        }
+
+        #endregion
+
+        #region Обьекты этажа
 
         private void EntitiesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -94,54 +114,29 @@ namespace FireSafety.VisualModels
                 }
             }
         }
-        private void ModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+
+        private void AddEntity(Entity obj)
         {
-            switch (e.PropertyName)
+            if (obj is StartNode) { AddVisual(new VisualStartNode(obj as StartNode, this)); return; }
+            if (obj is EntryNode) { AddVisual(new VisualEntryNode(obj as EntryNode, this)); return; }
+            if (obj is ExitNode) { AddVisual(new VisualExitNode(obj as ExitNode, this)); return; }
+            if (obj is StairsNode) { AddVisual(new VisualStairsNode(obj as StairsNode, this)); return; }
+            if (obj is RoadNode) { AddVisual(new VisualNode(obj as RoadNode, this)); return; }
+
+            if (obj is Section)
             {
-                case "FloorPlanImage": { CreateBackground(); break; }
-            }
-        }
-        private double Width { get { return this.Drawing.Bounds.Width; } }
-        private double Height { get { return this.Drawing.Bounds.Height; } }
-
-        #region Фон
-
-        private const int CWidth = 1920;
-        private const int CHeight = 1080;
-        private Int32Rect cropedRect = new Int32Rect(0, 0, CWidth, CHeight);
-        private void CreateBackground(bool shadowIsActive = true)
-        {
-            using (DrawingContext dc = this.RenderOpen())
-            {
-                double width = CWidth;
-                double height = CHeight;
-
-                if (Model.FloorPlanImage != null)
+                var first = (VisualNode)VisualEntities.Where(x => x.Model is Node).FirstOrDefault(x => x.Model == (obj as Section).First);
+                var last = (VisualNode)VisualEntities.Where(x => x.Model is Node).FirstOrDefault(x => x.Model == (obj as Section).Last);
+                if (first != null && last != null)
                 {
-                    if (Model.FloorPlanImage.Width * CHeight / Model.FloorPlanImage.Height > CWidth)
-                        height = Model.FloorPlanImage.Height * CWidth / Model.FloorPlanImage.Width;
-                    else
-                        width = Model.FloorPlanImage.Width * CHeight / Model.FloorPlanImage.Height;
+                    if (obj is RoadSection)
+                        AddVisual(new VisualRoadSection(first, last, obj as RoadSection, this));
+                    else if (obj is StairsSection)
+                        AddVisual(new VisualStairsSection(first, last, obj as StairsSection, this));
                 }
-                var rect = new Rect((CWidth - width) / 2, (CHeight - height) / 2, width, height);
-                cropedRect = new Int32Rect((int)rect.Location.X, (int)rect.Location.Y, (int)rect.Width, (int)rect.Height);
-
-
-                if (shadowIsActive)
-                {
-                    var vector = new Vector(10, 10);
-                    dc.DrawRectangle(Brushes.Gray, null, new Rect(rect.TopLeft + vector, rect.BottomRight + vector));
-                }
-
-
-                if (Model.FloorPlanImage == null)
-                    dc.DrawRectangle(Brushes.White, new Pen(Brushes.Black, 1), rect);
-                else
-                    dc.DrawImage(Model.FloorPlanImage, rect);
             }
         }
 
-        #endregion
         public void AddVisualEntity(VisualEntity entity)
         {
             AddVisual(entity);
@@ -163,11 +158,16 @@ namespace FireSafety.VisualModels
                 Children.Add(entity);
             }
         }
+
         public void RemoveVisualEntity(VisualEntity entity)
         {
             if (entity == null) return;
+
+            //удаляем элемент в модели, 
+            //и через изменении коллеции модели происходит удаление самого визуала
             Model.RemoveObject(entity.Model);
         }
+
         public VisualEntity GetVisualEntity(Point position)
         {
             //Поиск в обратном порядке: приоритет на верхних объектах
@@ -177,6 +177,8 @@ namespace FireSafety.VisualModels
 
             return null;
         }
+
+        #endregion
 
         public void ApplyScale()
         {

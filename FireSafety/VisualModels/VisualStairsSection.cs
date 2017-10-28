@@ -17,6 +17,7 @@ namespace FireSafety.VisualModels
         }
 
         private Pen stairsPen = new Pen(Brushes.Brown, 1);
+
         public override void Draw()
         {
             if (First == null || Last == null) return;
@@ -30,18 +31,18 @@ namespace FireSafety.VisualModels
                 }
                 dc.DrawLine(normalPen, First.Position, Last.Position);
 
-                var шаг = Thickness / 2;
-                var вектор = Last.Position - First.Position;
-                вектор.Normalize();
-                вектор *= шаг;
-                var перпендикуляр = new Vector(вектор.Y, -вектор.X);
+                var step = Thickness / 2;
+                var vector = Last.Position - First.Position;
+                vector.Normalize();
+                vector *= step;
+                var normal = new Vector(vector.Y, -vector.X);
 
-                int количество = Convert.ToInt32((Last.Position - First.Position).Length / шаг);
-                var точка = First.Position;
-                for (int i = 0; i < количество; i++)
+                int count = Convert.ToInt32((Last.Position - First.Position).Length / step);
+                var point = First.Position;
+                for (int i = 0; i < count; i++)
                 {
-                    точка += вектор;
-                    dc.DrawLine(stairsPen, точка + перпендикуляр, точка - перпендикуляр);
+                    point += vector;
+                    dc.DrawLine(stairsPen, point + normal, point - normal);
                 }
 
 

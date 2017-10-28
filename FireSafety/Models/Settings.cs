@@ -6,9 +6,6 @@ using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
-    /// <summary>
-    /// Settings
-    /// </summary>
     class Settings
     {
         private static Settings instance;
@@ -23,32 +20,21 @@ namespace FireSafety.Models
         }
         private Settings()
         {
-            ДверьIco = GetBitmapImage(Resources.icons8_Дверь_64, ImageFormat.Png);
-            ВыходIco = GetBitmapImage(Resources.icons8_Выход_64, ImageFormat.Png);
-            СтартIco = GetBitmapImage(Resources.icons8_Группа_пользователей__мужчина_и_женщина_64, ImageFormat.Png);
-            ЗданиеIco = GetBitmapImage(Resources.buildings, ImageFormat.Png);
-            ЭтажIco = GetBitmapImage(Resources.icons8_Поэтажный_план_64, ImageFormat.Png);
-            УчастокПутиIco = GetBitmapImage(Resources.Без_имени_1, ImageFormat.Png);
-            ПутьIco = GetBitmapImage(Resources.icons8_Ломаная_кривая_64__2_, ImageFormat.Png);
-            УзелIco = GetBitmapImage(Resources.icons8_Круг_64, ImageFormat.Png);
-            УказательIco = GetBitmapImage(Resources.icons8_Курсор_рука_64, ImageFormat.Png);
-            УдалитьIco = GetBitmapImage(Resources.icons8_Удалить_64, ImageFormat.Png);
-            ЛестницаIco = GetBitmapImage(Resources.icons8_Лестница_64, ImageFormat.Png);
-            ОгоньIco = GetBitmapImage(Resources.icons8_Огонь_46, ImageFormat.Png);
-            //ЛинейкаIco = GetBitmapImage(Resources.icons8_Линейка_46, ImageFormat.Png);
-            //СлоиIco = GetBitmapImage(Resources.icons8_Листы_46, ImageFormat.Png);
-            //ДокументIco = GetBitmapImage(Resources.icons8_Документ_64, ImageFormat.Png);
-            //СохранитьIco = GetBitmapImage(Resources.icons8_Сохранить_64, ImageFormat.Png);
-            //РискIco = GetBitmapImage(Resources.icons8_Безопасность_проверена_64, ImageFormat.Png);
-            //БлокировкаIco = GetBitmapImage(Resources.icons8_Вопрос_защиты_64, ImageFormat.Png);
+            EntryIco = GetBitmapImage(Resources.entry_icon_64, ImageFormat.Png);
+            ExitIco = GetBitmapImage(Resources.exit_icon_64, ImageFormat.Png);
+            StartIco = GetBitmapImage(Resources.start_icon_64, ImageFormat.Png);
+            BuildingIco = GetBitmapImage(Resources.building_icon_64, ImageFormat.Png);
+            FloorIco = GetBitmapImage(Resources.floor_icon_64, ImageFormat.Png);
+            SectionRoadIco = GetBitmapImage(Resources.section_icon_64, ImageFormat.Png);
+            RouteIco = GetBitmapImage(Resources.route_icon_64, ImageFormat.Png);
+            NodeIco = GetBitmapImage(Resources.node_icon_64, ImageFormat.Png);
+            StairsIco = GetBitmapImage(Resources.stairs_icon_64, ImageFormat.Png);
+            FloorsConnectionIco = GetBitmapImage(Resources.floors_connection_icon_64, ImageFormat.Png);
         }
-        public static BitmapImage GetBitmapImage(Bitmap bitmap)
-        {
-            return GetBitmapImage(bitmap, ImageFormat.Bmp);
-        }
+
         public static BitmapImage GetBitmapImage(Image image)
         {
-            return GetBitmapImage(new Bitmap(image));
+            return GetBitmapImage(new Bitmap(image), ImageFormat.Bmp);
         }
         public static BitmapImage GetBitmapImage(Bitmap bitmap, ImageFormat format)
         {
@@ -117,23 +103,15 @@ namespace FireSafety.Models
             return imageSource;
         }
 
-        public BitmapImage ДверьIco { get; private set; }
-        public BitmapImage ВыходIco { get; private set; }
-        public BitmapImage СтартIco { get; private set; }
-        public BitmapImage ЗданиеIco { get; private set; }
-        public BitmapImage ЭтажIco { get; private set; }
-        public BitmapImage УчастокПутиIco { get; private set; }
-        public BitmapImage ПутьIco { get; private set; }
-        public BitmapImage УзелIco { get; private set; }
-        public BitmapImage УказательIco { get; private set; }
-        public BitmapImage УдалитьIco { get; private set; }
-        public BitmapImage ЛестницаIco { get; private set; }
-        public BitmapImage ОгоньIco { get; private set; }
-        //public BitmapImage ЛинейкаIco { get; private set; }
-        //public BitmapImage СлоиIco { get; private set; }
-        //public BitmapImage СохранитьIco { get; private set; }
-        //public BitmapImage ДокументIco { get; private set; }
-        //public BitmapImage РискIco { get; private set; }
-        //public BitmapImage БлокировкаIco { get; private set; }
+        public BitmapImage EntryIco { get; private set; }
+        public BitmapImage ExitIco { get; private set; }
+        public BitmapImage StartIco { get; private set; }
+        public BitmapImage BuildingIco { get; private set; }
+        public BitmapImage FloorIco { get; private set; }
+        public BitmapImage SectionRoadIco { get; private set; }
+        public BitmapImage RouteIco { get; private set; }
+        public BitmapImage NodeIco { get; private set; }
+        public BitmapImage StairsIco { get; private set; }
+        public BitmapImage FloorsConnectionIco { get; private set; }
     }
 }

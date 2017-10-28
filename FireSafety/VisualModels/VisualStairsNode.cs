@@ -7,6 +7,7 @@ namespace FireSafety.VisualModels
     class VisualStairsNode : VisualNode
     {
         public StairsNode StairsNode { get { return Model as StairsNode; } }
+
         public VisualStairsNode(Node node, VisualFloor floor) : base(node, floor)
         {
             normalBrush = Brushes.Orange;

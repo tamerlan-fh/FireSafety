@@ -172,6 +172,6 @@ namespace FireSafety.Models
                 document.Save();
             }
         }
-        public override BitmapImage Icon { get { return Settings.Instance.ЗданиеIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.BuildingIco; } }
     }
 }

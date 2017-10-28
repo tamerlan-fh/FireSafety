@@ -27,7 +27,15 @@ namespace FireSafety.Models
         public double Area { get { return Length * Width; } }
         public Node First { get; protected set; }
         public Node Last { get; protected set; }
+
+        /// <summary>
+        /// Является участком, начало которого ни с кем не связано
+        /// </summary>
         public bool NoIncoming { get { return !First.IncomingSections.Any(); } }
+
+        /// <summary>
+        /// Является участком, конец которого ни с кем не связан
+        /// </summary>
         public bool NoOutgoing { get { return !Last.OutgoingSections.Any(); } }
 
         /// <summary>
@@ -71,6 +79,6 @@ namespace FireSafety.Models
         }
         private double movementTime;
 
-        public override BitmapImage Icon { get { return Settings.Instance.УчастокПутиIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.SectionRoadIco; } }
     }
 }

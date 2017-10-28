@@ -1,5 +1,4 @@
 ﻿using FireSafety.Models;
-using System.Windows;
 using System.Windows.Media;
 
 namespace FireSafety.VisualModels

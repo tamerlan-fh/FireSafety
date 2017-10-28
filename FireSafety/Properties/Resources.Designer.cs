@@ -63,9 +63,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _poster {
+        internal static System.Drawing.Bitmap building_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("_poster", resourceCulture);
+                object obj = ResourceManager.GetObject("building_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap buildings {
+        internal static System.Drawing.Bitmap cursor_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("buildings", resourceCulture);
+                object obj = ResourceManager.GetObject("cursor_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FileName1 {
+        internal static System.Drawing.Bitmap entry_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("FileName1", resourceCulture);
+                object obj = ResourceManager.GetObject("entry_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_Безопасность_проверена_100 {
+        internal static System.Drawing.Bitmap exit_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("icons8_Безопасность_проверена_100", resourceCulture);
+                object obj = ResourceManager.GetObject("exit_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_Безопасность_проверена_64 {
+        internal static System.Drawing.Bitmap floor_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("icons8_Безопасность_проверена_64", resourceCulture);
+                object obj = ResourceManager.GetObject("floor_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_Вопрос_защиты_100 {
+        internal static System.Drawing.Bitmap floors_connection_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("icons8_Вопрос_защиты_100", resourceCulture);
+                object obj = ResourceManager.GetObject("floors_connection_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_Вопрос_защиты_50 {
+        internal static System.Drawing.Bitmap node_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("icons8_Вопрос_защиты_50", resourceCulture);
+                object obj = ResourceManager.GetObject("node_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_Вопрос_защиты_64 {
+        internal static System.Drawing.Bitmap route_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("icons8_Вопрос_защиты_64", resourceCulture);
+                object obj = ResourceManager.GetObject("route_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +153,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_Выход_64 {
+        internal static System.Drawing.Bitmap section_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("icons8_Выход_64", resourceCulture);
+                object obj = ResourceManager.GetObject("section_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +163,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_Группа_пользователей__мужчина_и_женщина_64 {
+        internal static System.Drawing.Bitmap stairs_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("icons8_Группа_пользователей__мужчина_и_женщина_64", resourceCulture);
+                object obj = ResourceManager.GetObject("stairs_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,269 +173,9 @@ namespace FireSafety.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_Дверь_64 {
+        internal static System.Drawing.Bitmap start_icon_64 {
             get {
-                object obj = ResourceManager.GetObject("icons8_Дверь_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Дверь_открыта_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Дверь_открыта_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Документ_100 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Документ_100", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Документ_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Документ_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Костер_46 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Костер_46", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Круг_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Круг_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Курсор_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Курсор_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Курсор_рука_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Курсор_рука_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Лестница_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Лестница_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Лестница_Filled_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Лестница_Filled_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Линейка_46 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Линейка_46", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Линейный_график_80 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Линейный_график_80", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Листы_46 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Листы_46", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Ломаная_кривая_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Ломаная_кривая_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Ломаная_кривая_64__1_ {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Ломаная_кривая_64__1_", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Ломаная_кривая_64__2_ {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Ломаная_кривая_64__2_", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Ломаная_кривая_Filled_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Ломаная_кривая_Filled_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Огонь_46 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Огонь_46", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Один_палец_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Один_палец_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Поэтажный_план_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Поэтажный_план_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Просроченный_100 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Просроченный_100", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Сохранить_100 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Сохранить_100", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Сохранить_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Сохранить_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Стрелка_вниз_в_круге_2_50 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Стрелка_вниз_в_круге_2_50", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Удалить_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Удалить_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_Экспорт_64 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_Экспорт_64", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Без_имени_1 {
-            get {
-                object obj = ResourceManager.GetObject("Без_имени_1", resourceCulture);
+                object obj = ResourceManager.GetObject("start_icon_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

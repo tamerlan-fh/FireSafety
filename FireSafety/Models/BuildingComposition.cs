@@ -11,6 +11,6 @@ namespace FireSafety.Models
             Floors = floors;
         }
         public ObservableCollection<Floor> Floors { get; private set; }
-        public override BitmapImage Icon { get { return Settings.Instance.ЗданиеIco; } }
+        public override BitmapImage Icon { get { return Settings.Instance.BuildingIco; } }
     }
 }

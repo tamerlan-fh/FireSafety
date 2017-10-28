@@ -1,5 +1,4 @@
 ﻿using FireSafety.Models;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,15 +8,12 @@ namespace FireSafety.Controls
     {
         public Entity ModifiedSelectedItem
         {
-            get { return (Entity)GetValue(mySelectedItemProperty); }
-            set { SetValue(mySelectedItemProperty, value); }
+            get { return (Entity)GetValue(ModifiedSelectedItemProperty); }
+            set { SetValue(ModifiedSelectedItemProperty, value); }
         }
-        public static readonly DependencyProperty mySelectedItemProperty = DependencyProperty.Register("ModifiedSelectedItem", typeof(Entity), typeof(ModifiedTreeView));
+        public static readonly DependencyProperty ModifiedSelectedItemProperty = DependencyProperty.Register("ModifiedSelectedItem", typeof(Entity), typeof(ModifiedTreeView));
 
-        public ModifiedTreeView()
-        {
-
-        }
+        public ModifiedTreeView() { }
 
         protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
         {
