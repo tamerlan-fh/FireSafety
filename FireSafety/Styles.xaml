@@ -14,9 +14,50 @@
     <cnvrt:DoubleRoundConverter x:Key="DoubleRoundConverter"/>
     <cnvrt:BooleanValueConverter x:Key="BooleanValueConverter" />
 
+    <Color x:Key="Fill_active_top">#FF8FC1E5</Color>
+    <Brush x:Key="Fill_active_top_">#FF8FC1E5</Brush>
+    <Color x:Key="Fill_active_bottom">#FF6bacdd</Color>
+    <Color x:Key="Fill_active_bottom_dark">#FF5699cc</Color>
+    <Color x:Key="Stroke_active_top">#FF5cace8</Color>
+    <Color x:Key="Stroke_active_bottom">#FF3c95d7</Color>
+    <Color x:Key="Stroke_active_light">#FFb3d4ec</Color>
+
+    <Color x:Key="Fill_orange_normal_top">#FFf2b50e</Color>
+    <Color x:Key="Fill_orange_normal_bottom">#FFefa307</Color>
+    <Color x:Key="Fill_orange_over_bottom">#FFe09707</Color>
+    <Color x:Key="Stroke_orange_top">#FFf0a808</Color>
+    <Color x:Key="Stroke_orange_bottom">#FFd38d03</Color>
+    <Color x:Key="Stroke_orange_light">#FFffd566</Color>
+
+    <Color x:Key="Fill_normal_top">#FFF9F9F9</Color>
+    <Color x:Key="Fill_normal_bottom">#FFE9E9E9</Color>
+    <Color x:Key="BorderStroke_top">#FFCACACA</Color>
+    <Color x:Key="BorderStroke_bottom">#FFAFAFAF</Color>
     <Color x:Key="Fill_over_top">#FFDBDBDB</Color>
     <Color x:Key="Fill_over_bottom">#FFF6F6F6</Color>
+    <Color x:Key="Fill_pressed_light">#FF6D6D6D</Color>
+    <Color x:Key="Fill_pressed_dark">#FF545454</Color>
+    <Brush x:Key="Fill_pressed_light_">#FF6D6D6D</Brush>
+    <Brush x:Key="Fill_pressed_dark_">#FF545454</Brush>
+
+    <Brush x:Key="Shadow_first_color">#19000000</Brush>
+    <Brush x:Key="Shadow_second_color">#0C000000</Brush>
+
+    <Color x:Key="CheckBox_main_color">#FFd7d7d7</Color>
     <Brush x:Key="CheckBox_main_color_">#FFd7d7d7</Brush>
+    <Color x:Key="CheckBox_stroke_color">#FFbababa</Color>
+    <Brush x:Key="CheckBox_stroke_color_">#FFbababa</Brush>
+    <Color x:Key="CheckBox_fill_top">#FFfafafa</Color>
+    <Color x:Key="CheckBox_fill_bottom">#FFe9e9e9</Color>
+    <Brush x:Key="CheckBox_fill_bottom_">#FFe9e9e9</Brush>
+
+    <Color x:Key="TextBox_fill">#FFeeeeee</Color>
+    <Brush x:Key="TextBox_fill_">#FFeeeeee</Brush>
+
+    <Color x:Key="Text_dark">#FF515151</Color>
+    <Brush x:Key="Text_dark_">#FF515151</Brush>
+    <Brush x:Key="Text_light_">#FFFFFFFF</Brush>
+    <Brush x:Key="Text_disabled_">#80000000</Brush>
 
     <Style x:Key="SliderRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -378,6 +419,217 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="CheckToogleButton" TargetType="{x:Type CheckBox}">
+        <Setter Property="Foreground" Value="#FF313131" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.2"/>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="PointerOver"/>
+                                <VisualState x:Name="Pressed"/>
+                                <VisualState x:Name="Disabled"/>
+                                <VisualState x:Name="CheckedPointerOver"/>
+                                <VisualState x:Name="CheckedPressed"/>
+                                <VisualState x:Name="CheckedDisabled"/>
+                                <VisualState x:Name="Indeterminate2"/>
+                                <VisualState x:Name="IndeterminatePointerOver"/>
+                                <VisualState x:Name="IndeterminatePressed"/>
+                                <VisualState x:Name="IndeterminateDisabled"/>
+                                <VisualState x:Name="Normal"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.2">
+                                        <VisualTransition.GeneratedEasingFunction>
+                                            <QuinticEase EasingMode="EaseOut"/>
+                                        </VisualTransition.GeneratedEasingFunction>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.Children[3].X" Storyboard.TargetName="ChToogleButton">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="30"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked"/>
+                                <VisualState x:Name="Indeterminate"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Unfocused"/>
+                                <VisualState x:Name="PointerFocused"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="ChToogleStateBackground" Margin="0,0,1,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="ChTglBorderON" CornerRadius="3" Margin="1,0,0,1" BorderThickness="1">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="{DynamicResource CheckBox_stroke_color}"/>
+                                </Border.BorderBrush>
+                                <Border.Background>
+                                    <SolidColorBrush Color="{DynamicResource Fill_active_bottom}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border x:Name="ChTglBorderOFF" Grid.Column="1" CornerRadius="3" Margin="0,0,1,1" BorderThickness="1">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="{DynamicResource Text_dark}"/>
+                                </Border.BorderBrush>
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="{DynamicResource Fill_pressed_dark}" Offset="0"/>
+                                        <GradientStop Color="{DynamicResource Fill_pressed_light}" Offset="0.327"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <TextBlock SnapsToDevicePixels="True" Grid.Column="1" Text="Нет" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="3" FontWeight="Bold" >
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{DynamicResource TextBox_fill}"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+
+                            <TextBlock SnapsToDevicePixels="True" Grid.Column="0" Text="Да" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="3" FontWeight="Bold" >
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{DynamicResource TextBox_fill}"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Grid>
+                        <Grid x:Name="ChToogleButton" Margin="0,0,30,0" RenderTransformOrigin="0.5,0.5">
+                            <Grid.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform X="0"/>
+                                </TransformGroup>
+                            </Grid.RenderTransform>
+                            <Rectangle RadiusY="5" RadiusX="5" Fill="{StaticResource Shadow_second_color}" Margin="0,1,0,-1" d:IsHidden="True"/>
+                            <Rectangle RadiusY="4" RadiusX="4" Fill="{StaticResource Shadow_first_color}" Margin="1,0"/>
+                            <Rectangle x:Name="rectangle" RadiusY="2" RadiusX="2" Margin="1,0,1,1">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="{StaticResource Fill_normal_top}"/>
+                                        <GradientStop Color="{StaticResource Fill_normal_bottom}" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                                <Rectangle.Stroke>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="{StaticResource BorderStroke_top}"/>
+                                        <GradientStop Color="{StaticResource BorderStroke_bottom}" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Stroke>
+                            </Rectangle>
+                            <Grid x:Name="ChToogleText" Margin="0,0,0.4,0.4">
+                                <TextBlock x:Name="ChTglBackText" Grid.Column="1" HorizontalAlignment="Center" Margin="7,1,0,-1" TextWrapping="Wrap" Text="{TemplateBinding Content}" VerticalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" Foreground="White"/>
+                                <TextBlock x:Name="ChTglMainText" Grid.Column="1" Margin="7,0,0,0" TextWrapping="Wrap" Text="{TemplateBinding Content}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" ToolTipService.ToolTip="{TemplateBinding ToolTipService.ToolTip}" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{DynamicResource Text_dark}"/>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                            </Grid>
+                            <Grid Margin="0">
+                                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="7" Height="10" Margin="4,0,0,-1" SnapsToDevicePixels="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Row="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Column="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Row="2"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Column="1" Grid.Row="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Row="3"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Column="1" Grid.Row="2"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Column="1" Grid.Row="3"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="7" Height="10" Margin="4,0,0,0" SnapsToDevicePixels="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Row="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Column="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Row="2"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Column="1" Grid.Row="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Row="3"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Column="1" Grid.Row="2"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Column="1" Grid.Row="3"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Right" VerticalAlignment="Center" Width="7" Height="10" Margin="0,0,4,-1" SnapsToDevicePixels="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Row="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Column="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Row="2"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Column="1" Grid.Row="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Row="3"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Column="1" Grid.Row="2"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_light_}" Grid.Column="1" Grid.Row="3"/>
+                                </Grid>
+                                <Grid HorizontalAlignment="Right" VerticalAlignment="Center" Width="7" Height="10" Margin="0,0,4,0" SnapsToDevicePixels="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Row="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Column="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Row="2"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Column="1" Grid.Row="1"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Row="3"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Column="1" Grid.Row="2"/>
+                                    <Rectangle Width="1" Height="1" Fill="{DynamicResource Text_dark_}" Grid.Column="1" Grid.Row="3"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="ChTglMainText" Property="Foreground" Value="#80000000"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type ctrl:TransformControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -405,45 +657,35 @@
             <Setter.Value>
                 <ControlTemplate TargetType ="{x:Type RadioButton}">
                     <Viewbox>
-                        <Grid>
-                            <Ellipse Name ="OuterRing" Width ="66" Height ="66" Fill ="MediumSeaGreen" Opacity="0.7"/>
-                            <Ellipse Name ="InnerRing" Width ="60" Height ="60" Fill ="MintCream"/>
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Ellipse Name ="InnerRing2" Width ="60" Height ="60" Fill ="MintCream" Opacity="0.45" />
+                        <Grid Width="66" Height="66" Name="Container">
+                            <Ellipse Name ="BackgroundEllipse" Fill ="White" Opacity="0.5" />
+                            <Ellipse Name="Ring" Stroke="Green" StrokeThickness="3.5" />
+                            <ContentPresenter Name="Presenter" Margin="{TemplateBinding Padding}" Width="36" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Ellipse Name="CurtainEllipse" Fill="White" Opacity="0.5"/>
                         </Grid>
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property ="IsMouseOver" Value ="True">
-                            <!--<Setter TargetName ="OuterRing" Property ="Fill" Value ="MediumSeaGreen"/>-->
-                            <Setter TargetName ="OuterRing" Property ="Fill" Value="Orange"/>
-                            <Setter TargetName ="OuterRing" Property ="Opacity" Value ="1"/>
-                            <Setter TargetName ="InnerRing2" Property ="Opacity" Value ="0"/>
+                            <Setter TargetName ="Ring" Property ="Stroke" Value="Orange"/>
+                            <Setter TargetName ="CurtainEllipse" Property ="Opacity" Value ="0"/>
                         </Trigger>
                         <Trigger Property ="IsPressed" Value ="True">
-                            <Setter TargetName ="OuterRing" Property ="Fill" Value="Orange"/>
-                            <Setter TargetName ="OuterRing" Property ="Height" Value ="70"/>
-                            <Setter TargetName ="OuterRing" Property ="Width" Value ="70"/>
-                            <Setter TargetName ="OuterRing" Property ="Opacity" Value ="1"/>
-                            <Setter TargetName ="InnerRing" Property ="Height" Value ="55"/>
-                            <Setter TargetName ="InnerRing" Property ="Width" Value ="55"/>
-                            <Setter TargetName ="InnerRing2" Property ="Height" Value ="55"/>
-                            <Setter TargetName ="InnerRing2" Property ="Width" Value ="55"/>
-                            <Setter TargetName ="InnerRing2" Property ="Opacity" Value ="0"/>
+                            <Setter TargetName ="Ring" Property ="Stroke" Value ="Orange"/>
+                            <Setter TargetName ="Ring" Property ="StrokeThickness" Value="6"/>
+                            <Setter TargetName ="CurtainEllipse" Property ="Opacity" Value ="0"/>
+                            <Setter TargetName ="Container" Property="Width" Value="60" />
+                            <Setter TargetName ="Container" Property="Height" Value="60" />
                         </Trigger>
                         <Trigger Property ="IsChecked" Value ="True">
-                            <Setter TargetName ="OuterRing" Property ="Fill" Value="Orange"/>
-                            <Setter TargetName ="OuterRing" Property ="Height" Value ="70"/>
-                            <Setter TargetName ="OuterRing" Property ="Width" Value ="70"/>
-                            <Setter TargetName ="OuterRing" Property ="Opacity" Value ="1"/>
-                            <Setter TargetName ="InnerRing" Property ="Height" Value ="55"/>
-                            <Setter TargetName ="InnerRing" Property ="Width" Value ="55"/>
-                            <Setter TargetName ="InnerRing2" Property ="Height" Value ="55"/>
-                            <Setter TargetName ="InnerRing2" Property ="Width" Value ="55"/>
-                            <Setter TargetName ="InnerRing2" Property ="Opacity" Value ="0"/>
+                            <Setter TargetName ="Ring" Property ="Stroke" Value ="Orange"/>
+                            <Setter TargetName ="Ring" Property ="StrokeThickness" Value="6"/>
+                            <Setter TargetName ="CurtainEllipse" Property ="Opacity" Value ="0"/>
+                            <Setter TargetName ="Presenter" Property="Width" Value="42" />
+                            <Setter TargetName ="Presenter" Property="Height" Value="42" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName ="InnerRing2" Property ="Fill" Value ="Gray"/>
-                            <Setter TargetName ="InnerRing2" Property ="Opacity" Value ="0.5"/>
+                            <Setter TargetName ="CurtainEllipse" Property ="Opacity" Value ="0.5"/>
+                            <Setter TargetName ="CurtainEllipse" Property ="Fill" Value ="Gray"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -458,28 +700,31 @@
             <Setter.Value>
                 <ControlTemplate TargetType ="{x:Type Button}">
                     <Viewbox>
-                        <Grid>
-                            <Ellipse Name ="OuterRing" Width ="66" Height ="66" Fill ="#FF72E872" Opacity="0.7"/>
-                            <Ellipse Name ="InnerRing" Width ="60" Height ="60" Fill ="MintCream"/>
-                            <ContentPresenter Margin="1,1,0,1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Ellipse Name ="InnerRing2" Width ="60" Height ="60" Fill ="MintCream" Opacity="0.45" />
+                        <Grid Width="66" Height="66" Name="Container">
+                            <Ellipse Name ="BackgroundEllipse" Fill ="White" Opacity="0.5" />
+                            <Ellipse Name="Ring" Stroke="Green" StrokeThickness="3.5" />
+                            <ContentPresenter Name="Presenter" Margin="{TemplateBinding Padding}" Width="36" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Ellipse Name="CurtainEllipse" Fill="White" Opacity="0.5" />
                         </Grid>
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property ="IsMouseOver" Value ="True">
-                            <Setter TargetName ="OuterRing" Property ="Fill" Value ="MediumSeaGreen"/>
-                            <Setter TargetName ="OuterRing" Property ="Opacity" Value ="1"/>
-                            <Setter TargetName ="InnerRing2" Property ="Opacity" Value ="0"/>
+                            <Setter TargetName ="Ring" Property ="Stroke" Value="Orange"/>
+                            <Setter TargetName ="CurtainEllipse" Property ="Opacity" Value ="0"/>
                         </Trigger>
                         <Trigger Property ="IsPressed" Value ="True">
-                            <Setter TargetName ="OuterRing" Property ="Height" Value ="70"/>
-                            <Setter TargetName ="OuterRing" Property ="Width" Value ="70"/>
-                            <Setter TargetName ="OuterRing" Property ="Opacity" Value ="1"/>
-                            <Setter TargetName ="InnerRing" Property ="Height" Value ="55"/>
-                            <Setter TargetName ="InnerRing" Property ="Width" Value ="55"/>
-                            <Setter TargetName ="InnerRing2" Property ="Height" Value ="55"/>
-                            <Setter TargetName ="InnerRing2" Property ="Width" Value ="55"/>
-                            <Setter TargetName ="InnerRing2" Property ="Opacity" Value ="0"/>
+                            <Setter TargetName ="Ring" Property ="Stroke" Value ="Orange"/>
+                            <Setter TargetName ="Ring" Property ="StrokeThickness" Value="6"/>
+                            <Setter TargetName ="CurtainEllipse" Property ="Opacity" Value ="0"/>
+                            <Setter TargetName ="Presenter" Property="Width" Value="42" />
+                            <Setter TargetName ="Presenter" Property="Height" Value="42" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName ="CurtainEllipse" Property ="Opacity" Value ="0.3"/>
+                            <Setter TargetName ="CurtainEllipse" Property ="Fill" Value ="Gray"/>
+                            <Setter TargetName ="Ring" Property ="Stroke" Value="Gray"/>
+                            <!--<Setter TargetName ="Ring" Property ="Opacity" Value="0.3"/>
+                            <Setter TargetName ="Presenter" Property ="Opacity" Value="0.3"/>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -494,9 +739,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType ="{x:Type Button}">
                     <Viewbox>
-                        <Grid>
+                        <Grid Width="66" Height="66" Name="Container">
                             <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Rectangle Name="OuterRect" Width ="66" Height ="66" Fill="White" Opacity="0.7" RadiusX="10" RadiusY="10"/>
+                            <Rectangle Name="OuterRect" Fill="White" Opacity="0.7" RadiusX="10" RadiusY="10"/>
                         </Grid>
                     </Viewbox>
                     <ControlTemplate.Triggers>
@@ -505,8 +750,8 @@
                         </Trigger>
                         <Trigger Property ="IsPressed" Value ="True">
                             <Setter TargetName ="OuterRect" Property ="Opacity" Value ="0"/>
-                            <Setter TargetName ="OuterRect" Property ="Width" Value ="75"/>
-                            <Setter TargetName ="OuterRect" Property ="Height" Value ="75"/>
+                            <Setter TargetName ="Container" Property ="Width" Value ="75"/>
+                            <Setter TargetName ="Container" Property ="Height" Value ="75"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -521,7 +766,7 @@
         <Setter Property="Margin" Value="2,1"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
     </Style>
-   
+
     <Style x:Key="TextBoxStyle" TargetType="TextBox" >
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="Margin" Value="2,1"/>
@@ -544,7 +789,7 @@
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="1" Text="Номер Этажа" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding НомерЭтажа, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxStyle}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding НомерЭтажа, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="2" Text="Фон" Style="{StaticResource TextBoxReadOnly}" />
             <Button Grid.Column="1" Grid.Row="2" Command="{Binding ClearFloorPlanCommand}" Content="Очистить" Margin="2" />
@@ -554,7 +799,7 @@
     <DataTemplate x:Key="ControlTemplateBuilding" DataType="{x:Type m:Building}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="110"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -576,7 +821,7 @@
     <DataTemplate x:Key="ControlTemplateEntity" DataType="{x:Type m:Entity}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="110"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -594,7 +839,7 @@
     <DataTemplate x:Key="ControlTemplateEntityReadOnly" DataType="{x:Type m:Entity}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="110"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -612,7 +857,7 @@
     <DataTemplate x:Key="ControlTemplateFloorsConnectionSection" DataType="{x:Type m:FloorsConnectionSection}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="110"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -630,7 +875,7 @@
     <DataTemplate x:Key="ControlTemplateEntryNode" DataType="{x:Type m:EntryNode}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="110"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -666,7 +911,7 @@
     <DataTemplate x:Key="ControlTemplateStairsNode" DataType="{x:Type m:StairsNode}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="110"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -682,21 +927,22 @@
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="2" Text="Связать с этажом ниже" Style="{StaticResource TextBoxReadOnly}" />
-            <ComboBox Grid.Column="1" Grid.Row="2" SelectedItem="{Binding Path=IsFloorsConnected,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanValueConverter}}" IsEnabled="{Binding CanAddFloorsConnection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  BorderThickness="0" Margin="2,1" >
+            <ComboBox Grid.Column="1" Grid.Row="2" SelectedItem="{Binding Path=IsFloorsConnected,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanValueConverter}}" IsEnabled="{Binding CanAddFloorsConnection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  BorderThickness="0" Margin="2,1" VerticalAlignment="Top" >
                 <ComboBox.Items>
                     <sys:String>Нет</sys:String>
                     <sys:String>Да</sys:String>
                 </ComboBox.Items>
             </ComboBox>
 
-
+            <TextBox Grid.Column="0" Grid.Row="3" Text="Связать с этажом ниже" Style="{StaticResource TextBoxReadOnly}" />
+            <CheckBox Grid.Column="1" Grid.Row="3" UseLayoutRounding="True" MinWidth="70" MinHeight="20" IsChecked="{Binding Path=IsFloorsConnected, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanAddFloorsConnection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
         </Grid>
     </DataTemplate>
 
     <DataTemplate x:Key="ControlTemplateStartNode" DataType="{x:Type m:StartNode}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="110"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -722,7 +968,7 @@
     <DataTemplate x:Key="ControlTemplateRoute" DataType="{x:Type m:Route}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="110"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -736,7 +982,7 @@
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxStyle}" />
-            
+
             <TextBox Grid.Column="0" Grid.Row="3" Text="Начало" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=FirstNode.Title}" Style="{StaticResource TextBoxReadOnly}" />
 
@@ -754,7 +1000,7 @@
     <DataTemplate x:Key="ControlTemplateRoadSection" DataType="{x:Type m:RoadSection}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="130"/>
+                <ColumnDefinition MinWidth="110"/>
                 <ColumnDefinition MinWidth="100" Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>

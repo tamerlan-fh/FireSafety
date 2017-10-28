@@ -4,8 +4,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
@@ -67,14 +69,27 @@ namespace FireSafety.Models
 
         private void RoutePropertyChanged(object sender, RouteChangedEventArgs e)
         {
-            CalculateParameters();
+            if (IsCalculated)
+                NeedCalculate = true;
+            else
+                CalculateParameters();
         }
+
+        private bool IsCalculated = false;
+        private bool NeedCalculate = false;
+        private TimeSpan CalculateInterval = TimeSpan.FromSeconds(1);
         /// <summary>
         /// Пересчитать параметры маршрутов
         /// необходимо при изменении значений отдельных звеньев маршрутов
         /// </summary>
-        public void CalculateParameters()
+        public async void CalculateParameters()
         {
+            IsCalculated = true;
+            NeedCalculate = false;
+
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             foreach (var route in Routes)
                 route.Length = route.Sections.Sum(x => x.Length);
 
@@ -113,34 +128,43 @@ namespace FireSafety.Models
 
                 Section предыдущийУчасток = первыйУчасток;
 
-                foreach (var участок in route.Sections.Skip(1))
+                foreach (var section in route.Sections.Skip(1))
                 {
-                    if (участок is FloorsConnectionSection) continue;
+                    if (section is FloorsConnectionSection) continue;
 
-                    if (участок.GetType() == typeof(RoadSection))
+                    if (section.GetType() == typeof(RoadSection))
                     {
-                        участок.IntensityHumanFlow = предыдущийУчасток.IntensityHumanFlow * предыдущийУчасток.Width / участок.Width;
-                        участок.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(участок.IntensityHumanFlow);
-                        участок.MovementTime = участок.Length / участок.MovementSpeed;
+                        section.IntensityHumanFlow = предыдущийУчасток.IntensityHumanFlow * предыдущийУчасток.Width / section.Width;
+                        section.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(section.IntensityHumanFlow);
+                        section.MovementTime = section.Length / section.MovementSpeed;
                     }
-                    if (участок.GetType() == typeof(StairsSection))
+                    if (section.GetType() == typeof(StairsSection))
                     {
-                        участок.IntensityHumanFlow = предыдущийУчасток.IntensityHumanFlow * предыдущийУчасток.Width / участок.Width;
-                        участок.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(участок.IntensityHumanFlow);
-                        участок.MovementTime = участок.Length / участок.MovementSpeed;
+                        section.IntensityHumanFlow = предыдущийУчасток.IntensityHumanFlow * предыдущийУчасток.Width / section.Width;
+                        section.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(section.IntensityHumanFlow);
+                        section.MovementTime = section.Length / section.MovementSpeed;
                     }
-                    if (участок.GetType() == typeof(EntryNode))
+                    if (section.GetType() == typeof(EntryNode))
                     {
-                        участок.IntensityHumanFlow = 2.5 + 3.75 * участок.Width;
-                        участок.MovementTime = старт.PeopleCount * 0.1 / (участок.IntensityHumanFlow * участок.Width);
+                        section.IntensityHumanFlow = 2.5 + 3.75 * section.Width;
+                        section.MovementTime = старт.PeopleCount * 0.1 / (section.IntensityHumanFlow * section.Width);
                     }
 
-                    route.MovementTime += участок.MovementTime;
+                    route.MovementTime += section.MovementTime;
 
-                    предыдущийУчасток = участок;
+                    предыдущийУчасток = section;
                 }
             }
+
             EvacuationTime = Routes.Max(x => x.MovementTime);
+            stopWatch.Stop();
+
+            //Делаем паузу перед следующими вычислениями
+            await Task.Delay(CalculateInterval - TimeSpan.FromMilliseconds(stopWatch.ElapsedMilliseconds));
+
+            IsCalculated = false;
+            if (NeedCalculate)
+                CalculateParameters();
         }
         /// <summary>
         /// формирование коллекции маршрутов

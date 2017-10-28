@@ -25,7 +25,11 @@ namespace FireSafety.Models
         public virtual string Title
         {
             get { return title; }
-            set { if (title == value) return; title = value; OnPropertyChanged("Title"); }
+            set
+            {
+                if (title == value) return;
+                title = value; OnPropertyChanged("Title");
+            }
         }
         private string title;
 
@@ -44,7 +48,7 @@ namespace FireSafety.Models
                 else Status = EntityStatus.Normal;
             }
         }
-        
+
         private bool isSelected;
         public virtual EntityStatus Status
         {
@@ -54,7 +58,7 @@ namespace FireSafety.Models
                 if (status == value) return;
                 status = value; OnPropertyChanged("Status");
             }
-        }       
+        }
         private EntityStatus status;
         public bool AutoSize
         {

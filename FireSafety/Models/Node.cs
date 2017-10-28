@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace FireSafety.Models
 {
-    
+
     abstract class Node : Entity
     {
         /// <summary>
@@ -28,12 +27,6 @@ namespace FireSafety.Models
         }
         private Point position;
 
-        public bool AutoSize
-        {
-            get { return autoSize; }
-            set { autoSize = value; OnPropertyChanged("AutoSize"); }
-        }
-        private bool autoSize;
         public override BitmapImage Icon { get { return Settings.Instance.УзелIco; } }
 
         /// <summary>

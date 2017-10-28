@@ -114,17 +114,15 @@ namespace FireSafety.ViewModels
             LoadBuildingCommand = new RelayCommand(param => LoadBuilding());
 
             Buildings = new ObservableCollection<Building>();
-            var bilding = new Building();
 
             Mode = ActionMode.Move;
-            Buildings.Add(bilding);
-
-            SelectedEntity = Buildings.FirstOrDefault();
+            AddBuilding();
         }
 
         private void AddBuilding()
         {
             AddBuilding(new Building());
+            AddFloor();
         }
 
         private void AddBuilding(Building building)

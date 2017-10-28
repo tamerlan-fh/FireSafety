@@ -24,7 +24,8 @@ namespace FireSafety.Models
 
         public override string Title
         {
-            get { return string.Format("Связь этажей {0} - {1}", First.ParentFloor.Title, Last.Parent.Title); }
+            get { return string.Format("Связь {0} - {1}", First.ParentFloor.Title, Last.Parent.Title); }
+            set { base.Title = value; }
         }
 
         private void NodePropertyChanged(object sender, PropertyChangedEventArgs e)
