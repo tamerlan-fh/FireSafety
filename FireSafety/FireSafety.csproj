@@ -250,10 +250,7 @@
     <Resource Include="Icons\floors_connection_icon_64.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\section_icon_.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Image1.png" />
+    <Resource Include="Icons\section_icon_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

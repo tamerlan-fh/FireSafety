@@ -993,7 +993,7 @@
             <TextBox Grid.Column="0" Grid.Row="5" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Length, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="6" Text="Время прохождения, мин" ToolTip="Время прохождения, мин" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="0" Grid.Row="6" Text="Время прохождения, мин" ToolTip="Время прохождения" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter }}" Style="{StaticResource TextBoxReadOnly}" />
         </Grid>
     </DataTemplate>
@@ -1041,8 +1041,8 @@
             <TextBox Grid.Column="0" Grid.Row="8" Text="Скорость движения людского потока, м/мин" ToolTip="Скорость движения людского потока, м/мин" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding Path=MovementSpeed, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="9" Text="Время прохождения участка, мин" ToolTip="Время прохождения участка, мин" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="0" Grid.Row="9" Text="Время прохождения" ToolTip="Время прохождения" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter}}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="10" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
             <CheckBox Grid.Column="1" Grid.Row="10" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />

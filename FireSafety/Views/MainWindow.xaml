@@ -32,8 +32,12 @@
 
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Transparent" />
 
-            <!--<Grid Grid.Column="0" IsEnabled="{Binding CurrentFloorNotNull, UpdateSourceTrigger=PropertyChanged}">-->
             <Grid Grid.Column="0">
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Send34" />
+                    </ContextMenu>
+                </Grid.ContextMenu>
                 <ctrl:TransformControl Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="10" ClipToBounds="True" ZoomFactor="1.1" MinZoomScale="{Binding ElementName=ZoomSlider, Path=Minimum}" MaxZoomScale="{Binding ElementName=ZoomSlider, Path=Maximum}" ZoomScale="{Binding ElementName=ZoomSlider, Path=Value, Mode=TwoWay}" Margin="10,10,5,10" Background="#99F0F8FF" >
                     <vsl:EvacuationControl Buildings="{Binding Buildings}" SelectedFloor="{Binding CurrentFloor, UpdateSourceTrigger=PropertyChanged}" SelectedActionMode="{Binding Mode, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </ctrl:TransformControl>
@@ -146,30 +150,35 @@
                                     <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
+
                             <HierarchicalDataTemplate DataType="{x:Type m:Floor}" ItemsSource="{Binding Objects}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
+
                             <HierarchicalDataTemplate DataType="{x:Type m:BuildingComposition}" ItemsSource="{Binding Floors}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
+
                             <HierarchicalDataTemplate DataType="{x:Type m:Route}" ItemsSource="{Binding Sections}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
+
                             <HierarchicalDataTemplate DataType="{x:Type m:EvacuationPlan}" ItemsSource="{Binding Routes}" >
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
+
                             <HierarchicalDataTemplate DataType="{x:Type m:Entity}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />

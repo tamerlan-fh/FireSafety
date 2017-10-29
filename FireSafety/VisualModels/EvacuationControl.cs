@@ -224,8 +224,15 @@ namespace FireSafety.VisualModels
 
         protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
         {
-            IsCreatingLine = false;
-            base.OnMouseRightButtonDown(e);
+            if (IsCreatingLine)
+            {
+                IsCreatingLine = false;
+                e.Handled = true;
+            }
+            else
+                e.Handled = false;
+
+         //   base.OnMouseRightButtonDown(e);
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
