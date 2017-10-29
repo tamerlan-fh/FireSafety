@@ -17,7 +17,7 @@ namespace FireSafety.Models
     /// </summary>
     class EvacuationPlan : Entity
     {
-        private Building ParentBuilding { get { return Parent as Building; } }
+        public Building ParentBuilding { get { return Parent as Building; } }
         public EvacuationPlan(string title, Building parent) : base(title, parent)
         {
             if (parent == null) throw new Exception("Родительский элемент не может быть нулевым");
@@ -226,68 +226,70 @@ namespace FireSafety.Models
                 AddRoute(route);
         }
 
-        public DocX CreateDocument(string title)
-        {
-            var document = DocX.Create(title, DocumentTypes.Document);
+        //public DocX CreateDocument(string title)
+        //{
+        //    var document = DocX.Create(title, DocumentTypes.Document);
 
-            var routes = Routes.Where(x => x.IsFormed);
+        //    var routes = Routes.Where(x => x.IsFormed);
 
-            var headerFormat1 = new Formatting() { Bold = true, Size = 16 };
-            var headerFormat2 = new Formatting() { Bold = true, Size = 12 };
-            var normalFormat = new Formatting() { Bold = false, Size = 12 };
-            document.InsertParagraph(Title, false, headerFormat1);
-            document.InsertParagraph();
+        //    var headerFormat1 = new Formatting() { Bold = true, Size = 16 };
+        //    var headerFormat2 = new Formatting() { Bold = true, Size = 12 };
+        //    var normalFormat = new Formatting() { Bold = false, Size = 12 };
+        //    document.InsertParagraph(Title, false, headerFormat1);
+        //    document.InsertParagraph();
 
-            foreach (var floor in ParentBuilding.Floors)
-            {
-                var planImage = floor.GetEvacuationPlanImage();
-                using (var ms = new MemoryStream(Settings.GetBytesFromBitmap(planImage.BitmapValue)))
-                {
-                    double width = 672;
-                    double height = planImage.Height * width / planImage.Width;
+        //    foreach (var floor in ParentBuilding.Floors)
+        //    {
+        //        var planImage = floor.GetEvacuationPlanImage();
+        //        using (var ms = new MemoryStream(Settings.GetBytesFromBitmap(planImage.BitmapValue)))
+        //        {
+        //            double width = 672;
+        //            double height = planImage.Height * width / planImage.Width;
 
-                    var image = document.AddImage(ms); // Create image.
-                    var picture = image.CreatePicture((int)height, (int)width);     // Create picture.
+        //            var image = document.AddImage(ms); // Create image.
+        //            var picture = image.CreatePicture((int)height, (int)width);     // Create picture.
 
-                    var paragraph = document.InsertParagraph(string.Format("Схема эвакуации '{0}'", floor.Title), false);
-                    paragraph.InsertPicture(picture, 0); // Insert picture into paragraph.
-                }
-            }
+        //            var paragraph = document.InsertParagraph(string.Format("Схема эвакуации '{0}'", floor.Title), false);
+        //            paragraph.InsertPicture(picture, 0); // Insert picture into paragraph.
+        //        }
+        //    }
 
-            foreach (var route in routes)
-            {
-                document.InsertParagraph(route.Title, false, headerFormat1);
-                var rowsCount = route.Sections.Count - route.Sections.Count(x => x is FloorsConnectionSection) + 1;
-                var table = document.AddTable(rowsCount, 7);
-                table.Rows[0].Cells[0].Paragraphs.First().InsertText("Участок", false, headerFormat2);
-                table.Rows[0].Cells[1].Paragraphs.First().InsertText("Длина, м", false, headerFormat2);
-                table.Rows[0].Cells[2].Paragraphs.First().InsertText("Ширина, м", false, headerFormat2);
-                table.Rows[0].Cells[3].Paragraphs.First().InsertText("Площадь, м2", false, headerFormat2);
-                table.Rows[0].Cells[4].Paragraphs.First().InsertText("Интенсивность движения людского потока, м/мин", false, headerFormat2);
-                table.Rows[0].Cells[5].Paragraphs.First().InsertText("Скорость движения людского потока, м/мин", false, headerFormat2);
-                table.Rows[0].Cells[6].Paragraphs.First().InsertText("Время прохождения участка, мин", false, headerFormat2);
+        //    foreach (var route in routes)
+        //    {
+        //        document.InsertParagraph(route.Title, false, headerFormat1);
+        //        var rowsCount = route.Sections.Count - route.Sections.Count(x => x is FloorsConnectionSection) + 1;
+        //        var table = document.AddTable(rowsCount, 7);
+        //        table.Rows[0].Cells[0].Paragraphs.First().InsertText("Участок", false, headerFormat2);
+        //        table.Rows[0].Cells[1].Paragraphs.First().InsertText("Длина, м", false, headerFormat2);
+        //        table.Rows[0].Cells[2].Paragraphs.First().InsertText("Ширина, м", false, headerFormat2);
+        //        table.Rows[0].Cells[3].Paragraphs.First().InsertText("Площадь, м2", false, headerFormat2);
+        //        table.Rows[0].Cells[4].Paragraphs.First().InsertText("Интенсивность движения людского потока, м/мин", false, headerFormat2);
+        //        table.Rows[0].Cells[5].Paragraphs.First().InsertText("Скорость движения людского потока, м/мин", false, headerFormat2);
+        //        table.Rows[0].Cells[6].Paragraphs.First().InsertText("Время прохождения участка, мин", false, headerFormat2);
 
-                var rowIndex = 1;
-                foreach (var section in route.Sections)
-                {
-                    if (section is FloorsConnectionSection) continue;
-                    table.Rows[rowIndex].Cells[0].Paragraphs.First().InsertText(section.Title, false, normalFormat);
-                    table.Rows[rowIndex].Cells[1].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.Length, 3)), false, normalFormat);
-                    table.Rows[rowIndex].Cells[2].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.Width, 3)), false, normalFormat);
-                    table.Rows[rowIndex].Cells[4].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.IntensityHumanFlow, 3)), false, normalFormat);
-                    table.Rows[rowIndex].Cells[5].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.MovementSpeed, 3)), false, normalFormat);
-                    table.Rows[rowIndex].Cells[6].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.MovementTime, 3)), false, normalFormat);
-                    rowIndex++;
-                }
+        //        var rowIndex = 1;
+        //        foreach (var section in route.Sections)
+        //        {
+        //            if (section is FloorsConnectionSection) continue;
+        //            table.Rows[rowIndex].Cells[0].Paragraphs.First().InsertText(section.Title, false, normalFormat);
+        //            table.Rows[rowIndex].Cells[1].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.Length, 3)), false, normalFormat);
+        //            table.Rows[rowIndex].Cells[2].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.Width, 3)), false, normalFormat);
+        //            table.Rows[rowIndex].Cells[4].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.IntensityHumanFlow, 3)), false, normalFormat);
+        //            table.Rows[rowIndex].Cells[5].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.MovementSpeed, 3)), false, normalFormat);
+        //            table.Rows[rowIndex].Cells[6].Paragraphs.First().InsertText(string.Format("{0}", Math.Round(section.MovementTime, 3)), false, normalFormat);
+        //            rowIndex++;
+        //        }
 
-                document.InsertTable(table);
-                document.InsertParagraph(string.Format("Общее время t: {0} мин ", Math.Round(route.MovementTime, 3)), false, headerFormat2);
-                document.InsertParagraph();
-            }
+        //        document.InsertTable(table);
+        //        document.InsertParagraph(string.Format("Общее время t: {0} мин ", Math.Round(route.MovementTime, 3)), false, headerFormat2);
+        //        document.InsertParagraph();
+        //    }
 
-            return document;
-        }
-
+        //    return document;
+        //}
         public override BitmapImage Icon { get { return Settings.Instance.RouteIco; } }
+
+        public bool Param1 { get; set; }
+        public bool Param2 { get; set; }
     }
 }

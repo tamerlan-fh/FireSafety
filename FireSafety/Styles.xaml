@@ -896,7 +896,9 @@
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="3" Text="Ширина, м" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Width,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Width,  UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
+
+
 
             <TextBox Grid.Column="0" Grid.Row="4" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Length, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
@@ -962,7 +964,7 @@
             <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=PeopleCount,  UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxStyle}" />
 
             <TextBox Grid.Column="0" Grid.Row="3" Text="Площадь проекции" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=ProjectionArea,  UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxStyle}" />
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=ProjectionArea,  UpdateSourceTrigger=LostFocus}"  Style="{StaticResource TextBoxStyle}" />
         </Grid>
     </DataTemplate>
 
@@ -1030,10 +1032,10 @@
             <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Last.Title}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="4" Text="Ширина, м" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Width,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Width,  UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
 
             <TextBox Grid.Column="0" Grid.Row="5" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Length, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" IsEnabled="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}" VerticalContentAlignment="Top" Style="{StaticResource TextBoxStyle}" />
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Length, UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" IsEnabled="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}" VerticalContentAlignment="Top" Style="{StaticResource TextBoxStyle}" />
 
             <TextBox Grid.Column="0" Grid.Row="7" Text="Интенсивность движения, м/мин" ToolTip="Интенсивность движения, м/мин" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Path=IntensityHumanFlow, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />

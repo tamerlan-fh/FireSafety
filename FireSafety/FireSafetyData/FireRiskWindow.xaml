@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FireSafety.FireSafetyData"
         xmlns:cnvrt="clr-namespace:FireSafety.ValueConverters"
         mc:Ignorable="d"
-        Title="Пожарный Риск" Height="300" MinWidth="500"  ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Icon="/FireSafety;component/Icons/fire_risk_icon_64.png"  >
+        Title="Пожарный Риск" Height="300" MinWidth="300"  ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" Icon="/FireSafety;component/Icons/fire_risk_icon_64.png"  >
     <Window.Resources>
         <cnvrt:DoubleRoundConverter x:Key="DoubleRoundConverter"/>
     </Window.Resources>
@@ -67,7 +67,7 @@
             <CheckBox Grid.Row="9" Grid.Column="1" IsChecked="{Binding СистемыОповещения, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
 
-        <TextBox Text="{Binding ПожарныйРиск, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, StringFormat=Qв: {0}}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Center" />
+        <TextBox Text="{Binding ПожарныйРиск, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, StringFormat=Qв: {0}, Converter={StaticResource DoubleRoundConverter}, ConverterParameter=8}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Center" />
         <TextBox Text="{Binding Вывод, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" BorderThickness="0" HorizontalAlignment="Center" />
 
         <Button Grid.Row="1" Command="{Binding РассчетCommand}" Content="Расчитать" Margin="10" Padding="3" HorizontalAlignment="Right" />

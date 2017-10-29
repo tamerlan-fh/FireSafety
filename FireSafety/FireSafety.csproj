@@ -55,7 +55,7 @@
   <ItemGroup>
     <Reference Include="DocX, Version=1.0.0.22, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DocX.1.0.0.22\lib\net40\DocX.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DocumentManager.cs" />
     <Compile Include="IO\BuildingSaveFile.cs" />
     <Compile Include="IO\SaveBuildingManager.cs" />
     <Compile Include="ValueConverters\BooleanValueConverter.cs" />
@@ -241,9 +242,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DocX.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Icons\node_icon_64.png" />
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +249,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\section_icon_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DocX.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

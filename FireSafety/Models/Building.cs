@@ -152,13 +152,14 @@ namespace FireSafety.Models
             window.ShowDialog();
         }
 
-        public void ComposeReport()
+        public async void ComposeReport()
         {
             if (!evacuationPlan.ContainsFormedRoutes)
             {
                 MessageBox.Show("Для составления отчета здание должно содержать хотя бы один путь эвакуациии", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
             var saveFileDialog = new SaveFileDialog();
 
             saveFileDialog.Filter = "docx files (*.docx)|*.docx";
@@ -168,9 +169,16 @@ namespace FireSafety.Models
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                var document = evacuationPlan.CreateDocument(saveFileDialog.FileName);
-                document.Save();
+                var filename = saveFileDialog.FileName;
+
+                var doc = await DocumentManager.Instance.CreateDocument(GetEvacuationPlan());
+                doc.SaveAs(filename);
             }
+        }
+
+        public EvacuationPlan GetEvacuationPlan()
+        {
+            return evacuationPlan;
         }
         public override BitmapImage Icon { get { return Settings.Instance.BuildingIco; } }
     }

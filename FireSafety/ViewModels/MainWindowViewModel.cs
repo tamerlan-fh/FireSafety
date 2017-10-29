@@ -2,6 +2,8 @@
 using FireSafety.Models;
 using FireSafety.VisualModels;
 using Microsoft.Win32;
+using Novacode;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -176,7 +178,7 @@ namespace FireSafety.ViewModels
         {
             return SelectedEntity != null &&
                  (SelectedEntity is Node
-                || SelectedEntity is Section
+                || SelectedEntity is Models.Section
                 || SelectedEntity is Building
                 || SelectedEntity is Floor);
         }
