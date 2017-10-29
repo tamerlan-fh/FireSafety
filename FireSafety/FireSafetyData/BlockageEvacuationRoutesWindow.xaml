@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FireSafety.FireSafetyData"
         mc:Ignorable="d"
-        Title="Блокирование Путей Эвакуации" WindowStartupLocation="CenterScreen" Height="auto" Width="auto"  ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="/FireSafety;component/Icons/БлокировкаIco-64.png" >
+        Title="Блокирование Путей Эвакуации" WindowStartupLocation="CenterScreen" Height="auto" Width="auto"  ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="/FireSafety;component/Icons/blockage_evacuation_routes_icon_64.png"  >
     <StackPanel Margin="10" Background="White">
         <StackPanel Orientation="Horizontal">
             <HeaderedContentControl Header="Типовая нагрузка" Margin="10,10,5,0" ToolTip="низшая теплота сгорания">
