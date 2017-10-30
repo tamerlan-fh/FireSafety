@@ -19,10 +19,10 @@ namespace FireSafety.FireSafetyData
     /// </summary>
     public partial class FireRiskWindow : Window
     {
-        public FireRiskWindow(double evacuationTime, double blockingTime)
+        public FireRiskWindow(double evacuationTime, double blockingTime, double square)
         {
             InitializeComponent();
-            this.DataContext = new FireRiskViewModel(evacuationTime, blockingTime);
+            this.DataContext = new FireRiskViewModel(evacuationTime, blockingTime, square);
         }
     }
 }

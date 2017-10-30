@@ -128,10 +128,12 @@ namespace FireSafety.Models
             if (window.ShowDialog() == true)
             {
                 blockageEvacuationRoutesTime = window.BlockageEvacuationRoutesTime.TotalMinutes;
+                square = window.Square;
             }
         }
 
         private double blockageEvacuationRoutesTime = 0;
+        private double square = 0;
 
         public void CalculateFireRisk()
         {
@@ -148,7 +150,7 @@ namespace FireSafety.Models
                 if (result == MessageBoxResult.Yes) CalculateBlockageEvacuationRoutes();
             }
 
-            var window = new FireRiskWindow(EvacuationTime, blockageEvacuationRoutesTime);
+            var window = new FireRiskWindow(EvacuationTime, blockageEvacuationRoutesTime, square);
             window.ShowDialog();
         }
 

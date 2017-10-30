@@ -10,14 +10,16 @@ namespace FireSafety.ValueConverters
         {
             if (value == null || !(value is double)) return 0;
 
-            if (parameter == null)
-                return Math.Round((double)value, 3);
-            else
-            {
-                int decimals = 3;
-                int.TryParse((string)parameter, out decimals);
-                return Math.Round((double)value, decimals);
-            }
+            int decimals = 3;
+            if (parameter != null)
+                int.TryParse(parameter.ToString(), out decimals);
+            if (decimals < 0)
+                decimals = 3;
+
+            double val = 0;
+            if (!double.TryParse(value.ToString(), out val)) return 0;
+
+            return Math.Round(val, decimals);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

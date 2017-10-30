@@ -96,7 +96,7 @@ namespace FireSafety.FireSafetyData
         }
         private string вывод;
 
-        public FireRiskViewModel(double времяЭвакуации, double времяБлокирования)
+        public FireRiskViewModel(double времяЭвакуации, double времяБлокирования, double площадь)
         {
             ВыбранныйПожарныйРиск = ВариантыПожарногоРиска.FirstOrDefault();
             РассчетCommand = new RelayCommand(param => this.Рассчет());
@@ -107,7 +107,7 @@ namespace FireSafety.FireSafetyData
             СистемыОповещения = true;
             СистемыПротиводымнойЗащиты = false;
             РасчетноеВремяЭвакуации = времяЭвакуации;
-            ВремяНачалаЭвакуации = 1.5;
+            ВремяНачалаЭвакуации = TimeSpan.FromSeconds(5 + 0.01 * площадь).TotalMinutes;
             ВремяБлокирования = времяБлокирования;
             ВремяСкопления = 2.03;
             старт = true;

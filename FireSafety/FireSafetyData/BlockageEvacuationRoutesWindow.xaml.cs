@@ -16,7 +16,7 @@ namespace FireSafety.FireSafetyData
             BlockageEvacuationRoutes = new BlockageEvacuationRoutesViewModel();
             this.DataContext = BlockageEvacuationRoutes;
         }
-
+        public double Square { get { return BlockageEvacuationRoutes.Ширина * BlockageEvacuationRoutes.Длина; } }
         public TimeSpan BlockageEvacuationRoutesTime { get { return BlockageEvacuationRoutes.ВремяБлокирования; } }
         protected override void OnClosing(CancelEventArgs e)
         {
