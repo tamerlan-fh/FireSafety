@@ -102,7 +102,7 @@
     <Compile Include="FireSafetyData\SmokeGasManager.cs" />
     <Compile Include="FireSafetyData\TypicalLoad.cs" />
     <Compile Include="FireSafetyData\TypicalLoadManager.cs" />
-    <Compile Include="FireSafetyData\ТаблицаЗависимости.cs" />
+    <Compile Include="FireSafetyData\DependenciesTable.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Models\BuildingComposition.cs" />
     <Compile Include="Models\EvacuationPlan.cs" />
