@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -55,11 +54,12 @@ namespace FireSafety.Models
             get { return movementTime; }
             set { movementTime = value; OnPropertyChanged("MovementTime"); }
         }
-        private double movementTime;
+        public double DelayTime { get; set; }
 
-        public void ApplyScale()
-        {
-            throw new NotImplementedException();
-        }
+        public SectionTypes SectionType { get { return SectionTypes.Doorway; } }
+
+        public bool IsStartingSection { get { return false; } }
+
+        private double movementTime;
     }
 }

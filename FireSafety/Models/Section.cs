@@ -79,6 +79,12 @@ namespace FireSafety.Models
         }
         private double movementTime;
 
+        public double DelayTime { get; set; }
+
+        public virtual SectionTypes SectionType { get { return SectionTypes.HorizontalSection; } }
+
+        public bool IsStartingSection { get { return false; } }
+
         public override BitmapImage Icon { get { return Settings.Instance.SectionRoadIco; } }
     }
 }

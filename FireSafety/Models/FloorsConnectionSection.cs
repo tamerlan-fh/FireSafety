@@ -34,6 +34,9 @@ namespace FireSafety.Models
             if (e.PropertyName == "Title")
                 OnPropertyChanged("Title");
         }
+
+        public override SectionTypes SectionType { get { return SectionTypes.Other; } }
+
         public override BitmapImage Icon { get { return Settings.Instance.FloorsConnectionIco; } }
     }
 }

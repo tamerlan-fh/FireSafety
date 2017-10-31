@@ -774,51 +774,6 @@
         <Setter Property="VerticalContentAlignment" Value="Top"/>
     </Style>
 
-    <DataTemplate x:Key="ControlTemplateFloor" DataType="{x:Type m:Floor}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="110"/>
-                <ColumnDefinition MinWidth="100" Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
-
-            <TextBox Grid.Column="0" Grid.Row="1" Text="Номер Этажа" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding НомерЭтажа, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
-
-            <TextBox Grid.Column="0" Grid.Row="2" Text="Фон" Style="{StaticResource TextBoxReadOnly}" />
-            <Button Grid.Column="1" Grid.Row="2" Command="{Binding ClearFloorPlanCommand}" Content="Очистить" Margin="2" />
-        </Grid>
-    </DataTemplate>
-
-    <DataTemplate x:Key="ControlTemplateBuilding" DataType="{x:Type m:Building}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="110"/>
-                <ColumnDefinition MinWidth="100" Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxStyle}" />
-
-            <TextBox Grid.Column="0" Grid.Row="1" Text="Число этажей" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Floors.Count, Mode=OneWay}" Style="{StaticResource TextBoxReadOnly}" />
-
-            <TextBox Grid.Column="0" Grid.Row="2" Text="Время эвакуации, мин" ToolTip="Время прохождения, мин" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=EvacuationTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.000}}" Style="{StaticResource TextBoxReadOnly}" />
-        </Grid>
-    </DataTemplate>
-
     <DataTemplate x:Key="ControlTemplateEntity" DataType="{x:Type m:Entity}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -834,6 +789,9 @@
 
             <TextBox Grid.Column="0" Grid.Row="1" Text="Расположение" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
+
+            <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
+            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
         </Grid>
     </DataTemplate>
 
@@ -855,6 +813,58 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Key="ControlTemplateFloor" DataType="{x:Type m:Floor}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="110"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
+
+            <TextBox Grid.Column="0" Grid.Row="1" Text="Расположение" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
+
+            <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
+            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
+
+            <TextBox Grid.Column="0" Grid.Row="3" Text="Фон" Style="{StaticResource TextBoxReadOnly}" />
+            <Button Grid.Column="1" Grid.Row="3" Command="{Binding ClearFloorPlanCommand}" Content="Очистить" Margin="2" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ControlTemplateBuilding" DataType="{x:Type m:Building}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="110"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxStyle}" />
+
+            <TextBox Grid.Column="0" Grid.Row="1" Text="Число этажей" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Floors.Count, Mode=OneWay}" Style="{StaticResource TextBoxReadOnly}" />
+
+            <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
+            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
+
+            <TextBox Grid.Column="0" Grid.Row="2" Text="Время эвакуации, мин" ToolTip="Время прохождения, мин" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=EvacuationTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F3}}" Style="{StaticResource TextBoxReadOnly}" />
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="ControlTemplateFloorsConnectionSection" DataType="{x:Type m:FloorsConnectionSection}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -870,44 +880,6 @@
 
             <TextBox Grid.Column="0" Grid.Row="1" Text="Расположение" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
-        </Grid>
-    </DataTemplate>
-
-    <DataTemplate x:Key="ControlTemplateEntryNode" DataType="{x:Type m:EntryNode}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="110"/>
-                <ColumnDefinition MinWidth="100" Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxStyle}" />
-
-            <TextBox Grid.Column="0" Grid.Row="1" Text="Расположение" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
-
-            <TextBox Grid.Column="0" Grid.Row="3" Text="Ширина, м" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Width,  UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
-
-
-
-            <TextBox Grid.Column="0" Grid.Row="4" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Length, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
-
-            <TextBox Grid.Column="0" Grid.Row="5" Text="Интенсивность движения, м/мин" ToolTip="Интенсивность движения, м/мин" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=IntensityHumanFlow, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
-
-            <TextBox Grid.Column="0" Grid.Row="6" Text="Время прохождения участка, мин" ToolTip="Время прохождения участка, мин" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
         </Grid>
     </DataTemplate>
 
@@ -928,14 +900,6 @@
 
             <TextBox Grid.Column="0" Grid.Row="1" Text="Расположение" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
-
-            <TextBox Grid.Column="0" Grid.Row="2" Text="Связать с этажом ниже" Style="{StaticResource TextBoxReadOnly}" />
-            <ComboBox Grid.Column="1" Grid.Row="2" SelectedItem="{Binding Path=IsFloorsConnected,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanValueConverter}}" IsEnabled="{Binding CanAddFloorsConnection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  BorderThickness="0" Margin="2,1" VerticalAlignment="Top" >
-                <ComboBox.Items>
-                    <sys:String>Нет</sys:String>
-                    <sys:String>Да</sys:String>
-                </ComboBox.Items>
-            </ComboBox>
 
             <TextBox Grid.Column="0" Grid.Row="3" Text="Связать с этажом ниже" Style="{StaticResource TextBoxReadOnly}" />
             <CheckBox Grid.Column="1" Grid.Row="3" UseLayoutRounding="True" MinWidth="70" MinHeight="20" IsChecked="{Binding Path=IsFloorsConnected, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanAddFloorsConnection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
@@ -995,7 +959,7 @@
             <TextBox Grid.Column="0" Grid.Row="5" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Length, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="6" Text="Время прохождения, мин" ToolTip="Время прохождения" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="0" Grid.Row="6" Text="Время прохождения" ToolTip="Время прохождения" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter }}" Style="{StaticResource TextBoxReadOnly}" />
         </Grid>
     </DataTemplate>
@@ -1031,11 +995,14 @@
             <TextBox Grid.Column="0" Grid.Row="3" Text="Конец" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Last.Title}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="4" Text="Ширина, м" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Width,  UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
+            <TextBox Grid.Column="0" Grid.Row="4" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
+            <CheckBox Grid.Column="1" Grid.Row="4" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
 
-            <TextBox Grid.Column="0" Grid.Row="5" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Length, UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" IsEnabled="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}" VerticalContentAlignment="Top" Style="{StaticResource TextBoxStyle}" />
+            <TextBox Grid.Column="0" Grid.Row="5" Text="Ширина, м" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Width,  UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
+
+            <TextBox Grid.Column="0" Grid.Row="6" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=Length, UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" IsEnabled="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}" VerticalContentAlignment="Top" Style="{StaticResource TextBoxStyle}" />
 
             <TextBox Grid.Column="0" Grid.Row="7" Text="Интенсивность движения, м/мин" ToolTip="Интенсивность движения, м/мин" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Path=IntensityHumanFlow, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
@@ -1046,8 +1013,51 @@
             <TextBox Grid.Column="0" Grid.Row="9" Text="Время прохождения" ToolTip="Время прохождения" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter}}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="10" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
-            <CheckBox Grid.Column="1" Grid.Row="10" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
+            <TextBox Grid.Column="0" Grid.Row="10" Text="Время задержки" ToolTip="Время задержки на участке" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="10" Text="{Binding Path=DelayTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter}}" Style="{StaticResource TextBoxReadOnly}" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ControlTemplateEntryNode" DataType="{x:Type m:EntryNode}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="110"/>
+                <ColumnDefinition MinWidth="100" Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxStyle}" />
+
+            <TextBox Grid.Column="0" Grid.Row="1" Text="Расположение" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
+
+            <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
+            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
+
+            <TextBox Grid.Column="0" Grid.Row="3" Text="Ширина, м" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Width,  UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
+
+            <TextBox Grid.Column="0" Grid.Row="4" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Length, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
+
+            <TextBox Grid.Column="0" Grid.Row="5" Text="Интенсивность движения, м/мин" ToolTip="Интенсивность движения, м/мин" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=IntensityHumanFlow, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
+
+            <TextBox Grid.Column="0" Grid.Row="6" Text="Время прохождения" ToolTip="Время прохождения участка" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter}}" Style="{StaticResource TextBoxReadOnly}" />
+
+            <TextBox Grid.Column="0" Grid.Row="7" Text="Время задержки" ToolTip="Время задержки на участке" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Path=DelayTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter}}" Style="{StaticResource TextBoxReadOnly}" />
         </Grid>
     </DataTemplate>
 

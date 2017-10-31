@@ -3,9 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -58,7 +56,7 @@ namespace FireSafety.Models
             if (Floors.Contains(floor)) return;
 
             Floors.Add(floor);
-            floor.ОбновитьНазвание();
+            floor.RefreshTitle();
             floor.Objects.CollectionChanged += FloorObjectsCollectionChanged;
 
             if (CurrentFloor == null) CurrentFloor = floor;
@@ -79,7 +77,7 @@ namespace FireSafety.Models
                 CurrentFloor = Floors[index];
 
             foreach (var f in Floors)
-                f.ОбновитьНазвание();
+                f.RefreshTitle();
 
             evacuationPlan.ComposeRoutes();
         }
@@ -94,11 +92,12 @@ namespace FireSafety.Models
                     return false;
             return true;
         }
-        public Floor ВыдатьЭтажНиже(Floor этаж)
+
+        public Floor GetFloorBelow(Floor floor)
         {
-            var индекс = Floors.IndexOf(этаж);
-            if (индекс < 1) return null;
-            else return Floors[индекс - 1];
+            var index = Floors.IndexOf(floor);
+            if (index < 1) return null;
+            else return Floors[index - 1];
         }
 
         private void FloorObjectsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -175,6 +174,18 @@ namespace FireSafety.Models
 
                 var doc = await DocumentManager.Instance.CreateDocument(GetEvacuationPlan());
                 doc.SaveAs(filename);
+            }
+        }
+
+        public override bool AutoSize
+        {
+            get { return base.AutoSize; }
+
+            set
+            {
+                foreach (var floor in Floors)
+                    floor.AutoSize = value;
+                base.AutoSize = value;
             }
         }
 

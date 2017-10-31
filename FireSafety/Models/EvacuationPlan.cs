@@ -1,11 +1,9 @@
 ﻿using FireSafety.FireSafetyData;
-using Novacode;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -17,7 +15,6 @@ namespace FireSafety.Models
     /// </summary>
     class EvacuationPlan : Entity
     {
-        public Building ParentBuilding { get { return Parent as Building; } }
         public EvacuationPlan(string title, Building parent) : base(title, parent)
         {
             if (parent == null) throw new Exception("Родительский элемент не может быть нулевым");
@@ -88,6 +85,8 @@ namespace FireSafety.Models
         private bool IsCalculated = false;
         private bool NeedCalculate = false;
         private TimeSpan CalculateInterval = TimeSpan.FromSeconds(0.5);
+
+        private Random rnd = new Random((int)DateTime.Now.Ticks);
         /// <summary>
         /// Пересчитать параметры маршрутов
         /// необходимо при изменении значений отдельных звеньев маршрутов
@@ -114,49 +113,62 @@ namespace FireSafety.Models
                 var start = route.Start;
                 firstSection.DensityHumanFlow = start.PeopleCount * start.ProjectionArea / (firstSection.Length * firstSection.Width);
 
-                if (firstSection.GetType() == typeof(RoadSection))
+                switch (firstSection.SectionType)
                 {
-                    firstSection.IntensityHumanFlow = ТаблицаЗависимостиГоризонтальныйПуть.Instance.ИнтенсивностьЧерезПлотность(firstSection.DensityHumanFlow);
-                    firstSection.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезПлотность(firstSection.DensityHumanFlow);
-                }
-
-                if (firstSection.GetType() == typeof(StairsSection))
-                {
-                    firstSection.MovementSpeed = ТаблицаЗависимостиЛестницаВниз.Instance.СкоростьЧерезПлотность(firstSection.DensityHumanFlow);
-                    firstSection.IntensityHumanFlow = ТаблицаЗависимостиЛестницаВниз.Instance.Интенсивность(firstSection.DensityHumanFlow);
+                    case SectionTypes.HorizontalSection:
+                        {
+                            firstSection.IntensityHumanFlow = ТаблицаЗависимостиГоризонтальныйПуть.Instance.ИнтенсивностьЧерезПлотность(firstSection.DensityHumanFlow);
+                            firstSection.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезПлотность(firstSection.DensityHumanFlow);
+                            break;
+                        }
+                    case SectionTypes.StaircaseSection:
+                        {
+                            firstSection.MovementSpeed = ТаблицаЗависимостиЛестницаВниз.Instance.СкоростьЧерезПлотность(firstSection.DensityHumanFlow);
+                            firstSection.IntensityHumanFlow = ТаблицаЗависимостиЛестницаВниз.Instance.Интенсивность(firstSection.DensityHumanFlow);
+                            break;
+                        }
                 }
 
                 firstSection.MovementTime = firstSection.Length / firstSection.MovementSpeed;
-                route.MovementTime += firstSection.MovementTime;
 
                 var previousSection = firstSection;
-
                 foreach (var section in route.Sections.Skip(1))
                 {
-                    if (section is FloorsConnectionSection) continue;
+                    if (section.SectionType == SectionTypes.Other) continue;
 
-                    if (section.GetType() == typeof(RoadSection))
+                    switch (section.SectionType)
                     {
-                        section.IntensityHumanFlow = previousSection.IntensityHumanFlow * previousSection.Width / section.Width;
-                        section.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(section.IntensityHumanFlow);
-                        section.MovementTime = section.Length / section.MovementSpeed;
-                    }
-                    if (section.GetType() == typeof(StairsSection))
-                    {
-                        section.IntensityHumanFlow = previousSection.IntensityHumanFlow * previousSection.Width / section.Width;
-                        section.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(section.IntensityHumanFlow);
-                        section.MovementTime = section.Length / section.MovementSpeed;
-                    }
-                    if (section.GetType() == typeof(EntryNode))
-                    {
-                        section.IntensityHumanFlow = 2.5 + 3.75 * section.Width;
-                        section.MovementTime = start.PeopleCount * 0.1 / (section.IntensityHumanFlow * section.Width);
+                        case SectionTypes.HorizontalSection:
+                            {
+                                section.IntensityHumanFlow = previousSection.IntensityHumanFlow * previousSection.Width / section.Width;
+                                section.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(section.IntensityHumanFlow);
+                                section.MovementTime = section.Length / section.MovementSpeed;
+                                break;
+                            }
+                        case SectionTypes.StaircaseSection:
+                            {
+                                section.IntensityHumanFlow = previousSection.IntensityHumanFlow * previousSection.Width / section.Width;
+                                section.MovementSpeed = ТаблицаЗависимостиГоризонтальныйПуть.Instance.СкоростьЧерезИнтенсивность(section.IntensityHumanFlow);
+                                section.MovementTime = section.Length / section.MovementSpeed; break;
+                            }
+                        case SectionTypes.Doorway:
+                            {
+                                section.IntensityHumanFlow = 2.5 + 3.75 * section.Width;
+                                section.MovementTime = start.PeopleCount * 0.1 / (section.IntensityHumanFlow * section.Width); break;
+                            }
                     }
 
-                    route.MovementTime += section.MovementTime;
+                    if (section.First.IncomingSections.Count > 1)
+                    {
+                        section.DelayTime = TimeSpan.FromSeconds(10 * rnd.NextDouble()).TotalMinutes;
+                        section.MovementTime += section.DelayTime;
+                    }
+                    else
+                        section.DelayTime = 0;
 
                     previousSection = section;
                 }
+                route.MovementTime = route.Sections.Sum(x => x.MovementTime);
             }
 
             EvacuationTime = Routes.Max(x => x.MovementTime);

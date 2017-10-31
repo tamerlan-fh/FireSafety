@@ -8,6 +8,7 @@ namespace FireSafety.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null || !(value is double)) return new TimeSpan();
             return TimeSpan.FromMinutes((double)value).ToString(@"mm\:ss\.fff");
         }
 

@@ -15,7 +15,6 @@ namespace FireSafety.Models
     class Floor : Entity
     {
         public Func<EvacuationPlanImage> GetEvacuationPlanImage { get; set; }
-        public Building ParentBuilding { get { return Parent as Building; } }
         public Floor(Building parent) : this("Этаж", parent) { }
         public Floor(string title, Building parent) : base(title, parent)
         {
@@ -29,9 +28,10 @@ namespace FireSafety.Models
         {
             get { return ParentBuilding.Floors.IndexOf(this) + 1; }
         }
-        public void ОбновитьНазвание()
+
+        public void RefreshTitle()
         {
-            this.Title = string.Format("Этаж {0}", FloorIndex);
+            Title = string.Format("Этаж {0}", FloorIndex);
         }
 
         private void LoadFloorPlan()
@@ -138,9 +138,6 @@ namespace FireSafety.Models
                     objToRemove.Add(section.Last);
             }
 
-            //foreach (var obj in objToRemove)
-            //    Objects.Remove(obj);
-
             foreach (var obj in objToRemove)
                 if (obj != null && obj.Parent != null && obj.Parent is Floor)
                     (obj.Parent as Floor).Objects.Remove(obj);
@@ -149,7 +146,7 @@ namespace FireSafety.Models
         {
             if (!Objects.Contains(node)) return;
 
-            var floor = ParentBuilding.ВыдатьЭтажНиже(this);
+            var floor = ParentBuilding.GetFloorBelow(this);
             if (floor == null) throw new Exception(string.Format("Ошибка при попытке добавить этаж. Под \"{0}\" нет другого этажа", Title));
 
             var newNode = new StairsNode(floor, node.Position, node.Title);
@@ -177,6 +174,18 @@ namespace FireSafety.Models
             }
         }
         private ZoomTool scale = ZoomTool.Empty;
+
+        public override bool AutoSize
+        {
+            get { return base.AutoSize; }
+
+            set
+            {
+                foreach (var obj in Objects)
+                    obj.AutoSize = value;
+                base.AutoSize = value;
+            }
+        }
         public override BitmapImage Icon { get { return Settings.Instance.FloorIco; } }
     }
 }

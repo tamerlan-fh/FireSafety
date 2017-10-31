@@ -13,11 +13,25 @@ namespace FireSafety.Models
         /// Родительский объект
         /// </summary>
         public Entity Parent { get; private set; }
+
+        public Building ParentBuilding
+        {
+            get
+            {
+                if (Parent == null) return null;
+                if (Parent is Building) return Parent as Building;
+                else
+                    return Parent.ParentBuilding;
+            }
+        }
+
         public Entity(string title, Entity parent)
         {
             Parent = parent;
             Title = title;
         }
+
+
 
         /// <summary>
         /// Название
@@ -60,7 +74,7 @@ namespace FireSafety.Models
             }
         }
         private EntityStatus status;
-        public bool AutoSize
+        public virtual bool AutoSize
         {
             get { return autoSize; }
             set { autoSize = value; OnPropertyChanged("AutoSize"); }

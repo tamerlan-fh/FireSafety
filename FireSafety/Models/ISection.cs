@@ -24,7 +24,7 @@
         /// Начало участка
         /// </summary>
         Node First { get; }
-        
+
         /// <summary>
         /// Конец участка
         /// </summary>
@@ -59,5 +59,40 @@
         /// Время движения 
         /// </summary>
         double MovementTime { get; set; }
+
+        /// <summary>
+        /// Время задержки (актуально для слияния участков)
+        /// </summary>
+        double DelayTime { get; set; }
+
+        /// <summary>
+        /// Тип участка
+        /// </summary>
+        SectionTypes SectionType { get; }
+
+        /// <summary>
+        /// Является участком, начало которого является началом пути эвакуации
+        /// </summary>
+        bool IsStartingSection { get; }
+    }
+
+    enum SectionTypes
+    {
+        /// <summary>
+        /// Горизонтальный участок
+        /// </summary>
+        HorizontalSection,
+        /// <summary>
+        /// Дверной проем
+        /// </summary>
+        Doorway,
+        /// <summary>
+        /// Лестничный участок
+        /// </summary>
+        StaircaseSection,
+        /// <summary>
+        /// Другое - Игнорируется при вычислении
+        /// </summary>
+        Other
     }
 }
