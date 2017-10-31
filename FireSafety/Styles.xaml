@@ -420,10 +420,13 @@
         </Style.Triggers>
     </Style>
 
+   
     <Style x:Key="CheckToogleButton" TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="#FF313131" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="MinHeight" Value="20"/>
+        <Setter Property="MinWidth" Value="70"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -833,7 +836,7 @@
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
-            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
+            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
             <TextBox Grid.Column="0" Grid.Row="3" Text="Фон" Style="{StaticResource TextBoxReadOnly}" />
             <Button Grid.Column="1" Grid.Row="3" Command="{Binding ClearFloorPlanCommand}" Content="Очистить" Margin="2" />
@@ -858,7 +861,7 @@
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Floors.Count, Mode=OneWay}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
-            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
+            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
             <TextBox Grid.Column="0" Grid.Row="2" Text="Время эвакуации, мин" ToolTip="Время прохождения, мин" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=EvacuationTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F3}}" Style="{StaticResource TextBoxReadOnly}" />
@@ -902,7 +905,7 @@
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="3" Text="Связать с этажом ниже" Style="{StaticResource TextBoxReadOnly}" />
-            <CheckBox Grid.Column="1" Grid.Row="3" UseLayoutRounding="True" MinWidth="70" MinHeight="20" IsChecked="{Binding Path=IsFloorsConnected, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanAddFloorsConnection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <CheckBox Grid.Column="1" Grid.Row="3" UseLayoutRounding="True" IsChecked="{Binding Path=IsFloorsConnected, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanAddFloorsConnection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
         </Grid>
     </DataTemplate>
 
@@ -996,7 +999,7 @@
             <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Last.Title}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="4" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
-            <CheckBox Grid.Column="1" Grid.Row="4" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
+            <CheckBox Grid.Column="1" Grid.Row="4" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
             <TextBox Grid.Column="0" Grid.Row="5" Text="Ширина, м" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Width,  UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
@@ -1042,7 +1045,7 @@
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
 
             <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
-            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
+            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
             <TextBox Grid.Column="0" Grid.Row="3" Text="Ширина, м" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Width,  UpdateSourceTrigger=LostFocus, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxStyle}" />
