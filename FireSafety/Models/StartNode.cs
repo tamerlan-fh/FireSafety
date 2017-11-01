@@ -16,7 +16,7 @@ namespace FireSafety.Models
             ProjectionArea = 0.125;
             PeopleCount = 1;
         }
-        public override BitmapImage Icon { get { return Settings.Instance.StartIco; } }
+        public override BitmapImage Icon { get { return SettingsManager.Instance.StartIco; } }
 
         /// <summary>
         /// Число людей 

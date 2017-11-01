@@ -85,7 +85,7 @@ namespace FireSafety
                 {
                     var planImage = floor.GetEvacuationPlanImage();
 
-                    using (var ms = new MemoryStream(Settings.GetBytesFromBitmap(planImage.BitmapValue)))
+                    using (var ms = new MemoryStream(SettingsManager.GetBytesFromBitmap(planImage.BitmapValue)))
                     {
                         // double width = 0.9 * document.PageWidth;
                         double width = 672;

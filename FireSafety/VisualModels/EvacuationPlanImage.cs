@@ -14,7 +14,7 @@ namespace FireSafety.VisualModels
         public double Width { get { return BitmapSourceValue.Width; } }
         public Bitmap BitmapValue
         {
-            get { return Settings.GetBitmap(BitmapSourceValue); }
+            get { return SettingsManager.GetBitmap(BitmapSourceValue); }
         }
         public BitmapSource BitmapSourceValue { get; private set; }
     }

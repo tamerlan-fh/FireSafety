@@ -186,6 +186,6 @@ namespace FireSafety.Models
                 base.AutoSize = value;
             }
         }
-        public override BitmapImage Icon { get { return Settings.Instance.FloorIco; } }
+        public override BitmapImage Icon { get { return SettingsManager.Instance.FloorIco; } }
     }
 }

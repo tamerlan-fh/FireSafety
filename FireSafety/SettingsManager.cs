@@ -4,21 +4,21 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace FireSafety.Models
+namespace FireSafety
 {
-    class Settings
+    class SettingsManager
     {
-        private static Settings instance;
-        public static Settings Instance
+        private static SettingsManager instance;
+        public static SettingsManager Instance
         {
             get
             {
                 if (instance == null)
-                    instance = new Settings();
+                    instance = new SettingsManager();
                 return instance;
             }
         }
-        private Settings()
+        private SettingsManager()
         {
             EntryIco = GetBitmapImage(Resources.entry_icon_64, ImageFormat.Png);
             ExitIco = GetBitmapImage(Resources.exit_icon_64, ImageFormat.Png);

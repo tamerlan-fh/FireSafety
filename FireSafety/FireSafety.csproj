@@ -112,7 +112,7 @@
     <Compile Include="Models\ExitNode.cs" />
     <Compile Include="Models\EntryNode.cs" />
     <Compile Include="Models\Building.cs" />
-    <Compile Include="Models\Settings.cs" />
+    <Compile Include="SettingsManager.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\EntityStatus.cs" />
@@ -226,8 +226,6 @@
     <Resource Include="Icons\exit_icon_64.png" />
     <Resource Include="Icons\background_icon_64.png" />
     <Resource Include="Icons\scale_icon_64.png" />
-    <Resource Include="Icons\building_icon_64.png" />
-    <Resource Include="Icons\building_icon_64_2.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -252,6 +250,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\DocX.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\building_icon_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

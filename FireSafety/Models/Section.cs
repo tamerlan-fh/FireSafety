@@ -85,6 +85,6 @@ namespace FireSafety.Models
 
         public bool IsStartingSection { get { return false; } }
 
-        public override BitmapImage Icon { get { return Settings.Instance.SectionRoadIco; } }
+        public override BitmapImage Icon { get { return SettingsManager.Instance.SectionRoadIco; } }
     }
 }

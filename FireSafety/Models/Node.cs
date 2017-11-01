@@ -27,7 +27,7 @@ namespace FireSafety.Models
         }
         private Point position;
 
-        public override BitmapImage Icon { get { return Settings.Instance.NodeIco; } }
+        public override BitmapImage Icon { get { return SettingsManager.Instance.NodeIco; } }
 
         /// <summary>
         /// Входящие 

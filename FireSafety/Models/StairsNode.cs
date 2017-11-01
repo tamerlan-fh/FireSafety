@@ -15,7 +15,7 @@ namespace FireSafety.Models
         {
             IsFloorsConnected = false;
         }
-        public override BitmapImage Icon { get { return Settings.Instance.NodeIco; } }
+        public override BitmapImage Icon { get { return SettingsManager.Instance.NodeIco; } }
 
 
         public bool IsFloorsConnected

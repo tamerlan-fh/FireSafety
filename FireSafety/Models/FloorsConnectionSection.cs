@@ -37,6 +37,6 @@ namespace FireSafety.Models
 
         public override SectionTypes SectionType { get { return SectionTypes.Other; } }
 
-        public override BitmapImage Icon { get { return Settings.Instance.FloorsConnectionIco; } }
+        public override BitmapImage Icon { get { return SettingsManager.Instance.FloorsConnectionIco; } }
     }
 }

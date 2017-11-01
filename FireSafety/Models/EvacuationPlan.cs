@@ -299,7 +299,7 @@ namespace FireSafety.Models
 
         //    return document;
         //}
-        public override BitmapImage Icon { get { return Settings.Instance.RouteIco; } }
+        public override BitmapImage Icon { get { return SettingsManager.Instance.RouteIco; } }
 
         public bool Param1 { get; set; }
         public bool Param2 { get; set; }

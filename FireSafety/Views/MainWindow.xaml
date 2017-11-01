@@ -115,7 +115,7 @@
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8" >
                         <Button Style="{StaticResource RectButtonTemplate}" Height="40" Width="40" Command="{Binding AddBuildingCommand}" ToolTip="Добавить Здание">
                             <Viewbox>
-                                <Image Source="/FireSafety;component/Icons/building_icon_64_2.png"/>
+                                <Image Source="/FireSafety;component/Icons/building_icon_64.png"/>
                             </Viewbox>
                         </Button>
                         <Button Style="{StaticResource RectButtonTemplate}" Height="40" Width="40" Command="{Binding AddFloorCommand}" Margin="5,0,0,0" ToolTip="Добавить Этаж">

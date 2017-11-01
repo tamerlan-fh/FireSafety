@@ -94,7 +94,7 @@ namespace FireSafety.Models
                     (section as Entity).Status = value;
             }
         }
-        public override BitmapImage Icon { get { return Settings.Instance.RouteIco; } }
+        public override BitmapImage Icon { get { return SettingsManager.Instance.RouteIco; } }
 
         public event EventHandler<RouteChangedEventArgs> RouteChanged;
         protected virtual void OnRouteChanged(string name, object value)

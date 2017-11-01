@@ -66,7 +66,7 @@ namespace FireSafety.IO
                 Scale = floor.Scale.GetHashCode(),
                 Title = floor.Title,
                 ObjectHashCodes = floor.Objects.Select(f => f.GetHashCode()).ToArray(),
-                FloorPlanImage = Settings.GetBytesFromBitmapImage(floor.FloorPlanImage)
+                FloorPlanImage = SettingsManager.GetBytesFromBitmapImage(floor.FloorPlanImage)
             };
         }
         private ZoomToolSavedFile SaveZoomTool(ZoomTool scale)
@@ -177,7 +177,7 @@ namespace FireSafety.IO
                 var floor = new Floor(sFloor.Title, building)
                 {
                     Scale = dictionary[sFloor.Scale],
-                    FloorPlanImage = Settings.GetBitmapImage(sFloor.FloorPlanImage)
+                    FloorPlanImage = SettingsManager.GetBitmapImage(sFloor.FloorPlanImage)
                 };
                 dictionary.Add(sFloor.HashCode, floor);
                 building.AddFloor(floor);
