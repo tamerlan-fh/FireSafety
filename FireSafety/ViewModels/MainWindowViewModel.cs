@@ -6,6 +6,8 @@ using Novacode;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace FireSafety.ViewModels
@@ -22,6 +24,7 @@ namespace FireSafety.ViewModels
         public ICommand CalculateBlockageEvacuationRoutesCommand { get; protected set; }
         public ICommand CalculateFireRiskCommand { get; protected set; }
         public ICommand ComposeReportCommand { get; protected set; }
+        public ICommand AddFloorsConnectionSectionCommand { get; protected set; }
 
         #endregion
 
@@ -46,7 +49,7 @@ namespace FireSafety.ViewModels
                 OnPropertyChanged("SelectedEntity");
                 if (value == null) return;
 
-                SelectedEntity.IsSelected = true;              
+                SelectedEntity.IsSelected = true;
                 if (SelectedEntity is Floor)
                     CurrentFloor = value as Floor;
                 else if (SelectedEntity is Building)
@@ -111,9 +114,9 @@ namespace FireSafety.ViewModels
             CalculateBlockageEvacuationRoutesCommand = new RelayCommand(param => CurrentBuilding.CalculateBlockageEvacuationRoutes(), param => CurrentBuilding != null);
             CalculateFireRiskCommand = new RelayCommand(param => CurrentBuilding.CalculateFireRisk(), param => CurrentBuilding != null);
             ComposeReportCommand = new RelayCommand(param => CurrentBuilding.ComposeReport(), param => CurrentBuilding != null);
-
             SaveBuldingCommand = new RelayCommand(param => SaveBuilding(), param => CurrentBuilding != null);
             LoadBuildingCommand = new RelayCommand(param => LoadBuilding());
+            AddFloorsConnectionSectionCommand = new RelayCommand(p => AddFloorsConnectionSection(), p => CanAddFloorsConnectionSection());
 
             Buildings = new ObservableCollection<Building>();
 
@@ -206,6 +209,20 @@ namespace FireSafety.ViewModels
 
             if (saveFileDialog.ShowDialog() == true)
                 SaveBuildingManager.Instance.Save(CurrentBuilding, saveFileDialog.FileName);
+        }
+
+
+        public Point ContextMenuPosition { get; set; }
+        private void AddFloorsConnectionSection()
+        {
+            var node = new StairsNode(CurrentFloor, ContextMenuPosition);
+            CurrentFloor.AddFloorsConnectionSection(node);
+        }
+
+        private bool CanAddFloorsConnectionSection()
+        {
+            return (ContextMenuPosition != null)
+                && !(CurrentBuilding == null || CurrentFloor == null || CurrentBuilding.GetFloorBelow(CurrentFloor) == null);
         }
     }
 }

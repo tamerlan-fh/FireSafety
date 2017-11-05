@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FireSafety"
         xmlns:cnvrt="clr-namespace:FireSafety.ValueConverters"
-        xmlns:ctrl="clr-namespace:FireSafety.Controls"
-        xmlns:vsl="clr-namespace:FireSafety.VisualModels"
+        xmlns:ctrl="clr-namespace:FireSafety.Controls"      
         xmlns:m="clr-namespace:FireSafety.Models"
         xmlns:vm="clr-namespace:FireSafety.VisualModels"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -33,25 +32,17 @@
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Transparent" />
 
             <Grid Grid.Column="0">
-                <vsl:EvacuationControl x:Name="evacuationControl" Margin="10,10,5,10" Buildings="{Binding Buildings}" SelectedFloor="{Binding CurrentFloor, UpdateSourceTrigger=PropertyChanged}" SelectedActionMode="{Binding Mode, UpdateSourceTrigger=PropertyChanged}" >
-                    <vsl:EvacuationControl.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Копировать"></MenuItem>
-                            <MenuItem Header="Вставить"></MenuItem>
-                            <MenuItem Header="Вырезать"></MenuItem>
-                            <MenuItem Header="Удалить"></MenuItem>
+                <ctrl:EvacuationControl x:Name="evacuationControl" Margin="10,10,5,10" 
+                                        Buildings="{Binding Buildings}" 
+                                        SelectedFloor="{Binding CurrentFloor, UpdateSourceTrigger=PropertyChanged}" 
+                                        SelectedActionMode="{Binding Mode, UpdateSourceTrigger=PropertyChanged}" 
+                                        ContextMenuPosition="{Binding ContextMenuPosition, Mode=OneWayToSource}">
+                    <ctrl:EvacuationControl.ContextMenu>
+                        <ContextMenu x:Name="menu">
+                            <MenuItem Header="Добавить связь с этажом ниже" Command="{Binding AddFloorsConnectionSectionCommand}"/>
                         </ContextMenu>
-                    </vsl:EvacuationControl.ContextMenu>
-                    <!--<vsl:EvacuationControl.Style>
-                        <Style TargetType="{x:Type vsl:EvacuationControl}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=inscribeBtn, Path=IsChecked}" Value="True">
-                                    <Setter Property="IsInscribe" Value="true"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </vsl:EvacuationControl.Style>-->
-                </vsl:EvacuationControl>
+                    </ctrl:EvacuationControl.ContextMenu>
+                </ctrl:EvacuationControl>
 
                 <StackPanel Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Vertical" Margin="0,0,30,30">
                     <TextBox Text="{Binding CurrentBuilding.EvacuationTime, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter}}" IsReadOnly="True" BorderThickness="0"  FontSize="24" HorizontalAlignment="Center" Background="Transparent"  />

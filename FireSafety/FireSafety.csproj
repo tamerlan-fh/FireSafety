@@ -152,7 +152,7 @@
     <Compile Include="VisualModels\VisualStairsSection.cs" />
     <Compile Include="VisualModels\VisualRoadSection.cs" />
     <Compile Include="VisualModels\VisualFloor.cs" />
-    <Compile Include="VisualModels\EvacuationControl.cs" />
+    <Compile Include="Controls\EvacuationControl.cs" />
     <Compile Include="VisualModels\MoveInformation.cs" />
     <Compile Include="VisualModels\ActionMode.cs" />
     <Compile Include="VisualModels\EvacuationPlanImage.cs" />

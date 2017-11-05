@@ -144,15 +144,16 @@ namespace FireSafety.Models
         }
         public void AddFloorsConnectionSection(StairsNode node)
         {
-            if (!Objects.Contains(node)) return;
+            if (node.ParentFloor != this) return;
+            AddObject(node);
 
             var floor = ParentBuilding.GetFloorBelow(this);
             if (floor == null) throw new Exception(string.Format("Ошибка при попытке добавить этаж. Под \"{0}\" нет другого этажа", Title));
 
             var newNode = new StairsNode(floor, node.Position, node.Title);
             floor.AddObject(newNode);
-            var спуск = new FloorsConnectionSection(node, newNode, this);
-            AddObject(спуск);
+            var connection = new FloorsConnectionSection(node, newNode, this);
+            AddObject(connection);
         }
         public void RemoveObjects()
         {

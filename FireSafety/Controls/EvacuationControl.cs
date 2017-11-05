@@ -10,8 +10,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Globalization;
+using FireSafety.VisualModels;
 
-namespace FireSafety.VisualModels
+namespace FireSafety.Controls
 {
     class EvacuationControl : FrameworkElement
     {
@@ -128,6 +129,18 @@ namespace FireSafety.VisualModels
 
         #endregion
 
+        #region Свойство Позиция мыши
+
+        public static readonly DependencyProperty ContextMenuPositionProperty =
+            DependencyProperty.Register("ContextMenuPosition", typeof(Point), typeof(EvacuationControl));
+
+        public Point ContextMenuPosition
+        {
+            get { return (Point)GetValue(ContextMenuPositionProperty); }
+            set { SetValue(ContextMenuPositionProperty, value); }
+        }
+
+        #endregion
         public EvacuationControl()
         {
             ClipToBounds = true;
@@ -394,12 +407,25 @@ namespace FireSafety.VisualModels
 
         #endregion
 
+
+        private bool contextMenuHandled = false;
         protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
         {
             if (IsCreatingLine)
             {
                 IsCreatingLine = false;
                 e.Handled = true;
+            }
+
+            if (SelectedActionMode != ActionMode.Move)
+            {
+                contextMenuHandled = true;
+            }
+            else
+            {
+                var entity = CurrentFloor.GetVisualEntity(GetAbsolutePosition(e.GetPosition(this)));
+                if (entity != null)
+                    contextMenuHandled = true;
             }
 
             base.OnMouseRightButtonDown(e);
@@ -476,6 +502,17 @@ namespace FireSafety.VisualModels
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        protected override void OnContextMenuOpening(ContextMenuEventArgs e)
+        {
+            if (contextMenuHandled)
+                e.Handled = true;
+            else
+                ContextMenuPosition = GetAbsolutePosition(new Point(e.CursorLeft, e.CursorTop));
+
+            base.OnContextMenuOpening(e);
+            contextMenuHandled = false;
         }
 
         private void ToDefaultValues()
@@ -626,10 +663,6 @@ namespace FireSafety.VisualModels
 
         #region Базовые
 
-        protected override void OnContextMenuOpening(ContextMenuEventArgs e)
-        {
-            base.OnContextMenuOpening(e);
-        }
         protected override void OnRender(DrawingContext drawingContext)
         {
             drawingContext.DrawRectangle(Brushes.AliceBlue, new Pen(Brushes.Black, 1), new Rect(0, 0, this.ActualWidth, this.ActualHeight));
