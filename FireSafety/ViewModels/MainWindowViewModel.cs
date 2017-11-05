@@ -43,10 +43,10 @@ namespace FireSafety.ViewModels
             {
                 if (SelectedEntity == value) return;
                 selectedEntity = value;
+                OnPropertyChanged("SelectedEntity");
                 if (value == null) return;
 
-                SelectedEntity.IsSelected = true;
-                OnPropertyChanged("SelectedEntity");
+                SelectedEntity.IsSelected = true;              
                 if (SelectedEntity is Floor)
                     CurrentFloor = value as Floor;
                 else if (SelectedEntity is Building)

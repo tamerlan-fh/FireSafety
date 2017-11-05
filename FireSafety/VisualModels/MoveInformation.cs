@@ -7,20 +7,29 @@ namespace FireSafety.VisualModels
     /// </summary>
     class MoveInformation
     {
-        public MoveInformation(VisualUnit unit, Point position)
+        public MoveInformation(IMovable unit, Point position, bool isUsesAbsoluteValues = false)
         {
             this.Unit = unit;
             this.StartPosition = position;
+            this.IsUsedAbsoluteValues = isUsesAbsoluteValues;
         }
 
         /// <summary>
         /// перемещаемый объект
         /// </summary>
-        public VisualUnit Unit { get; private set; }
+        public IMovable Unit { get; private set; }
 
         /// <summary>
         /// Информация о позиции объекта
         /// </summary>
         public Point StartPosition { get; set; }
+
+        //
+        public bool IsUsedAbsoluteValues { get; private set; }
+    }
+
+    interface IMovable
+    {
+        void Move(Vector vector);
     }
 }

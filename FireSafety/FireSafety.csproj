@@ -55,7 +55,7 @@
   <ItemGroup>
     <Reference Include="DocX, Version=1.0.0.22, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DocX.1.0.0.22\lib\net40\DocX.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
@@ -87,7 +87,6 @@
     <Compile Include="ViewModels\BasePropertyChanged.cs" />
     <Compile Include="Controls\ControlTemplateSelector.cs" />
     <Compile Include="Controls\ModifiedTreeView.cs" />
-    <Compile Include="Controls\TransformControl.cs" />
     <Compile Include="FireSafetyData\BlockageEvacuationRoutesViewModel.cs" />
     <Compile Include="FireSafetyData\BlockageEvacuationRoutesWindow.xaml.cs">
       <DependentUpon>BlockageEvacuationRoutesWindow.xaml</DependentUpon>
@@ -142,6 +141,7 @@
     <Compile Include="VisualModels\VisualNode.cs" />
     <Compile Include="VisualModels\VisualEntity.cs" />
     <Compile Include="VisualModels\VisualPoint.cs" />
+    <Compile Include="VisualModels\VisualShell.cs" />
     <Compile Include="VisualModels\VisualThumb.cs" />
     <Compile Include="VisualModels\VisualUnit.cs" />
     <Compile Include="VisualModels\VisualExitNode.cs" />
@@ -253,6 +253,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\building_icon_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\open_icon_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\expand_icon_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

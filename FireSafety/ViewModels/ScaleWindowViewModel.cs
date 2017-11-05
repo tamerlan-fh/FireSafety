@@ -14,7 +14,7 @@ namespace FireSafety.ViewModels
         {
             this.PixelLength = pixelLength;
             this.oldScale = oldScale;
-            FactLength = oldScale.GetActualLength(PixelLength);
+            FactLength = oldScale.TransformToActualLength(PixelLength);
             ApplyCommand = new RelayCommand(p => Apply(), p => CanApply());
             CanselCommand = new RelayCommand(p => Cansel());
         }

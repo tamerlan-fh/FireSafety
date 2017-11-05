@@ -12,7 +12,7 @@ namespace FireSafety.VisualModels
     class VisualFloor : DrawingVisual
     {
         public Floor Model { get; private set; }
-        public List<VisualEntity> VisualEntities { get; private set; }
+
         public VisualFloor(Floor model)
         {
             Model = model;
@@ -27,18 +27,19 @@ namespace FireSafety.VisualModels
             foreach (var obj in Model.Objects)
                 AddEntity(obj);
         }
-      
-        private EvacuationPlanImage GetEvacuationPlanImage()
-        {
-            //исходная область этажа
-            var bmpSource = new RenderTargetBitmap(Width, Height, 96, 96, PixelFormats.Pbgra32);
-            bmpSource.Render(this);
 
-            //область, включающая схему этажа
-            var croped = new CroppedBitmap(bmpSource, cropedRect);
-            return new EvacuationPlanImage(bmpSource);
+        /// <summary>
+        /// Точка симметрии. графический центр
+        /// </summary>
+        public Point AxisPoint
+        {
+            get { return new Point(Width / 2, Height / 2); }
         }
-     
+        public double ActualWidth { get { return Drawing.Bounds.Width; } }
+        public double ActualHeight { get { return Drawing.Bounds.Height; } }
+
+        #region Фон
+
         private void ModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -46,8 +47,6 @@ namespace FireSafety.VisualModels
                 case "FloorPlanImage": { CreateBackground(); break; }
             }
         }
-
-        #region Фон
 
         private const int Width = 1920;
         private const int Height = 1080;
@@ -87,9 +86,26 @@ namespace FireSafety.VisualModels
             }
         }
 
+        /// <summary>
+        /// Функция, предоставляющая графический снимок этажа, включающий все графические обьекты и фон
+        /// </summary>
+        /// <returns></returns>
+        private EvacuationPlanImage GetEvacuationPlanImage()
+        {
+            //исходная область этажа
+            var bmpSource = new RenderTargetBitmap(Width, Height, 96, 96, PixelFormats.Pbgra32);
+            bmpSource.Render(this);
+
+            //область, включающая схему этажа
+            var croped = new CroppedBitmap(bmpSource, cropedRect);
+            return new EvacuationPlanImage(bmpSource);
+        }
+
         #endregion
 
         #region Обьекты этажа
+
+        public List<VisualEntity> VisualEntities { get; private set; }
 
         private void EntitiesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

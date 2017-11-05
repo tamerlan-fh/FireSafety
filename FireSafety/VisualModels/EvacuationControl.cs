@@ -8,6 +8,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Controls;
+using System.Globalization;
 
 namespace FireSafety.VisualModels
 {
@@ -16,7 +18,9 @@ namespace FireSafety.VisualModels
 
         #region Свойство Здания
 
-        public static readonly DependencyProperty BuildingsProperty = DependencyProperty.Register("Buildings", typeof(ObservableCollection<Building>), typeof(EvacuationControl), new FrameworkPropertyMetadata(new PropertyChangedCallback(BuildingsPropertyChanged)));
+        public static readonly DependencyProperty BuildingsProperty =
+            DependencyProperty.Register("Buildings", typeof(ObservableCollection<Building>), typeof(EvacuationControl),
+                new FrameworkPropertyMetadata(new PropertyChangedCallback(BuildingsPropertyChanged)));
         private static void BuildingsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             (d as EvacuationControl).ApplyingNewValues(e.NewValue as ObservableCollection<Building>);
@@ -32,13 +36,14 @@ namespace FireSafety.VisualModels
 
         #region Свойство Режим Взаимодействия
 
-        public static readonly DependencyProperty SelectedActionModeProperty = DependencyProperty.Register("SelectedActionMode", typeof(ActionMode), typeof(EvacuationControl), new FrameworkPropertyMetadata(new PropertyChangedCallback(SelectedActionModePropertyChanged)));
+        public static readonly DependencyProperty SelectedActionModeProperty =
+            DependencyProperty.Register("SelectedActionMode", typeof(ActionMode), typeof(EvacuationControl),
+                new FrameworkPropertyMetadata(new PropertyChangedCallback(SelectedActionModePropertyChanged)));
         private static void SelectedActionModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != e.NewValue)
                 (d as EvacuationControl).IsCreatingLine = false;
         }
-
 
         public ActionMode SelectedActionMode
         {
@@ -48,9 +53,63 @@ namespace FireSafety.VisualModels
 
         #endregion
 
+        #region Свойства, связанные с Масштабом
+
+        /// <summary>
+        /// Масштаб
+        /// </summary>
+        public double? Ratio
+        {
+            get
+            {
+                double? ratio = (double?)GetValue(RatioProperty);
+                if (ratio != null)
+                    ratio /= 100;
+                return ratio;
+            }
+            set
+            {
+
+                double? ratio = value;
+                if (ratio != null)
+                    ratio = Math.Round((double)ratio * 100, 2);
+                SetValue(RatioProperty, ratio);
+            }
+        }
+
+        public static readonly DependencyProperty RatioProperty =
+            DependencyProperty.Register("Ratio", typeof(double?), typeof(EvacuationControl),
+                new FrameworkPropertyMetadata(new PropertyChangedCallback(RatioPropertyChanged)));
+        private static void RatioPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Вписать
+        /// </summary>
+        public bool IsInscribe
+        {
+            get { return (bool)GetValue(IsInscribeProperty); }
+            set { SetValue(IsInscribeProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsInscribeProperty =
+                DependencyProperty.Register("IsInscribe", typeof(bool), typeof(EvacuationControl),
+                    new FrameworkPropertyMetadata(new PropertyChangedCallback(IsInscribeChanged)));
+
+        private static void IsInscribeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is bool && ((bool)e.NewValue))
+                (d as EvacuationControl).Shell?.Inscribe();
+        }
+        #endregion
+
         #region Свойство Текущий Этаж
 
-        public static readonly DependencyProperty SelectedFloorProperty = DependencyProperty.Register("SelectedFloor", typeof(Floor), typeof(EvacuationControl), new FrameworkPropertyMetadata(new PropertyChangedCallback(SelectedFloorPropertyChanged)));
+        public static readonly DependencyProperty SelectedFloorProperty =
+            DependencyProperty.Register("SelectedFloor", typeof(Floor), typeof(EvacuationControl),
+                new FrameworkPropertyMetadata(new PropertyChangedCallback(SelectedFloorPropertyChanged)));
         private static void SelectedFloorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var floor = e.NewValue as Floor;
@@ -61,9 +120,6 @@ namespace FireSafety.VisualModels
                 control.CurrentFloor = control.floors.FirstOrDefault(x => x.Model == floor);
         }
 
-        /// <summary>
-        /// SelectedFloor
-        /// </summary>
         public Floor SelectedFloor
         {
             get { return (Floor)GetValue(SelectedFloorProperty); }
@@ -74,12 +130,14 @@ namespace FireSafety.VisualModels
 
         public EvacuationControl()
         {
+            ClipToBounds = true;
+
             floors = new List<VisualFloor>();
+            shells = new List<VisualShell>();
             buildings = new List<VisualBuilding>();
 
-            this.visuals = new VisualCollection(this);
-            this.Width = 1920;
-            this.Height = 1080;
+            visuals = new VisualCollection(this);
+
             ToDefaultValues();
         }
 
@@ -91,19 +149,26 @@ namespace FireSafety.VisualModels
             get { return moveInformation != null; }
             set { if (value == false) moveInformation = null; }
         }
+
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (IsMoving)
-            {
-                e.Handled = true;
-                var position = e.GetPosition(this);
-                var shift = position - moveInformation.StartPosition;
-                moveInformation.Unit.Move(shift);
+            base.OnMouseMove(e);
 
-                moveInformation.StartPosition = position;
+            if (!IsMoving) return;
 
-                return;
-            }
+            var position = e.GetPosition(this);
+            if (!moveInformation.IsUsedAbsoluteValues)
+                position = GetAbsolutePosition(position);
+
+            var shift = position - moveInformation.StartPosition;
+
+            if (moveInformation.IsUsedAbsoluteValues)
+                shift = Shell.TransformVector(shift);
+
+            moveInformation.Unit.Move(shift);
+
+            moveInformation.StartPosition = position;
+            e.Handled = true;
         }
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
@@ -121,12 +186,12 @@ namespace FireSafety.VisualModels
             set
             {
                 if (creatingLineInf != null)
-                    visuals.Remove(creatingLineInf.Drawing);
+                    Shell?.RemoveVisual(creatingLineInf.Drawing);
 
                 creatingLineInf = value;
                 if (creatingLineInf != null)
                 {
-                    visuals.Add(creatingLineInf.Drawing);
+                    Shell?.AddVisual(creatingLineInf.Drawing);
                     moveInformation = new MoveInformation(creatingLineInf.LastUnit, creatingLineInf.LastPosition);
                 }
             }
@@ -195,16 +260,76 @@ namespace FireSafety.VisualModels
 
         #endregion
 
-        #region Масштабирование
+        #region Задание масштаба
 
-        private bool IsSetScale
+        DrawingVisual visualScale = new DrawingVisual();
+
+
+        private Pen scalePen = new Pen(Brushes.Black, 2);
+
+        private byte[] arrayUp = new byte[] { 2, 5, 10, 25, 50, 100 };
+        private double[] arrayDown = new double[] { 0.5, 0.25, 0.2, 0.1, 0.05, 0.025, 0.005, 0.001 };
+
+        public void DrawingScale()
         {
-            get { return SelectedActionMode == ActionMode.SetScale; }
+            IsInscribe = false;
+
+            if (Shell == null)
+            {
+                visuals.Remove(visualScale);
+                return;
+            }
+
+            if (!visuals.Contains(visualScale))
+                visuals.Add(visualScale);
+
+            double maxLength = 100;
+            double minLength = 50;
+            double coefficient = 1;
+            var point = new Point(ActualWidth / 2, ActualHeight - 30);
+            var length = Shell.Ratio * CurrentFloor.Model.Scale.TransformToGraphicLength(coefficient);
+
+            if (length < minLength)
+            {
+                foreach (var value in arrayUp)
+                    if (length * value > minLength)
+                    {
+                        coefficient = value;
+                        break;
+                    }
+            }
+            else if (length > maxLength)
+            {
+                foreach (var value in arrayDown)
+                    if (length * value < maxLength)
+                    {
+                        coefficient = value;
+                        break;
+                    }
+            }
+
+
+            var vectorScale = new Vector(length * coefficient / 2, 0);
+            var text = new FormattedText(string.Format("{0} м", Math.Round(coefficient, 3)), CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Verdana"), 14, Brushes.Black);
+
+            using (var dc = visualScale.RenderOpen())
+            {
+                var vector = new Vector(0, 3);
+                var firstPoint = point - vectorScale;
+                var lastPoint = point + vectorScale;
+
+
+                dc.DrawLine(scalePen, firstPoint, lastPoint);
+                dc.DrawLine(scalePen, firstPoint + vector, firstPoint - vector);
+                dc.DrawLine(scalePen, lastPoint + vector, lastPoint - vector);
+
+                dc.DrawText(text, point - new Vector(text.Width / 2, 0));
+            }
         }
 
         private void SetScale()
         {
-            if (!IsSetScale || !IsCreatingLine) return;
+            if (!(SelectedActionMode == ActionMode.SetScale) || !IsCreatingLine) return;
 
             var length = CreatingLineInf.Length;
             if (length > 0)
@@ -214,10 +339,57 @@ namespace FireSafety.VisualModels
                 {
                     CurrentFloor.Model.Scale = win.Scale;
                     CurrentFloor.ApplyScale();
+                    DrawingScale();
                 }
             }
 
             IsCreatingLine = false;
+        }
+
+        #endregion
+
+        #region графические трансформации
+
+        private List<VisualShell> shells;
+        private VisualShell Shell
+        {
+            get { return shell; }
+            set
+            {
+                visuals.Clear();
+                shell = value;
+                if (Shell != null)
+                {
+                    Ratio = Shell.Ratio;
+                    visuals.Add(Shell);
+                    DrawingScale();
+                }
+                else
+                    Ratio = null;
+            }
+        }
+        private VisualShell shell;
+
+        public Point AxisPoint { get { return new Point(ActualWidth / 2, ActualHeight / 2); } }
+
+        private Point GetAbsolutePosition(Point point)
+        {
+            if (Shell == null)
+                return point;
+            else
+                return Shell.TransformPoint(point);
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            if (e.Delta < 0)
+                Shell?.ToNearly(e.GetPosition(this));
+            else
+                Shell?.ToFar(e.GetPosition(this));
+
+            DrawingScale();
+
+            base.OnMouseWheel(e);
         }
 
         #endregion
@@ -229,10 +401,8 @@ namespace FireSafety.VisualModels
                 IsCreatingLine = false;
                 e.Handled = true;
             }
-            else
-                e.Handled = false;
 
-         //   base.OnMouseRightButtonDown(e);
+            base.OnMouseRightButtonDown(e);
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -240,7 +410,7 @@ namespace FireSafety.VisualModels
             if (CurrentFloor == null) return;
 
             e.Handled = true;
-            var position = e.GetPosition(this);
+            var position = GetAbsolutePosition(e.GetPosition(this));
 
             try
             {
@@ -272,13 +442,15 @@ namespace FireSafety.VisualModels
                             var entity = CurrentFloor.GetVisualEntity(position);
                             if (entity != null)
                             {
-                                e.Handled = true;
                                 moveInformation = new MoveInformation(entity.GetUnit(position), position);
                                 entity.Model.IsSelected = true;
                             }
-                            else
+                            else if (Shell != null)
+                            {
+                                moveInformation = new MoveInformation(Shell, e.GetPosition(this), true);
                                 e.Handled = false;
-
+                            }
+                            e.Handled = true;
                             break;
                         }
                     case ActionMode.Remove:
@@ -312,6 +484,7 @@ namespace FireSafety.VisualModels
             IsMoving = false;
             IsCreatingLine = false;
 
+            shells.Clear();
             floors.Clear();
 
             if (!buildings.Any()) return;
@@ -395,14 +568,19 @@ namespace FireSafety.VisualModels
             set
             {
                 if (currentFloor == value) return;
+
                 currentFloor = value;
-                visuals.Clear();
                 IsCreatingLine = false;
-                if (currentFloor == null) return;
-                visuals.Add(currentFloor);
+
+                if (currentFloor != null)
+                    Shell = shells.FirstOrDefault(x => x.Floor == CurrentFloor);
+                else
+                    Shell = null;
             }
         }
+
         private VisualFloor currentFloor;
+
         private void FloorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -427,15 +605,18 @@ namespace FireSafety.VisualModels
             var clone = floors.FirstOrDefault(x => x.Model == floor);
             if (clone != null) return;
 
-            floors.Add(new VisualFloor(floor));
+            var vFloor = new VisualFloor(floor);
+            floors.Add(vFloor);
+            shells.Add(new VisualShell(vFloor, this));
         }
 
         private void RemoveFloor(Floor floor)
         {
-            floor.ParentBuilding.Floors.CollectionChanged -= FloorsCollectionChanged;
-
             var visual = floors.FirstOrDefault(x => x.Model == floor);
             floors.Remove(visual);
+
+            var shell = shells.FirstOrDefault(x => x.Floor == visual);
+            shells.Remove(shell);
 
             if (floor.ParentBuilding.IsEmpty)
                 CurrentFloor = null;
@@ -444,6 +625,18 @@ namespace FireSafety.VisualModels
         #endregion
 
         #region Базовые
+
+        protected override void OnContextMenuOpening(ContextMenuEventArgs e)
+        {
+            base.OnContextMenuOpening(e);
+        }
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            drawingContext.DrawRectangle(Brushes.AliceBlue, new Pen(Brushes.Black, 1), new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+
+            DrawingScale();
+            base.OnRender(drawingContext);
+        }
 
         private VisualCollection visuals;
         protected override int VisualChildrenCount { get { return visuals.Count; } }

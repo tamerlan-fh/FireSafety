@@ -420,7 +420,6 @@
         </Style.Triggers>
     </Style>
 
-   
     <Style x:Key="CheckToogleButton" TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="#FF313131" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -634,26 +633,6 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ctrl:TransformControl}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ctrl:TransformControl}">
-                    <Border Background="{TemplateBinding Background}" 
-							BorderBrush="{TemplateBinding BorderBrush}" 
-							BorderThickness="{TemplateBinding BorderThickness}" 
-							Padding="{TemplateBinding Padding}" 
-							ClipToBounds="{TemplateBinding ClipToBounds}">
-                        <Viewbox x:Name="PART_ZoomControl">
-                            <Border x:Name="PART_RotateControl">
-                                <ContentPresenter/>
-                            </Border>
-                        </Viewbox>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key ="RoundRadioButtonTemplate" TargetType ="{x:Type RadioButton}">
         <Setter Property ="Foreground" Value ="Black"/>
         <Setter Property ="FontWeight" Value ="Bold"/>
@@ -727,8 +706,6 @@
                             <Setter TargetName ="CurtainEllipse" Property ="Opacity" Value ="0.3"/>
                             <Setter TargetName ="CurtainEllipse" Property ="Fill" Value ="Gray"/>
                             <Setter TargetName ="Ring" Property ="Stroke" Value="Gray"/>
-                            <!--<Setter TargetName ="Ring" Property ="Opacity" Value="0.3"/>
-                            <Setter TargetName ="Presenter" Property ="Opacity" Value="0.3"/>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -744,18 +721,43 @@
                 <ControlTemplate TargetType ="{x:Type Button}">
                     <Viewbox>
                         <Grid Width="66" Height="66" Name="Container">
-                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Rectangle Name="OuterRect" Fill="White" Opacity="0.7" RadiusX="10" RadiusY="10"/>
+                            <ContentPresenter Name="OuterRect" Margin="{TemplateBinding Padding}" Width="52" Height="52" HorizontalAlignment="Center" VerticalAlignment="Center"  Opacity="0.5" />
                         </Grid>
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property ="IsMouseOver" Value ="True">
-                            <Setter TargetName ="OuterRect" Property ="Opacity" Value ="0"/>
+                            <Setter TargetName ="OuterRect" Property ="Opacity" Value ="1"/>
                         </Trigger>
                         <Trigger Property ="IsPressed" Value ="True">
-                            <Setter TargetName ="OuterRect" Property ="Opacity" Value ="0"/>
-                            <Setter TargetName ="Container" Property ="Width" Value ="75"/>
-                            <Setter TargetName ="Container" Property ="Height" Value ="75"/>
+                            <Setter TargetName ="OuterRect" Property ="Opacity" Value ="1"/>
+                            <Setter TargetName ="Container" Property ="Width" Value ="86"/>
+                            <Setter TargetName ="Container" Property ="Height" Value ="86"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key ="RectRadioButtonTemplate" TargetType ="{x:Type RadioButton}" >
+        <Setter Property ="Foreground" Value ="Black"/>
+        <Setter Property ="FontWeight" Value ="Bold"/>
+        <Setter Property ="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType ="{x:Type RadioButton}">
+                    <Viewbox>
+                        <Grid Width="66" Height="66" Name="Container">
+                            <ContentPresenter Name="OuterRect" Margin="{TemplateBinding Padding}" Width="52" Height="52" HorizontalAlignment="Center" VerticalAlignment="Center"  Opacity="0.5" />
+                        </Grid>
+                    </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property ="IsMouseOver" Value ="True">
+                            <Setter TargetName ="OuterRect" Property ="Opacity" Value ="1"/>
+                        </Trigger>
+                        <Trigger Property ="IsPressed" Value ="True">
+                            <Setter TargetName ="OuterRect" Property ="Opacity" Value ="1"/>
+                            <Setter TargetName ="Container" Property ="Width" Value ="86"/>
+                            <Setter TargetName ="Container" Property ="Height" Value ="86"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -786,6 +788,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxStyle}" />
@@ -793,8 +796,8 @@
             <TextBox Grid.Column="0" Grid.Row="1" Text="Расположение" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
-            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" />
+            <!--<TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
+            <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" Style="{StaticResource CheckToogleButton}"/>-->
         </Grid>
     </DataTemplate>
 
@@ -838,8 +841,20 @@
             <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
             <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-            <TextBox Grid.Column="0" Grid.Row="3" Text="Фон" Style="{StaticResource TextBoxReadOnly}" />
-            <Button Grid.Column="1" Grid.Row="3" Command="{Binding ClearFloorPlanCommand}" Content="Очистить" Margin="2" />
+            <TextBox Grid.Column="0" Grid.Row="3" Text="Фон" Style="{StaticResource TextBoxReadOnly}" VerticalAlignment="Center" />
+            <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Command="{Binding LoadFloorPlanCommand}" Margin="2" ToolTip="Открыть" Height="20" MinWidth="30" Style="{StaticResource RectButtonTemplate}">
+                    <Viewbox >
+                        <Image Source="Icons/open_icon_24.png" />
+                    </Viewbox>
+                </Button>
+                <Button Command="{Binding ClearFloorPlanCommand}" Margin="2" ToolTip="Очистить" Height="20" MinWidth="30" Style="{StaticResource RectButtonTemplate}">
+                    <Viewbox>
+                        <Image Source="Icons/remove_icon_64.png" />
+                    </Viewbox>
+                </Button>
+            </StackPanel>
+           
         </Grid>
     </DataTemplate>
 
@@ -853,6 +868,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxStyle}" />
@@ -863,8 +879,8 @@
             <TextBox Grid.Column="0" Grid.Row="2" Text="Авторазмеры" Style="{StaticResource TextBoxReadOnly}" />
             <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding AutoSize, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Top" Margin="2,1" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-            <TextBox Grid.Column="0" Grid.Row="2" Text="Время эвакуации, мин" ToolTip="Время прохождения, мин" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=EvacuationTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F3}}" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="0" Grid.Row="3" Text="Время эвакуации, мин" ToolTip="Время прохождения, мин" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=EvacuationTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F3}}" Style="{StaticResource TextBoxReadOnly}" />
         </Grid>
     </DataTemplate>
 
@@ -896,7 +912,6 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxStyle}" />
@@ -904,8 +919,8 @@
             <TextBox Grid.Column="0" Grid.Row="1" Text="Расположение" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Parent.Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="3" Text="Связать с этажом ниже" Style="{StaticResource TextBoxReadOnly}" />
-            <CheckBox Grid.Column="1" Grid.Row="3" UseLayoutRounding="True" IsChecked="{Binding Path=IsFloorsConnected, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanAddFloorsConnection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBox Grid.Column="0" Grid.Row="2" Text="Связать с этажом ниже" Style="{StaticResource TextBoxReadOnly}" />
+            <CheckBox Grid.Column="1" Grid.Row="2" UseLayoutRounding="True" IsChecked="{Binding Path=IsFloorsConnected, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanAddFloorsConnection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CheckToogleButton}" VerticalAlignment="Top" HorizontalAlignment="Left" />
         </Grid>
     </DataTemplate>
 
@@ -947,23 +962,21 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Grid.Column="0" Grid.Row="0" Text="Название" Style="{StaticResource TextBoxReadOnly}" />
             <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxStyle}" />
 
-            <TextBox Grid.Column="0" Grid.Row="3" Text="Начало" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=FirstNode.Title}" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="0" Grid.Row="1" Text="Начало" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=FirstNode.Title}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="4" Text="Конец" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=LastNode.Title}" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="0" Grid.Row="2" Text="Конец" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=LastNode.Title}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="5" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=Length, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="0" Grid.Row="3" Text="Длина, м" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Length, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleRoundConverter}}" Style="{StaticResource TextBoxReadOnly}" />
 
-            <TextBox Grid.Column="0" Grid.Row="6" Text="Время прохождения" ToolTip="Время прохождения" Style="{StaticResource TextBoxReadOnly}" />
-            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter }}" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="0" Grid.Row="4" Text="Время прохождения" ToolTip="Время прохождения" Style="{StaticResource TextBoxReadOnly}" />
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=MovementTime, Mode=OneWay,  UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter }}" Style="{StaticResource TextBoxReadOnly}" />
         </Grid>
     </DataTemplate>
 

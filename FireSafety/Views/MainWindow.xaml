@@ -33,14 +33,25 @@
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Transparent" />
 
             <Grid Grid.Column="0">
-                <Grid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Send34" />
-                    </ContextMenu>
-                </Grid.ContextMenu>
-                <ctrl:TransformControl Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="10" ClipToBounds="True" ZoomFactor="1.1" MinZoomScale="{Binding ElementName=ZoomSlider, Path=Minimum}" MaxZoomScale="{Binding ElementName=ZoomSlider, Path=Maximum}" ZoomScale="{Binding ElementName=ZoomSlider, Path=Value, Mode=TwoWay}" Margin="10,10,5,10" Background="#99F0F8FF" >
-                    <vsl:EvacuationControl Buildings="{Binding Buildings}" SelectedFloor="{Binding CurrentFloor, UpdateSourceTrigger=PropertyChanged}" SelectedActionMode="{Binding Mode, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                </ctrl:TransformControl>
+                <vsl:EvacuationControl x:Name="evacuationControl" Margin="10,10,5,10" Buildings="{Binding Buildings}" SelectedFloor="{Binding CurrentFloor, UpdateSourceTrigger=PropertyChanged}" SelectedActionMode="{Binding Mode, UpdateSourceTrigger=PropertyChanged}" >
+                    <vsl:EvacuationControl.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Копировать"></MenuItem>
+                            <MenuItem Header="Вставить"></MenuItem>
+                            <MenuItem Header="Вырезать"></MenuItem>
+                            <MenuItem Header="Удалить"></MenuItem>
+                        </ContextMenu>
+                    </vsl:EvacuationControl.ContextMenu>
+                    <!--<vsl:EvacuationControl.Style>
+                        <Style TargetType="{x:Type vsl:EvacuationControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=inscribeBtn, Path=IsChecked}" Value="True">
+                                    <Setter Property="IsInscribe" Value="true"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </vsl:EvacuationControl.Style>-->
+                </vsl:EvacuationControl>
 
                 <StackPanel Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Vertical" Margin="0,0,30,30">
                     <TextBox Text="{Binding CurrentBuilding.EvacuationTime, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TimeSpanConverter}}" IsReadOnly="True" BorderThickness="0"  FontSize="24" HorizontalAlignment="Center" Background="Transparent"  />
@@ -93,10 +104,22 @@
                     <Button Style="{StaticResource RoundButtonTemplate}" Height="50" Command="{Binding CurrentFloor.LoadFloorPlanCommand}" Margin="5" ToolTip="Сменить план этажа">
                         <Image Source="/FireSafety;component/Icons/background_icon_64.png" />
                     </Button>
-                    <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.SetScale}}" Margin="5" ToolTip="Масштаб">
+                    <RadioButton Style="{StaticResource RoundRadioButtonTemplate}" Height="50" IsChecked="{Binding Path=Mode, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ActionModeConverter}, ConverterParameter={x:Static vm:ActionMode.SetScale}}" Margin="5" ToolTip="Изменить масштаб">
                         <Image Source="/FireSafety;component/Icons/scale_icon_64.png" />
                     </RadioButton>
-                    <Slider  Width="150" x:Name="ZoomSlider" Minimum="0.1" Maximum="3.5" Value="1.0" Margin="5" TickPlacement="TopLeft" AutoToolTipPlacement="TopLeft" VerticalAlignment="Center" />
+                    <Grid Margin="5">
+                        <Rectangle Fill="White" RadiusX="10" RadiusY="10" Opacity="0.5" />
+                        <Border BorderBrush="Green" BorderThickness="2.8" CornerRadius="10"  />
+                        <Rectangle Fill="White" RadiusX="10" RadiusY="10" Opacity="0.5" />
+                        <StackPanel Orientation="Horizontal" Opacity="1" Margin="10">
+                            <TextBox Width="60" Text="{Binding ElementName=evacuationControl, Path=Ratio, Mode=OneWay, StringFormat={}{0} %}" VerticalAlignment="Center" TextAlignment="Center" BorderThickness="0" Background="Transparent" IsReadOnly="True"/>
+                            <RadioButton Style="{StaticResource RectRadioButtonTemplate}" Height="20" Width="20" ToolTip="Вписать" VerticalAlignment="Center" IsChecked="{Binding ElementName=evacuationControl, Path=IsInscribe, Mode=TwoWay}">
+                                <Viewbox>
+                                    <Image Source="/FireSafety;component/Icons/expand_icon_64.png" />
+                                </Viewbox>
+                            </RadioButton>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
             </Grid>
 
@@ -197,7 +220,7 @@
                         <TextBox Grid.Row="0" Padding="0,5" Margin="0,5" Text="{Binding SelectedEntity.Title, UpdateSourceTrigger=PropertyChanged, StringFormat={}Свойства объекта:  {0}}" IsReadOnly="True" BorderThickness="0" FontWeight="Bold" TextWrapping="Wrap" Background="#FFECE3E3"/>
 
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" >
-                            <ContentPresenter  Content="{Binding SelectedEntity, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" VerticalAlignment="Top">
+                            <ContentPresenter  Content="{Binding SelectedEntity, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" VerticalAlignment="Top" >
                                 <ContentPresenter.ContentTemplateSelector>
                                     <ctrl:ControlTemplateSelector 
                                         ControlTemplateEntity="{StaticResource ControlTemplateEntity}" 

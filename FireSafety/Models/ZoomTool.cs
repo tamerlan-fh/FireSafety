@@ -34,6 +34,9 @@ namespace FireSafety.Models
             GraphicLength = graphicLength;
         }
 
+        /// <summary>
+        /// число метров в одном пикселе
+        /// </summary>
         public double Ratio
         {
             get { return ActualLength / GraphicLength; }
@@ -42,11 +45,22 @@ namespace FireSafety.Models
         /// <summary>
         /// Мастабирование из длины графического представления в фактическое значение в соответствии с масштабом
         /// </summary>
-        /// <param name="length">значение длины графического представления</param>
+        /// <param name="graphicLength">значение длины графического представления в пикселях</param>
         /// <returns>фактическое значение</returns>
-        public double GetActualLength(double length)
+        public double TransformToActualLength(double graphicLength)
         {
-            return ActualLength * length / GraphicLength;
+            return ActualLength * graphicLength / GraphicLength;
+        }
+
+        /// <summary>
+        /// Мастабирование из фактического значения длины в его графическое представление в соответствии с масштабом
+        /// </summary>
+        /// <param name="actualLength">значение фактической длины в метрах</param>
+        /// <returns></returns>
+
+        public double TransformToGraphicLength(double actualLength)
+        {
+            return GraphicLength * actualLength / ActualLength;
         }
 
         public static ZoomTool Empty

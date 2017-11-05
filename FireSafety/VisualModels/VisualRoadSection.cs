@@ -107,7 +107,7 @@ namespace FireSafety.VisualModels
         {
             if (!Model.AutoSize) return;
 
-            (Model as Section).Length = scale.GetActualLength(Length);
+            (Model as Section).Length = scale.TransformToActualLength(Length);
         }
     }
 }

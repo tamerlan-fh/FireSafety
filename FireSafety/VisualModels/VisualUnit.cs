@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace FireSafety.VisualModels
 {
-    abstract class VisualUnit : DrawingVisual
+    abstract class VisualUnit : DrawingVisual, IMovable
     {
         public VisualUnit()
         {
