@@ -25,9 +25,15 @@ namespace FireSafety.Models
             {
                 isFloorsConnected = value; OnPropertyChanged("IsFloorsConnected");
                 if (IsFloorsConnected)
+                {
                     ParentFloor.AddFloorsConnectionSection(this);
+                    this.OutgoingSectionsAllowed = false;
+                }
                 else
+                {
                     RemoveFloorsConnection();
+                    this.OutgoingSectionsAllowed = true;
+                }
             }
         }
         private bool isFloorsConnected;
@@ -37,7 +43,6 @@ namespace FireSafety.Models
             foreach (var connection in OutgoingSections.Where(x => x is FloorsConnectionSection).ToArray())
             {
                 (connection.Parent as Floor).RemoveObject(connection);
-                //ParentFloor.RemoveObject(connection);
             }
         }
 

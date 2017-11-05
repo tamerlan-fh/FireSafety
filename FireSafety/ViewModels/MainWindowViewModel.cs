@@ -216,7 +216,8 @@ namespace FireSafety.ViewModels
         private void AddFloorsConnectionSection()
         {
             var node = new StairsNode(CurrentFloor, ContextMenuPosition);
-            CurrentFloor.AddFloorsConnectionSection(node);
+            CurrentFloor.AddObject(node);
+            node.IsFloorsConnected = true;
         }
 
         private bool CanAddFloorsConnectionSection()
