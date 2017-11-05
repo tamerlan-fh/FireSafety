@@ -115,100 +115,107 @@
             </Grid>
 
 
-            <Border Grid.Column="2" BorderThickness="1" BorderBrush="Black" Margin="5,10,10,10">
-                <Grid Margin="10,10,2,10" Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="200" />
-                    </Grid.RowDefinitions>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="200" />
+                </Grid.RowDefinitions>
 
-                    <GridSplitter Grid.Row="2" ShowsPreview="False" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent"/>
+                <GridSplitter Grid.Row="1" ShowsPreview="False" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent"/>
 
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8" >
-                        <Button Style="{StaticResource RectButtonTemplate}" Height="40" Width="40" Command="{Binding AddBuildingCommand}" ToolTip="Добавить Здание">
-                            <Viewbox>
-                                <Image Source="/FireSafety;component/Icons/building_icon_64.png"/>
-                            </Viewbox>
-                        </Button>
-                        <Button Style="{StaticResource RectButtonTemplate}" Height="40" Width="40" Command="{Binding AddFloorCommand}" Margin="5,0,0,0" ToolTip="Добавить Этаж">
-                            <Viewbox>
-                                <Image Source="/FireSafety;component/Icons/floor_icon_64.png" />
-                            </Viewbox>
-                        </Button>
-                        <Button Style="{StaticResource RectButtonTemplate}" Height="40" Width="40" Command="{Binding RemoveSelectedEntityCommand}" Margin="5,0,0,0" ToolTip="Удалить">
-                            <Viewbox>
-                                <Image Source="/FireSafety;component/Icons/remove_icon_64.png" />
-                            </Viewbox>
-                        </Button>
-                    </StackPanel>
+                <Border Grid.Row="0" BorderThickness="1" BorderBrush="Black" Margin="5,10,10,5">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                    <ctrl:ModifiedTreeView Grid.Row="1" ItemsSource="{Binding Buildings}"  ModifiedSelectedItem="{Binding SelectedEntity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0">
-                        <TreeView.ItemContainerStyle>
-                            <Style TargetType="{x:Type TreeViewItem}">
-                                <Setter Property="IsExpanded" Value="True" />
-                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                <Setter Property="FontWeight" Value="Normal" />
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TreeView.ItemContainerStyle>
-                        <TreeView.Resources>
-                            <HierarchicalDataTemplate DataType="{x:Type m:Building}" ItemsSource="{Binding Objects}" >
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8" >
+                            <Button Style="{StaticResource RectButtonTemplate}" Height="40" Width="40" Command="{Binding AddBuildingCommand}" ToolTip="Добавить Здание">
+                                <Viewbox>
+                                    <Image Source="/FireSafety;component/Icons/building_icon_64.png"/>
+                                </Viewbox>
+                            </Button>
+                            <Button Style="{StaticResource RectButtonTemplate}" Height="40" Width="40" Command="{Binding AddFloorCommand}" Margin="5,0,0,0" ToolTip="Добавить Этаж">
+                                <Viewbox>
+                                    <Image Source="/FireSafety;component/Icons/floor_icon_64.png" />
+                                </Viewbox>
+                            </Button>
+                            <Button Style="{StaticResource RectButtonTemplate}" Height="40" Width="40" Command="{Binding RemoveSelectedEntityCommand}" Margin="5,0,0,0" ToolTip="Удалить">
+                                <Viewbox>
+                                    <Image Source="/FireSafety;component/Icons/remove_icon_64.png" />
+                                </Viewbox>
+                            </Button>
+                        </StackPanel>
 
-                            <HierarchicalDataTemplate DataType="{x:Type m:Floor}" ItemsSource="{Binding Objects}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
+                        <ctrl:ModifiedTreeView Grid.Row="1" ItemsSource="{Binding Buildings}"  ModifiedSelectedItem="{Binding SelectedEntity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0">
+                            <TreeView.ItemContainerStyle>
+                                <Style TargetType="{x:Type TreeViewItem}">
+                                    <Setter Property="IsExpanded" Value="True" />
+                                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type m:Building}" ItemsSource="{Binding Objects}" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
 
-                            <HierarchicalDataTemplate DataType="{x:Type m:BuildingComposition}" ItemsSource="{Binding Floors}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type m:Floor}" ItemsSource="{Binding Objects}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
 
-                            <HierarchicalDataTemplate DataType="{x:Type m:Route}" ItemsSource="{Binding Sections}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type m:BuildingComposition}" ItemsSource="{Binding Floors}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
 
-                            <HierarchicalDataTemplate DataType="{x:Type m:EvacuationPlan}" ItemsSource="{Binding Routes}" >
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type m:Route}" ItemsSource="{Binding Sections}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
 
-                            <HierarchicalDataTemplate DataType="{x:Type m:Entity}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-                        </TreeView.Resources>
-                    </ctrl:ModifiedTreeView>
+                                <HierarchicalDataTemplate DataType="{x:Type m:EvacuationPlan}" ItemsSource="{Binding Routes}" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
 
-                    <Grid Grid.Row="3">
+                                <HierarchicalDataTemplate DataType="{x:Type m:Entity}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="24" Height="24" Margin="3,0" Source="{Binding Icon}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Title}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.Resources>
+                        </ctrl:ModifiedTreeView>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2" BorderThickness="1" BorderBrush="Black" Margin="5,5,10,10">
+                    <Grid Grid.Row="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <!--<TextBox Grid.Row="0"  Text="Свойства" IsReadOnly="True" BorderThickness="0" FontWeight="Bold" />-->
-                        <TextBox Grid.Row="0" Padding="0,5" Margin="0,5" Text="{Binding SelectedEntity.Title, UpdateSourceTrigger=PropertyChanged, StringFormat={}Свойства объекта:  {0}}" IsReadOnly="True" BorderThickness="0" FontWeight="Bold" TextWrapping="Wrap" Background="#FFECE3E3"/>
+                        <TextBox Grid.Row="0" Padding="0,5" Margin="0,0,0,5" Text="{Binding SelectedEntity.Title, UpdateSourceTrigger=PropertyChanged, StringFormat={}Свойства объекта:  {0}}" IsReadOnly="True" BorderThickness="0" FontWeight="Bold" TextWrapping="Wrap" Background="#FFECE3E3"/>
 
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" >
                             <ContentPresenter  Content="{Binding SelectedEntity, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" VerticalAlignment="Top" >
@@ -228,8 +235,8 @@
                             </ContentPresenter>
                         </ScrollViewer>
                     </Grid>
-                </Grid>
-            </Border>
+                </Border>
+            </Grid>
         </Grid>
     </DockPanel>
 </Window>
