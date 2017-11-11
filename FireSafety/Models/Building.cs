@@ -151,6 +151,7 @@ namespace FireSafety.Models
 
             var window = new FireRiskWindow(EvacuationTime, blockageEvacuationRoutesTime, square);
             window.ShowDialog();
+            evacuationPlan.FireRiskValue = window.FireRiskValue;
         }
 
         public async void ComposeReport()

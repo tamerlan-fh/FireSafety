@@ -25,49 +25,46 @@ namespace FireSafety
         public async Task<DocX> CreateDocument(EvacuationPlan plan)
         {
             return await Task.Factory.StartNew(() =>
-             {
-                 var document = DocX.Create(filename, DocumentTypes.Document);
-                 var h = document.PageHeight;
-                 var w = document.PageWidth;
+            {
+                var document = DocX.Create(filename, DocumentTypes.Document);
+                var h = document.PageHeight;
+                var w = document.PageWidth;
 
 
-                 document.InsertParagraph("Содержание").FontSize(15d).Bold().SpacingAfter(50d).Alignment = Alignment.center;
-                 document.InsertTableOfContents(null, TableOfContentsSwitches.O | TableOfContentsSwitches.U | TableOfContentsSwitches.Z | TableOfContentsSwitches.H, "Normal", 2);
+                document.InsertParagraph("Содержание").FontSize(15d).Bold().SpacingAfter(50d).Alignment = Alignment.center;
+                document.InsertTableOfContents(null, TableOfContentsSwitches.O | TableOfContentsSwitches.U | TableOfContentsSwitches.Z | TableOfContentsSwitches.H, "Normal", 2);
 
-                 AddPageBreak(document);
+                AddPageBreak(document);
 
-                 document.InsertParagraph("Наименование использованной методики").SpacingBefore(0d).Heading(HeadingType.Heading1);
-                 var contextMethodologies = @"Для определения расчетных величин пожарного риска на объекте защиты использована «Методика определения расчетных величин пожарного риска на производственных объектах», утвержденная приказом МЧС РФ № 404 от 10.07.2009 г";
-                 document.InsertParagraph(contextMethodologies).SpacingBefore(10d).Alignment = Alignment.both;
+                document.InsertParagraph("Наименование использованной методики").SpacingBefore(0d).Heading(HeadingType.Heading1);
+                var contextMethodologies = @"Для определения расчетных величин пожарного риска на объекте защиты использована «Методика определения расчетных величин пожарного риска на производственных объектах», утвержденная приказом МЧС РФ № 404 от 10.07.2009 г";
+                document.InsertParagraph(contextMethodologies).SpacingBefore(10d).Alignment = Alignment.both;
 
-                 AddPageBreak(document);
+                AddPageBreak(document);
 
-                 document.InsertParagraph("Описание объекта защиты, в отношении которого проводилась оценка пожарного риска").SpacingBefore(0d).Heading(HeadingType.Heading1);
-                 SetDescriptionPlan(document, plan);
+                document.InsertParagraph("Описание объекта защиты, в отношении которого проводилась оценка пожарного риска").SpacingBefore(0d).Heading(HeadingType.Heading1);
+                AppendDescriptionPlan(document, plan);
 
-                 AddPageBreak(document);
+                AddPageBreak(document);
 
-                 document.InsertParagraph("Результаты проведения расчетов по оценке пожарного риска").SpacingBefore(0d).Heading(HeadingType.Heading1);
-                 document.InsertParagraph("Результат определения расчетного времени эвакуации").SpacingBefore(10d).Heading(HeadingType.Heading2);
-                 SetTablesOfRouteInformation(document, plan);
-                 AddPageBreak(document);
+                document.InsertParagraph("Результаты проведения расчетов по оценке пожарного риска").SpacingBefore(0d).Heading(HeadingType.Heading1);
+                document.InsertParagraph("Результат определения расчетного времени эвакуации").SpacingBefore(10d).Heading(HeadingType.Heading2);
+                AppendTablesOfRouteInformation(document, plan);
+                AddPageBreak(document);
 
-                 document.InsertParagraph("Результат расчета индивидуального пожарного риска в здании").SpacingBefore(0d).Heading(HeadingType.Heading2);
-                 ResultFireRiskInformation(document);
+                document.InsertParagraph("Результат расчета индивидуального пожарного риска в здании").SpacingBefore(0d).Heading(HeadingType.Heading2);
+                AppendResultFireRiskInformation(document);
 
-                 AddPageBreak(document);
+                AddPageBreak(document);
 
-                 document.InsertParagraph("Перечень исходных данных и используемых справочных источников информации").SpacingBefore(0d).Heading(HeadingType.Heading1);
-                 SetListOfInitialData(document);
+                document.InsertParagraph("Перечень исходных данных и используемых справочных источников информации").SpacingBefore(0d).Heading(HeadingType.Heading1);
+                AppendListOfInitialData(document);
 
-                 AddPageBreak(document);
+                AddPageBreak(document);
 
-                 document.InsertParagraph("Вывод об условиях соответствия (несоответствия) объекта защиты требованиям пожарной безопасности").SpacingBefore(0d).SpacingAfter(10d).Heading(HeadingType.Heading1);
-
-                 document.InsertParagraph(string.Format(conclusionPattern1, plan.Param1 ? "не " : string.Empty)).Alignment = Alignment.both;
-                 document.InsertParagraph(string.Format(conclusionPattern2, plan.Param2 ? "не " : string.Empty)).Alignment = Alignment.both;
-                 return document;
-             });
+                AppendConclusion(document, plan);
+                return document;
+            });
         }
 
         private void AddPageBreak(DocX document)
@@ -76,7 +73,7 @@ namespace FireSafety
             paragraph.InsertPageBreakAfterSelf();
         }
 
-        private void SetDescriptionPlan(DocX document, EvacuationPlan plan)
+        private void AppendDescriptionPlan(DocX document, EvacuationPlan plan)
         {
 
             foreach (var floor in plan.ParentBuilding.Floors)
@@ -101,7 +98,7 @@ namespace FireSafety
             }
         }
 
-        private void SetTablesOfRouteInformation(DocX document, EvacuationPlan plan)
+        private void AppendTablesOfRouteInformation(DocX document, EvacuationPlan plan)
         {
             var headerFormat = new Formatting() { Bold = true, Size = 12 };
             var normalFormat = new Formatting() { Bold = false, Size = 12 };
@@ -138,12 +135,12 @@ namespace FireSafety
             }
         }
 
-        private void ResultFireRiskInformation(DocX document)
+        private void AppendResultFireRiskInformation(DocX document)
         {
 
         }
 
-        private void SetListOfInitialData(DocX document)
+        private void AppendListOfInitialData(DocX document)
         {
             var context1 = @"Использована аналитическая модель движения людского потока (определение расчетного времени эвакуации людей из помещений здания по расчету времени движения одного или нескольких людских потоков через эвакуационные выходы от наиболее удаленных мест размещения людей). Расчетное время эвакуации людей tр  установлено по расчету времени движения нескольких людских потоков через эвакуационные выходы от наиболее удаленных мест размещения людей. При расчете весь путь движения людского потока разделен на участки длиной li и шириной δi. Начальными участками являются проходы между рабочими местами, оборудованием. При определении расчетного времени эвакуации людей длина и ширина каждого участка пути эвакуации для проектируемого пожарного отсека здания принята по проекту.";
             document.InsertParagraph(context1).SpacingBefore(10d).Alignment = Alignment.both;
@@ -174,7 +171,22 @@ namespace FireSafety
             document.InsertList(list2);
         }
 
-        private string conclusionPattern1 = @"Эвакуационные пути на проектируемом участке {0}обеспечивают безопасную эвакуацию людей. Для обоснования проектных решений по обеспечению безопасности людей при возникновении пожара выполнены расчеты необходимого времени эвакуации. Интервал времени от момента обнаружения пожара до завершения процесса эвакуации людей не превышает необходимого времени эвакуации людей при пожаре";
-        private string conclusionPattern2 = @"Величина индивидуального пожарного риска в проектируемом пожарном отсеке здания составляет 3ˑ10-7 год-1/чел., что {0}превышает одной миллионной в год и соответствует требованиям части 1 статьи 93 федерального закона Российской Федерации от 22 июля 2008 г. №123-ФЗ «Технический регламент о требованиях пожарной безопасности»";
+        private void AppendConclusion(DocX document, EvacuationPlan plan)
+        {
+            var paragraph1 = document.InsertParagraph();
+            paragraph1.Append("Эвакуационные пути на проектируемом участке ");
+            paragraph1.Append(plan.Param ? "обеспечивают" : "не обеспечивают").Bold();
+            paragraph1.Append(" безопасную эвакуацию людей. Для обоснования проектных решений по обеспечению безопасности людей при возникновении пожара выполнены расчеты необходимого времени эвакуации. Интервал времени от момента обнаружения пожара до завершения процесса эвакуации людей не превышает необходимого времени эвакуации людей при пожаре");
+
+            var paragraph2 = document.InsertParagraph();
+            paragraph2.Append("Величина индивидуального пожарного риска в проектируемом пожарном отсеке здания составляет ");
+            paragraph2.Append(plan.FireRiskValue.ToString("F8")).Bold();
+            paragraph2.Append(" год-1/чел., что ");
+            paragraph2.Append(plan.Param ? "не превышает" : "превышает").Bold();
+            paragraph2.Append(" одной миллионной в год и соответствует требованиям части 1 статьи 93 федерального закона Российской Федерации от 22 июля 2008 г. №123-ФЗ «Технический регламент о требованиях пожарной безопасности»");
+
+            paragraph1.Alignment = Alignment.both;
+            paragraph2.Alignment = Alignment.both;
+        }
     }
 }
