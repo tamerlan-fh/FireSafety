@@ -149,7 +149,7 @@ namespace FireSafety.Models
                 if (result == MessageBoxResult.Yes) CalculateBlockageEvacuationRoutes();
             }
 
-            var window = new FireRiskWindow(EvacuationTime, blockageEvacuationRoutesTime, square);
+            var window = new FireRiskWindow(EvacuationTime, blockageEvacuationRoutesTime, evacuationPlan.DelayTime, square);
             window.ShowDialog();
             evacuationPlan.FireRiskValue = window.FireRiskValue;
         }

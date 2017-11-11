@@ -93,6 +93,7 @@ namespace FireSafety.Models
         {
             IsCalculated = true;
             NeedCalculate = false;
+            DelayTime = 0;
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -160,6 +161,7 @@ namespace FireSafety.Models
                     {
                         section.DelayTime = TimeSpan.FromSeconds(10 * rnd.NextDouble()).TotalMinutes;
                         section.MovementTime += section.DelayTime;
+                        DelayTime += section.DelayTime;
                     }
                     else
                         section.DelayTime = 0;
@@ -240,5 +242,6 @@ namespace FireSafety.Models
 
         public bool Param { get { return FireRiskValue < Math.Pow(10, -6); } }
         public double FireRiskValue { get; set; }
+        public double DelayTime { get; private set; }
     }
 }

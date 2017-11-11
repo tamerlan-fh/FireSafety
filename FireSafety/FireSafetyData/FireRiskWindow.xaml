@@ -51,7 +51,7 @@
             <TextBox Grid.Row="4" Grid.Column="2" Text="мин" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
 
             <TextBox Grid.Row="5" Grid.Column="0" Text="Время скопления людей" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
-            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ВремяСкопления, UpdateSourceTrigger=LostFocus}" />
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ВремяСкопления, Mode=OneWay, UpdateSourceTrigger=LostFocus}" IsReadOnly="True" BorderThickness="0"/>
             <TextBox Grid.Row="5" Grid.Column="2" Text="мин" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />
 
             <TextBox Grid.Row="6" Grid.Column="0" Text="Автоматические установки пожаротушения" IsReadOnly="True" BorderThickness="0" VerticalAlignment="Center" />

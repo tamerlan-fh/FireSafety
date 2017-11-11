@@ -61,7 +61,7 @@
         double MovementTime { get; set; }
 
         /// <summary>
-        /// Время задержки (актуально для слияния участков)
+        /// Время задержки (актуально при слияния участков)
         /// </summary>
         double DelayTime { get; set; }
 
